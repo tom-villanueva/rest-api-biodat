@@ -20,22 +20,22 @@
 
 import Route from '@ioc:Adonis/Core/Route'
 
-import HealthCheck from '@ioc:Adonis/Core/HealthCheck'
-
 import Database from '@ioc:Adonis/Lucid/Database'
 
-Route.get('test', async () => {
-  return Database.query().select('*').from('users')
-})
 
-Route.get('health', async ({ response }) => {
-  const report = await HealthCheck.getReport()
-  
-  return report.healthy
-    ? response.ok(report)
-    : response.badRequest(report)
-})
+/*
+rutas que crea resource:
+  GET /users/ -> index
+  POST /users/ -> store            C
+  GET /users/:id -> show           R
+  PUT, PATCH /users/:id -> update  U
+  DELETE /users/:id -> destroy     D
+*/
+Route.group(() => {
+  Route.post('users/register', 'AuthController.store').as('register');
+  Route.post('users/login', 'AuthController.login').as('login');
+  Route.post('users/logout', 'AuthController.logout').as('logout');
+  Route.get('users/:id', 'AuthController.show').as('profile');
+}).prefix('api/');
 
-Route.get('/', async () => {
-  return { hello: 'world' }
-})
+
