@@ -52,7 +52,7 @@ export default class AuthController {
   public async show ({ params, auth }: HttpContextContract) {
     //SI EL USUARIO ESTA LOGEADO Y ES DUEÑO DEL PERFIL PUEDE VERLO
     if ((auth.user != null)&&(auth.user.id == params.id)){
-      return await Database.query().from('users').where('id', params.id)
+      return await User.find(auth.user.id)
     }
     else{
       return 'no tienes permiso para ver este perfil'

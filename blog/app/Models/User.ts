@@ -4,7 +4,10 @@ import {
   column,
   beforeSave,
   BaseModel,
+  manyToMany,
+  ManyToMany,
 } from '@ioc:Adonis/Lucid/Orm'
+import Project from 'App/Models/Project'
 
 export default class User extends BaseModel {
   @column({ isPrimary: true })
@@ -31,4 +34,11 @@ export default class User extends BaseModel {
       user.password = await Hash.make(user.password)
     }
   }
+
+  //relaciones:
+  @manyToMany(() => Project, {
+    pivotTable: 'user_projects',
+  })
+  public projects: ManyToMany<typeof Project>
+
 }

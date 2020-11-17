@@ -22,15 +22,6 @@ import Route from '@ioc:Adonis/Core/Route'
 
 import Database from '@ioc:Adonis/Lucid/Database'
 
-
-/*
-rutas que crea resource:
-  GET /users/ -> index
-  POST /users/ -> store            C
-  GET /users/:id -> show           R
-  PUT, PATCH /users/:id -> update  U
-  DELETE /users/:id -> destroy     D
-*/
 Route.group(() => {
   Route.post('users/register', 'AuthController.store').as('register');
   Route.post('users/login', 'AuthController.login').as('login');
@@ -38,4 +29,14 @@ Route.group(() => {
   Route.get('users/:id', 'AuthController.show').as('profile');
 }).prefix('api/');
 
-
+/*
+rutas que crea resource con apiOnly:
+  GET /projects/ -> index
+  POST /projects/ -> store            C
+  GET /projects/:id -> show           R
+  PUT, PATCH /projects/:id -> update  U
+  DELETE /projects/:id -> destroy     D
+*/
+Route
+  .resource('projects', 'ProjectsController')
+  .apiOnly() 
