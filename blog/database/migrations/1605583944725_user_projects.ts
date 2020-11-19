@@ -8,7 +8,7 @@ export default class UserProjects extends BaseSchema {
       table.increments('id').primary()
       table.integer('user_id').unsigned().notNullable().references('id').inTable('users').onDelete('CASCADE')
       table.integer('project_id').unsigned().notNullable().references('id').inTable('projects').onDelete('CASCADE')
-      table.enu('role', ['lider', 'colaborador'], { useNative: true, existingType: true, enumName: 'rol_type' }) //useNative para crear el Type en POSTGRESQL
+      table.enu('role', ['lider', 'colaborador'], { useNative: true, existingType: true, enumName: 'rol_type' }) //useNative para usar el Type en POSTGRESQL
       table.unique(['user_id', 'project_id', 'role'])     
       table.timestamps(true)
     })

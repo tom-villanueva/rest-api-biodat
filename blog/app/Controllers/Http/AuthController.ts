@@ -9,20 +9,16 @@ export default class AuthController {
     return await Database.query().select('*').from('users');
   }
 
-  public async login ({ request, auth, response }: HttpContextContract) {
+  public async login ({ request, auth }: HttpContextContract) {
     //LOGEA UN USUARIO Y LO ENVÍA A SU PERFIL
-    const { email, password } = request.all();
+    const email = request.input('email')
+    const password = request.input('password')
 
-    try {
-      await auth.attempt(email, password)
-      const user = auth.user
-      response.redirect().toRoute('profile', {id: user.id})
-    } catch (error) {
-      return error.toString()
-    }
+    const token = await auth.use('api').attempt(email, password)
+    return token.toJSON()
   }
 
-  public async store ({ request, auth, response }: HttpContextContract) {
+  public async store ({ request, auth }: HttpContextContract) {
     //REGISTRA UN USUARIO GUARDANDOLO EN LA BD. PRIMERO VALIDA LOS DATOS
     const validationSchema = schema.create({
       email: schema.string( {trim: true }, [
@@ -40,13 +36,14 @@ export default class AuthController {
 
     const user = await User.create(userDetails)
 
-    await auth.login(user) 
-    response.redirect().toRoute('profile', {id: user.id})
+    ///return user
+    const token = await auth.use('api').login(user)//.attempt(email, password)
+    return token.toJSON() 
   }
 
   public async logout ({ auth }: HttpContextContract) {
     //LOGOUT DEL USUARIO
-    await auth.logout()
+    await auth.use('api').logout()
   }
 
   public async show ({ params, auth }: HttpContextContract) {

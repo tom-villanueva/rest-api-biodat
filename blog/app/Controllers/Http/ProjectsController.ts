@@ -1,11 +1,10 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import { schema, rules} from '@ioc:Adonis/Core/Validator'
 import Project from 'App/Models/Project'
-import User from 'App/Models/User'
 
 export default class ProjectsController {
   public async index ({ auth }: HttpContextContract) {
-    const user = auth.user
+    const user = await auth.authenticate()
     await user?.preload('projects')
 
     return user?.projects
@@ -28,7 +27,7 @@ export default class ProjectsController {
     const project = await Project.create(projectDetails)
 
     //binding del proyecto nuevo con el usuario logueado
-    const user = auth.user
+    const user = await auth.authenticate()
     //console.log(user)
     await user.related('projects').attach({
       [project.id]: {
@@ -39,7 +38,9 @@ export default class ProjectsController {
     return project
   }
 
-  public async show ({}: HttpContextContract) {
+  public async show ({ params }: HttpContextContract) {
+    const project = await Project.find(params.id)
+    return project
   }
 
   public async update ({ request, params }: HttpContextContract) {
