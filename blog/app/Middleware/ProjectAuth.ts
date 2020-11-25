@@ -5,9 +5,9 @@ import UnathorizedProjectAccessException from 'App/Exceptions/UnathorizedProject
 export default class ProjectAuth {
   public async handle ({ auth, params }: HttpContextContract, next: () => Promise<void>, allowedRoles: string[]) {
     const user = await auth.authenticate()
-    const projectId = params.id    
+    const projectId = params.project_id    
 
-    //devuelve un array de proyecto con rol
+    //devuelve un array de proyectos de un usuario con rol que ocupa en el mismo
     const user_projects = await Database.query()
       .select('project_id', 'role')
       .from('user_projects')

@@ -20,5 +20,5 @@ export default class Item extends BaseModel {
 
   //relaciones
   @belongsTo(() => Project)
-  public user: BelongsTo<typeof Project>
+  public project: BelongsTo<typeof Project>
 }

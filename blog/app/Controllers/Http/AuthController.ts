@@ -1,5 +1,5 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
-import { schema, rules} from '@ioc:Adonis/Core/Validator'
+import { schema, rules, validator } from '@ioc:Adonis/Core/Validator'
 import Database from '@ioc:Adonis/Lucid/Database'
 import User from 'App/Models/User'
 
@@ -32,6 +32,7 @@ export default class AuthController {
 
     const userDetails = await request.validate({
       schema: validationSchema,
+      reporter: validator.reporters.api,
     })
 
     const user = await User.create(userDetails)

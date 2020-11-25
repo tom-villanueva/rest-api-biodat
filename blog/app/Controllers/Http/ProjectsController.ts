@@ -1,5 +1,5 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
-import { schema, rules} from '@ioc:Adonis/Core/Validator'
+import { schema, rules, validator } from '@ioc:Adonis/Core/Validator'
 import Project from 'App/Models/Project'
 
 export default class ProjectsController {
@@ -22,6 +22,7 @@ export default class ProjectsController {
 
     const projectDetails = await request.validate({
       schema: validationSchema,
+      reporter: validator.reporters.api,
     })
     
     const project = await Project.create(projectDetails)
@@ -39,12 +40,13 @@ export default class ProjectsController {
   }
 
   public async show ({ params }: HttpContextContract) {
-    const project = await Project.find(params.id)
+    const project = await Project.find(params.project_id)
+    
     return project
   }
 
   public async update ({ request, params }: HttpContextContract) {
-    const project = await Project.findOrFail(params.id)
+    const project = await Project.findOrFail(params.project_id)
 
     const data = request.only(['title', 'description'])
 
@@ -57,7 +59,7 @@ export default class ProjectsController {
   }
 
   public async destroy ({ params }: HttpContextContract) {
-    const project = await Project.findOrFail(params.id)
+    const project = await Project.findOrFail(params.project_id)
 
     await project.delete()
 
