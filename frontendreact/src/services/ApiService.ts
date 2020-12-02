@@ -4,12 +4,12 @@ let apiDomain = "";
 //} else {
 //  apiDomain = "http://localhost:3333/";
 //}
-apiDomain = "http://localhost:3333/"
+const API_URL = "http://localhost:3333/"
 
-class UserService {
+class ApiService {
     static loginUrl() {
-        return apiDomain + 'api/users/login'
+        return API_URL + 'api/users/login'
     }
 }
 
-export default UserService;
+export default ApiService;

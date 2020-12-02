@@ -1,24 +1,28 @@
 import React, {Component} from 'react';
+import { RouteComponentProps } from "react-router-dom";
 import AuthService from "./../services/AuthService";
 
-class LoginForm extends Component {
-        state = {username: '', password: '', isChecked: false}
+class LoginForm extends Component<RouteComponentProps> {
+        state = {
+            email: '',
+            password: '', 
+            isChecked: false
+        }
         
         async handleFormSubmit(event) {
             event.preventDefault();
             const postData = {
-                username: this.state.username,
+                email: this.state.email,
                 password: this.state.password,
-              };
-              const response = await AuthService.doUserLogin(postData);
-              console.log(response.data)
-              /*
-              if (response) {
+            };
+            const response = await AuthService.doUserLogin(postData);
+ 
+            if (response) {
                 AuthService.handleLoginSuccess(response, this.state.isChecked);
                 this.props.history.push("/home");
-              } else {
-                alert("Please check your credentials and try agian");
-              }*/
+            } else {
+                alert("Please chec k your credentials and try agian");
+            }
         }
 
         handleChecked() {
@@ -26,24 +30,24 @@ class LoginForm extends Component {
         }
 
         render() {
-            const {username, password, isChecked} = this.state;
+            const {email, password, isChecked} = this.state;
             return(
                 <div className="login-box">
                 <div className="login-logo">
-                    <a href="../../index2.html"><b>bio</b>DAT</a>
+                    <a href="#"><b>bio</b>DAT</a>
                 </div>
                 {/* /.login-logo */}
                 <div className="card">
                     <div className="card-body login-card-body">
                     <p className="login-box-msg">Iniciar Sesión en bioDAT</p>
-                    <form action="../../index3.html" method="post" onSubmit={event => this.handleFormSubmit(event)}>
+                    <form action="#" method="post" onSubmit={event => this.handleFormSubmit(event)}>
                         <div className="input-group mb-3">
                         <input type="email" 
-                            name="name"
+                            name="user"
                             className="form-control" 
                             placeholder="Email" 
-                            value={username}
-                            onChange={event => this.setState({ username: event.target.value })}
+                            value={email}
+                            onChange={event => this.setState({ email: event.target.value })}
                             />
                         <div className="input-group-append">
                             <div className="input-group-text">

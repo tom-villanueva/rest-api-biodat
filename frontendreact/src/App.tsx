@@ -1,22 +1,41 @@
 import React, { Component } from 'react';
-import Header from './components/Header';
-import SideBar from './components/SideBar';
-import Footer from './components/Footer';
-import Content from './components/Content';
+import { 
+  BrowserRouter as Router, 
+  Route, 
+  Link, 
+  Switch 
+} from 'react-router-dom';
+
+
 import LoginForm from './components/LoginForm';
+import ProjectList from './components/ProjectList';
+import Home from './components/Home';
 
 class App extends Component {
 
   render() {
     return (
-      <div>
-        {/*<Header/>
-        <SideBar/>
-        <Content/>
-        <Footer/>*/}
-        <LoginForm/>
-        
-      </div>
+      <Router>
+        <div className="App"> 
+          <ul> 
+            <li> 
+              <Link to="/home">Home</Link> 
+            </li> 
+            <li> 
+              <Link to="/login">Login</Link> 
+            </li> 
+            <li> 
+              <Link to="/contacto">Contactanos</Link> 
+            </li> 
+          </ul>
+          <Switch> 
+            <Route exact path='/Home' component={Home}></Route>
+            <Route exact path='/projects' component={ProjectList}></Route>
+
+            <Route exact path='/login' component={LoginForm}></Route> 
+          </Switch> 
+        </div> 
+      </Router> 
     );
   }
 }
