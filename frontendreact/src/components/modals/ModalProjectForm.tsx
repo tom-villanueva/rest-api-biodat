@@ -10,29 +10,28 @@ interface Props {
 export default class ModalProjectForm extends Component<Props>{
 
     render() {
-        const { title, visibility, onClose }  = this.props;
+        const { title, visibility, onClose, children }  = this.props;
         return (
             <React.Fragment>
-            <div className={ `modal fade ${visibility ? "show" : "hide" }`} id="modal-default">
-            <div className="modal-dialog">
-                <div className="modal-content">
-                <div className="modal-header">
-                <h4 className="modal-title">{ title }</h4>
-                    <button type="button" className="close" data-dismiss="modal" aria-label="Close" onClick={() => onClose()}>
-                    <span aria-hidden="true">×</span>
-                    </button>
+                <div className={ `modal fade ${visibility ? "show" : "hide" }`} id="modal-default">
+                <div className="modal-dialog">
+                    <div className="modal-content">
+                    <div className="modal-header">
+                    <h4 className="modal-title">{ title }</h4>
+                        <button type="button" className="close" data-dismiss="modal" aria-label="Close" onClick={() => onClose()}>
+                        <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div className="modal-body">
+                        {children}
+                    </div>
+                    <div className="modal-footer justify-content-between">
+                        <button type="button" className="btn btn-default" data-dismiss="modal" onClick={() => onClose()}>Close</button>
+                    </div>
+                    </div>
                 </div>
-                <div className="modal-body">
-                    <p>One fine body…</p>
                 </div>
-                <div className="modal-footer justify-content-between">
-                    <button type="button" className="btn btn-default" data-dismiss="modal" onClick={() => onClose()}>Close</button>
-                    <button type="button" className="btn btn-primary">Save changes</button>
-                </div>
-                </div>
-            </div>
-            </div>
-            <div className={ `modal-backdrop fade ${visibility ? "show" : "hide" }` }></div>
+                <div className={ `modal-backdrop fade ${visibility ? "show" : "hide" }` }></div>
             </React.Fragment>
         )
     }

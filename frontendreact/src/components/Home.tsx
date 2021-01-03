@@ -5,7 +5,6 @@ import SideBar from './SideBar';
 import Footer from './Footer';
 import Content from './Content';
 import ProjectList from './ProjectList';
-import ModalProjectForm from './modals/ModalProjectForm';
 
 export default class Home extends Component {
 

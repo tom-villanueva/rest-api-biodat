@@ -17,17 +17,6 @@ class ProjectService{
         }
     }
 
-    async getProjectssByURL(link){
-        const url = `${API_URL}${link}`;
-        //return axios.get(url).then(response => response.data);
-        try {
-            const response = await HttpService.get(url);
-            return response;
-        } catch (error) {
-            console.error("Not able to fetch the projects");
-        }
-    }
-
     async getProject(pk) {
         const url = `${API_URL}/api/projects/${pk}`;
         //return axios.get(url).then(response => response.data);
@@ -40,7 +29,7 @@ class ProjectService{
     }
 
     async deleteProject(project){
-        const url = `${API_URL}/api/projects/${project.pk}`;
+        const url = `${API_URL}/api/projects/${project.id}`;
         //return axios.delete(url);
         try {
             const response = await HttpService.delete(url);
@@ -62,7 +51,7 @@ class ProjectService{
     }
 
     async updateProject(project){
-        const url = `${API_URL}/api/projects/${project.pk}`;
+        const url = `${API_URL}/api/projects/${project.id}`;
         //return axios.put(url,project);
         try {
             const response = await HttpService.put(url, project);

@@ -10,6 +10,9 @@ class ApiService {
     static loginUrl() {
         return API_URL + 'api/users/login'
     }
+    static logoutUrl() {
+        return API_URL + 'api/users/logout'
+    }
 }
 
 export default ApiService;

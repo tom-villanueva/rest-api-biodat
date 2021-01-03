@@ -57,11 +57,11 @@ class LoginForm extends Component<RouteComponentProps> {
                         </div>
                         <div className="input-group mb-3">
                         <input type="password" 
-                        name="password"
-                        className="form-control" 
-                        placeholder="Password" 
-                        value={password}
-                        onChange={event => this.setState({ password: event.target.value })}
+                            name="password"
+                            className="form-control" 
+                            placeholder="Password" 
+                            value={password}
+                            onChange={event => this.setState({ password: event.target.value })}
                         />
                         <div className="input-group-append">
                             <div className="input-group-text">

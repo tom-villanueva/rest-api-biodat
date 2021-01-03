@@ -2,16 +2,18 @@ import React, { Component} from 'react'
 import ProjectInterface from './../interfaces/ProjectInterface';
 
 interface Props {
-    project: ProjectInterface  
+    id: number,
+    project: ProjectInterface,
+    onEdit: (id) => void, 
 }
 
 export default class ProjectItem extends Component<Props>{
     render() {
-        const { project } = this.props;
+        const { id, project, onEdit } = this.props;
         return (
             <tr>
                 <td>
-                    { project.id }
+                    { id+1 }
                 </td>
                 <td>
                     <a>
@@ -37,15 +39,13 @@ export default class ProjectItem extends Component<Props>{
                     </i>
                     Dashboard
                     </a>
-                    <a className="btn btn-info btn-sm" href="#">
+                    <a className="btn btn-info btn-sm" onClick={(id) => onEdit(project.id) }>
                     <i className="fas fa-pencil-alt">
-                    </i>
-                    Editar
+                    </i>                   
                     </a>
-                    <a className="btn btn-danger btn-sm" href="#">
+                    <a className="btn btn-danger btn-sm" >
                     <i className="fas fa-trash">
-                    </i>
-                    Borrar
+                    </i>                   
                     </a>
                 </td>
             </tr>
