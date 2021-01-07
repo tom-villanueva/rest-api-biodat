@@ -7,6 +7,12 @@ interface Credentiales {
     password: string
 }
 
+interface RegistrationCredentiales {
+    email: string
+    password: string
+    password_confirmation: string
+}
+
 const expiresAt = 60 * 24;
 
 class AuthService {
@@ -35,6 +41,16 @@ class AuthService {
         return true;
     }
 
+    async doUserRegistration(credentials: RegistrationCredentiales){
+        try {
+            const response = await axios.post(ApiService.registrationUrl(), credentials, { withCredentials: true})
+            return response.data
+        }
+        catch(error){
+            console.error(error.response)
+            return false;
+        }
+    }
 
 }
 export default new AuthService();

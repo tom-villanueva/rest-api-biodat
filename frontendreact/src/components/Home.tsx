@@ -4,17 +4,21 @@ import Header from './Header';
 import SideBar from './SideBar';
 import Footer from './Footer';
 import Content from './Content';
-import ProjectList from './ProjectList';
+import ProjectList from './projects/ProjectList';
 
-export default class Home extends Component {
+interface Props {
+    title: string
+}
+
+export default class Home extends Component<Props> {
 
     render() {
         return(
             <div className="wrapper">
                 <Header />
                 <SideBar />
-                <Content title="projects"> 
-                    <ProjectList />
+                <Content title={this.props.title}> 
+                    {this.props.children}
                 </Content>
                 <Footer />
             </div>

@@ -1,15 +1,16 @@
 import React, { Component} from 'react'
-import ProjectInterface from './../interfaces/ProjectInterface';
+import ProjectInterface from '../../interfaces/ProjectInterface';
 
 interface Props {
     id: number,
     project: ProjectInterface,
     onEdit: (id) => void, 
+    onDelete: (id) => void,
 }
 
 export default class ProjectItem extends Component<Props>{
     render() {
-        const { id, project, onEdit } = this.props;
+        const { id, project, onEdit, onDelete } = this.props;
         return (
             <tr>
                 <td>
@@ -33,8 +34,8 @@ export default class ProjectItem extends Component<Props>{
                     </a>
                     <br />
                 </td>
-                <td className="project-actions text-right">
-                    <a className="btn btn-primary btn-sm" href="#">
+                <td className="project-actions text-center">
+                    <a className="btn btn-primary btn-sm" href={'/dashboard/'+project.id}>
                     <i className="fas fa-tachometer-alt">
                     </i>
                     Dashboard
@@ -43,7 +44,7 @@ export default class ProjectItem extends Component<Props>{
                     <i className="fas fa-pencil-alt">
                     </i>                   
                     </a>
-                    <a className="btn btn-danger btn-sm" >
+                    <a className="btn btn-danger btn-sm" onClick={(id) => onDelete(project.id)}>
                     <i className="fas fa-trash">
                     </i>                   
                     </a>

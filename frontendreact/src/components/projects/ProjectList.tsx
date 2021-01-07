@@ -1,32 +1,40 @@
 import React from "react";
 
 import ProjectItem from "./ProjectItem";
-import ModalProjectForm from "./modals/ModalProjectForm";
-import ProjectService from "./../services/ProjectService";
+import ModalForm from "../modals/ModalForm";
+import ProjectService from "../../services/ProjectService";
 import ProjectAddForm from "./ProjectAddForm";
-import ProjectInterface from "../interfaces/ProjectInterface";
+import ProjectInterface from "../../interfaces/ProjectInterface";
 import ProjectEditForm from "./ProjectEditForm";
+import ProjectDeleteForm from "./ProjectDeleteForm";
 
 export default class ProjectList extends React.Component {
   state = {
     showAddModal: false,
     showEditModal: false,
+    showDeleteModal: false,
     projects: [],
-    targetProject: 0,
+    targetProject: -1,
   };
 
   async componentDidMount() {
     const response = await ProjectService.getProjects();
-    console.log(response.data);
-    const projects = response;
+    const projects = response.data;
     this.setState({
-      projects: response.data,
+      projects: projects,
     });
   }
 
   onEdit(id: number) {
     this.setState({
       showEditModal: true,
+      targetProject: id,
+    });
+  }
+
+  onDelete(id: number) {
+    this.setState({
+      showDeleteModal: true,
       targetProject: id,
     });
   }
@@ -40,14 +48,15 @@ export default class ProjectList extends React.Component {
           id={index}
           project={project}
           onEdit={(id) => this.onEdit(id)}
+          onDelete={(id) => this.onDelete(id)}
         />
       );
     });
   }
 
   async handleProjectForm(data) {
+    /* Crea el proyecto a nivel base de datos y actualiza la vista */
     const project = await ProjectService.createProject(data);
-    console.log(project.data);
     let newProjects: ProjectInterface[];
     newProjects = this.state.projects;
     newProjects.push(project.data);
@@ -57,19 +66,39 @@ export default class ProjectList extends React.Component {
   }
 
   async handleProjectEditForm(data) {
-    const project = await ProjectService.updateProject(data);
-    console.log(project.data);
+    /* Actualiza el proyecto a nivel base de datos y actualiza la vista */
+    const newProject = await ProjectService.updateProject(data);
+    let newProjects: ProjectInterface[];
+    newProjects = this.state.projects;
+
+    let index: number;
+    for (let project of newProjects){
+      index = newProjects.indexOf(project);
+      if (project.id === this.state.targetProject){
+        newProjects[index] = newProject.data;
+      }
+    }
+    this.setState({
+      projects: newProjects,
+      targetProject: -1,
+    });
+  }
+
+  async handleProjectDeleteForm(data){
+    console.log("data", data);
+    const status = await ProjectService.deleteProject(data);
     let newProjects: ProjectInterface[];
     newProjects = this.state.projects.filter((project : ProjectInterface) => {
       return project.id !== this.state.targetProject;
     });
     this.setState({
       projects: newProjects,
+      targetProject: -1,
     });
   }
 
   render() {
-    const { showAddModal, showEditModal, projects, targetProject } = this.state;
+    const { showAddModal, showEditModal, showDeleteModal, projects, targetProject } = this.state;
     return (
       <div className="card">
         <div className="card-header">
@@ -120,7 +149,7 @@ export default class ProjectList extends React.Component {
             Nuevo Proyecto
           </button>
         </div>
-        <ModalProjectForm
+        <ModalForm
           title="Nuevo Proyecto"
           visibility={showAddModal}
           onClose={() =>
@@ -132,9 +161,9 @@ export default class ProjectList extends React.Component {
           <ProjectAddForm
             handleProjectForm={(data) => this.handleProjectForm(data)}
           />
-        </ModalProjectForm>
+        </ModalForm>
 
-        <ModalProjectForm
+        <ModalForm
           title="Editar Proyecto"
           visibility={showEditModal}
           onClose={() =>
@@ -147,7 +176,22 @@ export default class ProjectList extends React.Component {
             id={ targetProject }
             handleProjectEditForm={(data) => this.handleProjectEditForm(data)}
           />
-        </ModalProjectForm>
+        </ModalForm>
+
+        <ModalForm
+          title="Eliminar Proyecto"
+          visibility={showDeleteModal}
+          onClose={() =>
+            this.setState({
+              showDeleteModal: !showDeleteModal,
+            })
+          }
+        >
+          <ProjectDeleteForm
+            id={ targetProject }
+            handleProjectDeleteForm={(data) => this.handleProjectDeleteForm(data)}
+          />
+        </ModalForm>
       </div>
     );
   }

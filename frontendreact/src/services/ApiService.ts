@@ -13,6 +13,9 @@ class ApiService {
     static logoutUrl() {
         return API_URL + 'api/users/logout'
     }
+    static registrationUrl() {
+        return API_URL + 'api/users/register'
+    }
 }
 
 export default ApiService;

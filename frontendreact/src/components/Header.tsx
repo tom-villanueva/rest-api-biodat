@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import auth from "./auth/auth"
 
 export default class Header extends Component {
     render(){
@@ -10,13 +11,13 @@ export default class Header extends Component {
             <a className="nav-link" data-widget="pushmenu" href="#" role="button"><i className="fas fa-bars" /></a>
             </li>
             <li className="nav-item d-none d-sm-inline-block">
-            <a href="index3.html" className="nav-link">Inicio</a>
+            <a href="/home" className="nav-link">Inicio</a>
             </li>
             <li className="nav-item d-none d-sm-inline-block">
-            <a href="#" className="nav-link">Iniciar Sesión</a>
+            <a href="/login" className="nav-link">Iniciar Sesión</a>
             </li>
             <li className="nav-item d-none d-sm-inline-block">
-            <a href="#" className="nav-link">Registro</a>
+            <a href="/register" className="nav-link">Registro</a>
             </li>
         </ul>
         {/* Right navbar links */}

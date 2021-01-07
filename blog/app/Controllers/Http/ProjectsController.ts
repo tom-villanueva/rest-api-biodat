@@ -60,9 +60,9 @@ export default class ProjectsController {
 
   public async destroy ({ params }: HttpContextContract) {
     const project = await Project.findOrFail(params.project_id)
-
+    
     await project.delete()
-
+   
     return true
   }
 }
