@@ -169,6 +169,7 @@ export default class ProjectList extends React.Component {
           onClose={() =>
             this.setState({
               showEditModal: !showEditModal,
+              targetItem: -1,
             })
           }
         >
@@ -184,6 +185,7 @@ export default class ProjectList extends React.Component {
           onClose={() =>
             this.setState({
               showDeleteModal: !showDeleteModal,
+              targetItem: -1,
             })
           }
         >
