@@ -2,10 +2,6 @@ import React, { Component } from "react";
 import { RouteComponentProps } from "react-router-dom";
 import AuthService from "../../services/AuthService";
 
-interface Props {
-  handleLogin: () => void;
-}
-
 class LoginForm extends Component<RouteComponentProps> {
   state = {
     email: "",
@@ -23,7 +19,6 @@ class LoginForm extends Component<RouteComponentProps> {
 
     if (response) {
       AuthService.handleLoginSuccess(response, this.state.isChecked);
-      this.props.handleLogin(response.data);
       this.props.history.push("/home");
     } else {
       alert("Revise sus credenciales e inténtelo de vuelta");

@@ -29,7 +29,6 @@ export default class ItemList extends Component<Props> {
   }
 
   onEdit(id: number) {
-    console.log("id", id)
     this.setState({
       showEditModal: true,
       targetItem: id,
@@ -37,7 +36,6 @@ export default class ItemList extends Component<Props> {
   }
 
   onDelete(id: number) {
-    console.log("id", id)
     this.setState({
       showDeleteModal: true,
       targetItem: id,
@@ -83,6 +81,7 @@ export default class ItemList extends Component<Props> {
     }
     this.setState({
       items: newItems,
+      showEditModal: false,
       targetItem: -1,
     });
   }
@@ -96,6 +95,7 @@ export default class ItemList extends Component<Props> {
     });
     this.setState({
       items: newItems,
+      showDeleteModal: false,
       targetItem: -1,
     });
 

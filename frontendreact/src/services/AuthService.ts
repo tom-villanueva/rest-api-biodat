@@ -41,6 +41,15 @@ class AuthService {
         return true;
     }
 
+    async handleLogout() {
+        const response = await axios.post(ApiService.logoutUrl());
+        if (response) {
+            CookieService.remove("access_token");
+        } else {
+            alert("No se pudo desloguear");
+        }
+    }
+
     async doUserRegistration(credentials: RegistrationCredentiales){
         try {
             const response = await axios.post(ApiService.registrationUrl(), credentials, { withCredentials: true})

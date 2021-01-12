@@ -2,10 +2,6 @@ import React, { Component } from "react";
 import AuthService from "../../services/AuthService";
 import { RouteComponentProps } from "react-router-dom";
 
-interface Props {
-  handleLogin: () => void,  
-}
-
 export default class RegistrationForm extends Component<RouteComponentProps> {
   state = {
     email: "",
@@ -24,7 +20,6 @@ export default class RegistrationForm extends Component<RouteComponentProps> {
 
     if (response) {
         AuthService.handleLoginSuccess(response, false);
-        this.props.handleLogin(response.data);
         this.props.history.push("/home");
     } else {
         alert("Algo salió mal");

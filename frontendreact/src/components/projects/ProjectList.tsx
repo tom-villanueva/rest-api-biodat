@@ -62,6 +62,7 @@ export default class ProjectList extends React.Component {
     newProjects.push(project.data);
     this.setState({
       projects: newProjects,
+      showAddModal: false,
     });
   }
 
@@ -80,6 +81,7 @@ export default class ProjectList extends React.Component {
     }
     this.setState({
       projects: newProjects,
+      showEditModal: false,
       targetProject: -1,
     });
   }
@@ -93,6 +95,7 @@ export default class ProjectList extends React.Component {
     });
     this.setState({
       projects: newProjects,
+      showDeleteModal: false,
       targetProject: -1,
     });
   }
