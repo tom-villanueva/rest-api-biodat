@@ -1,7 +1,6 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Item from 'App/Models/Item'
 import Measurement from 'App/Models/Measurement'
-import { schema } from '@ioc:Adonis/Core/Validator'
 import Application from '@ioc:Adonis/Core/Application'
 
 export default class MeasurementsController {
@@ -13,30 +12,22 @@ export default class MeasurementsController {
   }
 
   public async store ({ request, params }: HttpContextContract) {
-    const userSchema = schema.create({
-      measurement: schema.file({
-        extnames: ['csv', 'z'],
-      }),
+    const measurements = request.files('measurement', {
+      extnames: ['csv', 'z'],
     })
-
-    const data = await request.validate({
-      schema: userSchema,
-    })
-
-    const file_name = `${new Date().getTime()}.${data.measurement.extname}`
-
-    await data.measurement.move(Application.publicPath('measurements'), {
-      name: file_name,
-    })
-
-    const measurement = new Measurement()
-    measurement.file_name = `measurements/${file_name}`
-
     const item = await Item.findOrFail(params.item_id)
+    const newMeasurements : Array<Measurement> = []
 
-    await item.related('measurements').save(measurement)
-  
-    return measurement
+    for (let measurement of measurements) {
+      //const file_name = `${new Date().getTime()}.${measurement.extname}`
+      await measurement.move(Application.publicPath('measurements'))
+      const newMeasurement = new Measurement()
+      newMeasurement.file_name = `${measurement.clientName}`
+      newMeasurements.push(newMeasurement)
+      await item.related('measurements').save(newMeasurement)
+    }
+
+    return newMeasurements
   }
 
   public async show ({ params }: HttpContextContract) {
