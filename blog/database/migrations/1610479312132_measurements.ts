@@ -8,6 +8,7 @@ export default class Measurements extends BaseSchema {
       table.increments('id').primary()
       table.string('file_name', 255).notNullable().unique()
       table.integer('item_id').unsigned().notNullable().references('id').inTable('items').onDelete('CASCADE')
+      table.integer('measurer_id').unsigned().notNullable().references('id').inTable('measurers').onDelete('CASCADE')
       table.timestamps(true)
     })
   }

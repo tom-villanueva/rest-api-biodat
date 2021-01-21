@@ -25,6 +25,8 @@
     "@adonisjs/repl": "^1.1.5",
     "@adonisjs/session": "^4.0.5",
     "@adonisjs/shield": "^4.0.2",
+    "csv-parse": "^4.15.0",
+    "csv-parser": "^3.0.0",
     "luxon": "^1.25.0",
     "pg": "^8.4.2",
     "phc-argon2": "^1.0.11",

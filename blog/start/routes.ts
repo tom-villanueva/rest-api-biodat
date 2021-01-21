@@ -33,6 +33,15 @@ Route.group(() => {
 }).prefix('api/projects/')
   .middleware(['auth', 'ProjectAuth:lider,colaborador'])
 
+Route.group(() => { 
+  Route.get(   'measurers/',    'measurementsController.index');
+  Route.post(  'measurers/',    'measurersController.store');
+    // Route.get(   ':project_id/items/:item_id/measurements/:measurement_id', 'measurementsController.show');
+  Route.put(   'measurers/:measurer_id/',  'measurersController.update');
+  Route.delete('measurers/:measurer_id/', 'measurersController.destroy');
+}).prefix('api/')
+  .middleware(['auth'])
+
 /*
 rutas que crea resource con apiOnly:
   GET        /projects/    -> index

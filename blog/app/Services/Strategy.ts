@@ -1,3 +1,3 @@
 interface Strategy {
-    doParse(data): Array<string>
+    doParse(filePath: string):  Promise<any[]>
 }

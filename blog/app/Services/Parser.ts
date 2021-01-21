@@ -1,16 +1,20 @@
-class Parser {
-    private strategy: Strategy;
+import SolartronStrategy from 'App/Services/ParserStrategies'
 
-    constructor(strategy: Strategy) {
-        this.strategy = strategy;
+export default class Parser {
+    private strategy: Strategy;
+    
+    constructor(measurer: string) {
+        if(measurer === 'Solartron'){
+            this.strategy = new SolartronStrategy();        
+        }
     }
 
     public setStrategy(strategy: Strategy) {
         this.strategy = strategy;
     }
 
-    public parse(data) {
-        const parsedData = this.strategy.doParse(data);
+    public async parse(filePath: string) {
+        const parsedData = await this.strategy.doParse(filePath);
         return parsedData;
     }
 }
