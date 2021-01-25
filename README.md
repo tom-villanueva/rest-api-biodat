@@ -1,14 +1,7 @@
 # rest-api-biodat
 ## Getting started
 
-clona el repo usando los comando de abajo:
-
-```bash
-# usando SSH
-git clone git@github.com:mezielabs/taskist.git
-# usando HTTPS
-git clone https://github.com/mezielabs/taskist.git
-```
+clona el repo``
 
 despues de clonar, correr:
 
