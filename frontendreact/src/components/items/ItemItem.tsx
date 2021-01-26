@@ -3,18 +3,24 @@ import ItemInterface from '../../interfaces/ItemInterface'
 
 interface Props {
     item: ItemInterface,
+    selected: boolean
     onEdit: (id) => void, 
     onDelete: (id) => void,
+    onSelect: (id) => void,
 }
 
 export default class ItemItem extends Component<Props> {
-    
+
     render() {
-        const { item, onEdit, onDelete } = this.props;
+        const { item, selected, onEdit, onDelete, onSelect  } = this.props;
         return (
             <tr>
             <td>
-                <input className="form-check-input" type="radio" name="ItemSelected" checked={false}></input>
+                <a className= {`btb btn-sm ${selected ? "btn-success" : "btn-danger"}`} 
+                   onClick={(id) => onSelect(item.id) 
+                }>
+                <i className="fas fa-check"></i>
+                </a>
             </td>
             <td>
                 <a>

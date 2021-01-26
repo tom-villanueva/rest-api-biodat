@@ -4,8 +4,6 @@ const API_URL = 'http://localhost:3333';
 
 class ProjectService{
 
-    constructor(){}
-
     async getProjectItems(project_id: number) {
         const url = `${API_URL}/api/projects/${project_id}/items`;
         //return axios.get(url).then(response => response.data);

@@ -28,16 +28,16 @@ Route.group(() => {
   Route.get(   ':project_id/items/:item_id/measurements',                 'measurementsController.index');
   Route.post(  ':project_id/items/:item_id/measurements',                 'measurementsController.store');
   Route.get(   ':project_id/items/:item_id/measurements/:measurement_id', 'measurementsController.show');
-  Route.put(   ':project_id/items/:item_id/measurements/:measurement_id', 'measurementsController.update');
+  //Route.put(   ':project_id/items/:item_id/measurements/:measurement_id', 'measurementsController.update');
   Route.delete(':project_id/items/:item_id/measurements/:measurement_id', 'measurementsController.destroy');
 }).prefix('api/projects/')
   .middleware(['auth', 'ProjectAuth:lider,colaborador'])
 
 Route.group(() => { 
-  Route.get(   'measurers/',    'measurementsController.index');
-  Route.post(  'measurers/',    'measurersController.store');
+  Route.get(   'measurers/',              'measurersController.index');
+  Route.post(  'measurers/',              'measurersController.store');
     // Route.get(   ':project_id/items/:item_id/measurements/:measurement_id', 'measurementsController.show');
-  Route.put(   'measurers/:measurer_id/',  'measurersController.update');
+  Route.put(   'measurers/:measurer_id/', 'measurersController.update');
   Route.delete('measurers/:measurer_id/', 'measurersController.destroy');
 }).prefix('api/')
   .middleware(['auth'])

@@ -16,6 +16,7 @@ export default class ItemList extends Component<Props> {
     items: [],
     project_id: this.props.project_id,
     targetItem: -1,
+    selectedItem: -1,
     showEditModal: false,
     showDeleteModal: false,
   };
@@ -42,6 +43,12 @@ export default class ItemList extends Component<Props> {
     });
   }
 
+  onSelect(id: number) {
+    this.setState({
+      selectedItem: id,
+    });
+  }
+
   renderItems() {
     const { items } = this.state;
     return items.map((item, index) => {
@@ -49,8 +56,10 @@ export default class ItemList extends Component<Props> {
         <ItemItem
           key={index}
           item={item}
+          selected={false}
           onEdit={(id) => this.onEdit(id)}
           onDelete={(id) => this.onDelete(id)}
+          onSelect={(id) => this.onSelect(id)}
         />
       );
     });
