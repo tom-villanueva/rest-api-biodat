@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 
 interface Props {
     id: number,
-    project_id: number,
     handleItemEditForm: (data) => void;
 }
 
@@ -15,8 +14,8 @@ export default class ItemEditForm extends Component<Props>{
     handleFormSubmit(event){
         event.preventDefault();
         const { title } = this.state;
-        const { id, project_id, handleItemEditForm } = this.props;
-        handleItemEditForm({project_id, id, title});
+        const { id, handleItemEditForm } = this.props;
+        handleItemEditForm({id, title});
     }
 
     render() {

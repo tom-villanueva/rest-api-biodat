@@ -8,13 +8,16 @@ import ItemEditForm from "./ItemEditForm";
 import ItemDeleteForm from "./ItemDeleteForm";
 
 interface Props {
-  project_id: number;
+  items: ItemInterface[],
+  handleAddItem: (data) => void,
+  handleEditItem: (data, targetItem: number) => void,
+  handleDeleteItem: (data, targetItem: number) => void,
+  handleSelectedItem: (id) => void,
 }
 
 export default class ItemList extends Component<Props> {
   state = {
-    items: [],
-    project_id: this.props.project_id,
+    items: [] as ItemInterface[],
     targetItem: -1,
     selectedItem: -1,
     showEditModal: false,
@@ -22,11 +25,16 @@ export default class ItemList extends Component<Props> {
   };
 
   async componentDidMount() {
-    const response = await ItemService.getProjectItems(this.state.project_id);
-    const items = response.data;
     this.setState({
-      items: items,
+      items: this.props.items,
     });
+  }
+  async componentDidUpdate(prevProps) {
+    if(this.props.items !== prevProps.items) {
+      this.setState({
+        items: this.props.items,
+      })
+    }
   }
 
   onEdit(id: number) {
@@ -44,9 +52,7 @@ export default class ItemList extends Component<Props> {
   }
 
   onSelect(id: number) {
-    this.setState({
-      selectedItem: id,
-    });
+    this.props.handleSelectedItem(id);
   }
 
   renderItems() {
@@ -56,7 +62,6 @@ export default class ItemList extends Component<Props> {
         <ItemItem
           key={index}
           item={item}
-          selected={false}
           onEdit={(id) => this.onEdit(id)}
           onDelete={(id) => this.onDelete(id)}
           onSelect={(id) => this.onSelect(id)}
@@ -66,52 +71,27 @@ export default class ItemList extends Component<Props> {
   }
 
   async handleAddItem(data){
-    const item = await ItemService.createItem(this.state.project_id, data);
-    let newItems: ItemInterface[];
-    newItems = this.state.items;
-    newItems.push(item.data);
-    this.setState({
-      items: newItems,
-    });
+    this.props.handleAddItem(data)
   }
 
   async handleItemEditForm(data) {
-    const newItem = await ItemService.updateItem(data.project_id, data.id, data);
-
-    let newItems: ItemInterface[];
-    newItems = this.state.items;
-
-    let index: number;
-    for (let item of newItems){
-      index = newItems.indexOf(item);
-      if (item.id === this.state.targetItem){
-        newItems[index] = newItem.data;
-      }
-    }
+    this.props.handleEditItem(data, this.state.targetItem)
     this.setState({
-      items: newItems,
       showEditModal: false,
       targetItem: -1,
     });
   }
 
   async handleItemDeleteForm(data) {
-    const response = await ItemService.deleteItem(data.project_id, data.id);
-
-    let newItems: ItemInterface[];
-    newItems = this.state.items.filter((item : ItemInterface) => {
-      return item.id !== this.state.targetItem;
-    });
+    this.props.handleDeleteItem(data, this.state.targetItem)
     this.setState({
-      items: newItems,
       showDeleteModal: false,
       targetItem: -1,
     });
-
   }
 
   render() {
-    const { items, project_id, targetItem, showEditModal, showDeleteModal } = this.state;
+    const { items, targetItem, showEditModal, showDeleteModal } = this.state;
     return (
       <div className="card card-primary">
         <div className="card-header">
@@ -151,7 +131,6 @@ export default class ItemList extends Component<Props> {
           >
             <ItemEditForm 
               id={ targetItem } 
-              project_id={ project_id }
               handleItemEditForm={(data) => 
                 this.handleItemEditForm(data)
               } 
@@ -169,7 +148,6 @@ export default class ItemList extends Component<Props> {
           >
             <ItemDeleteForm 
               id={ targetItem } 
-              project_id={ project_id } 
               handleItemDeleteForm={ (data) => 
                 this.handleItemDeleteForm(data) 
               }
