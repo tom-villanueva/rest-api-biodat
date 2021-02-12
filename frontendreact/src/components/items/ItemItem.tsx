@@ -3,6 +3,7 @@ import ItemInterface from '../../interfaces/ItemInterface'
 
 interface Props {
     item: ItemInterface,
+    selectedItem: number,
     onEdit: (id) => void, 
     onDelete: (id) => void,
     onSelect: (id) => void,
@@ -14,11 +15,19 @@ export default class ItemItem extends Component<Props> {
         selected: false,
     }
 
+    async componentDidUpdate(prevProps) {
+        if(this.props.selectedItem !== -1 && this.props.item.id !== prevProps.selectedItem) {
+            this.setState({
+                selected: !this.state.selected,
+            })
+        }
+    }
+
     async onSelect(id) {
         this.setState({
             selected: !this.state.selected,
         });
-        if(this.state.selected){
+        if(!this.state.selected){
             this.props.onSelect(id);
         }
         else{

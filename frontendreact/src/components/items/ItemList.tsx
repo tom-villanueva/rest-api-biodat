@@ -53,15 +53,19 @@ export default class ItemList extends Component<Props> {
 
   onSelect(id: number) {
     this.props.handleSelectedItem(id);
+    this.setState({
+      selectedItem: id,
+    })
   }
 
   renderItems() {
-    const { items } = this.state;
+    const { items, selectedItem } = this.state;
     return items.map((item, index) => {
       return (
         <ItemItem
           key={index}
           item={item}
+          selectedItem={selectedItem}
           onEdit={(id) => this.onEdit(id)}
           onDelete={(id) => this.onDelete(id)}
           onSelect={(id) => this.onSelect(id)}

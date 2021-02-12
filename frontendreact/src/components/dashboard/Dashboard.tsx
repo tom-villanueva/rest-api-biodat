@@ -4,12 +4,15 @@ import ItemList from '../items/ItemList';
 import ItemService from "../../services/ItemService";
 import ItemInterface from "../../interfaces/ItemInterface";
 import FileList from '../files/FileList';
+import FileService from '../../services/FileService';
+import DataInterface from '../../interfaces/DataInterface';
+import FileInterface from '../../interfaces/FileInterface';
 
 export default class Dashboard extends Component<RouteComponentProps> {
     state = {
         project_id: this.props.match.params.id,
         items: [] as ItemInterface[],//ItemInterface[],
-        files: [],
+        files: [] as FileInterface[],
         selectedItem: -1,
     }
 
@@ -19,6 +22,17 @@ export default class Dashboard extends Component<RouteComponentProps> {
         this.setState({
           items: items,
         });
+    }
+
+    async componentDidUpdate(prevState) {
+      if(this.state.selectedItem !== prevState.selectedItem){
+        const { project_id, selectedItem } = this.state;
+        const response = await FileService.getItemFiles(project_id, selectedItem);
+        const files = response.data;
+        this.setState({
+          files: files,
+        })
+      }
     }
 
     async handleAddItem(data){
@@ -74,16 +88,16 @@ export default class Dashboard extends Component<RouteComponentProps> {
                 <div className="row">
                     <div className="col-6">
                     <ItemList 
-                    items= { this.state.items }
-                    handleAddItem = { (data) => this.handleAddItem(data) }
-                    handleEditItem = { (data, targetItem) => this.handleItemEdit(data, targetItem) }               
-                    handleDeleteItem = { (data, targetItem) => this.handleItemDelete(data, targetItem) }
-                    handleSelectedItem = { (id) => this.handleSelectedItem(id) }
+                      items = { this.state.items }
+                      handleAddItem = { (data) => this.handleAddItem(data) }
+                      handleEditItem = { (data, targetItem) => this.handleItemEdit(data, targetItem) }               
+                      handleDeleteItem = { (data, targetItem) => this.handleItemDelete(data, targetItem) }
+                      handleSelectedItem = { (id) => this.handleSelectedItem(id) }
                     />
                     </div>
                     <div className="col-6">
                     <FileList 
-                    item_id={this.state.selectedItem}
+                      files = { this.state.files }
                     />
                     </div>
                 </div>
