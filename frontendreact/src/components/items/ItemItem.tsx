@@ -16,10 +16,17 @@ export default class ItemItem extends Component<Props> {
     }
 
     async componentDidUpdate(prevProps) {
-        if(this.props.selectedItem !== -1 && this.props.item.id !== prevProps.selectedItem) {
-            this.setState({
-                selected: !this.state.selected,
-            })
+        if(this.props.selectedItem !== prevProps.selectedItem) {
+            if(this.props.selectedItem === this.props.item.id) {
+                this.setState({
+                    selected: true,
+                })
+            }  
+            else {
+                this.setState({
+                    selected: false,
+                })
+            }
         }
     }
 
@@ -27,22 +34,17 @@ export default class ItemItem extends Component<Props> {
         this.setState({
             selected: !this.state.selected,
         });
-        if(!this.state.selected){
-            this.props.onSelect(id);
-        }
-        else{
-            this.props.onSelect(-1);
-        }      
+        this.props.onSelect(id);     
     }
 
     render() {
-        const { item, onEdit, onDelete, onSelect  } = this.props;
+        const { item, onEdit, onDelete } = this.props;
         return (
             <tr>
             <td>
                 <a className= {`btn btn-sm ${this.state.selected ? "btn-success" : "btn-danger"}`} 
-                   onClick={(id) => this.onSelect(item.id) 
-                }>
+                   onClick={(id) => this.onSelect(item.id) }
+                >
                 <i className="fas fa-check"></i>
                 </a>
             </td>

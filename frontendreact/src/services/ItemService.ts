@@ -1,16 +1,23 @@
 import HttpService from "./HttpService";
+import { useHistory } from 'react-router-dom';
 
 const API_URL = 'http://localhost:3333';
 
 class ProjectService{
+    
 
     async getProjectItems(project_id: number) {
         const url = `${API_URL}/api/projects/${project_id}/items`;
+        // const history = useHistory();
         //return axios.get(url).then(response => response.data);
         try {
             const response = await HttpService.get(url);
             return response;
         } catch (error) {
+            // history.replace(history.location.pathname, { 
+            //     errorStatusCode: error 
+            // });
+            console.error(error)
             console.error("Not able to fetch the project items");
         }
     }
