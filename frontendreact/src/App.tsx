@@ -4,8 +4,6 @@ import {
   Route,  
   Switch,
 } from 'react-router-dom';
-
-
 import LoginForm from './components/auth/LoginForm';
 import Home from './components/Home';
 import RegistrationForm from './components/auth/RegistrationForm';
@@ -13,6 +11,7 @@ import Dashboard from './components/dashboard/Dashboard';
 import { ProtectedRoute } from './components/auth/ProtectedRoute';
 import ProjectList from './components/projects/ProjectList';
 import StartPage from './components/StartPage';
+import { ErrorHandler } from './components/error/ErrorHandler'
 
 class App extends Component {
 
@@ -25,6 +24,7 @@ class App extends Component {
     return (
       <Router>
         <div className="App"> 
+        <ErrorHandler >
           <Switch> 
             <ProtectedRoute
               exact={true}
@@ -68,7 +68,8 @@ class App extends Component {
               component={Dashboard} 
             />
 
-          </Switch> 
+          </Switch>
+          </ErrorHandler> 
         </div> 
       </Router> 
     );
