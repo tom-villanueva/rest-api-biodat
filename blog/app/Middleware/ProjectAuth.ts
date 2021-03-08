@@ -19,7 +19,7 @@ export default class ProjectAuth {
 
     //si el array está vacío, entonces el usuario no pertenece al proyecto
     if(user_projects[0] == null){
-      throw new UnathorizedProjectAccessException('error')
+      throw new UnathorizedProjectAccessException('error no puede acceder a este dashboard')
     }
 
     await next()
