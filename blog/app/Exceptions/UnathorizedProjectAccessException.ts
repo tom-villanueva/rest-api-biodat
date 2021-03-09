@@ -6,9 +6,11 @@ export default class UnathorizedProjectAccessException extends Exception {
         super(message, 403)
     }
     public async handle(error: this, { response }: HttpContextContract) {
-        return response
+        response
         .status(error.status).json({
-            error: 'No perteneces a este proyecto, no puedes acceder a el'
+            status: 403,
+            statusText: "Forbidden",
+            error: 'You do not belong to this project',
         })
     }   
 }

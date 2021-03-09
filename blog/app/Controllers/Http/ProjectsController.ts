@@ -63,6 +63,6 @@ export default class ProjectsController {
     
     await project.delete()
    
-    return true
+    return {status: "204"}
   }
 }

@@ -1,11 +1,13 @@
-import SolartronStrategy from 'App/Services/ParserStrategies'
+import SolartronStrategy from 'App/Services/SolartronStrategy'
 
 export default class Parser {
     private strategy: Strategy;
     
     constructor(measurer: string) {
-        if(measurer === 'Solartron'){
-            this.strategy = new SolartronStrategy();        
+        switch(measurer) {
+            case 'Solartron':
+                this.strategy = new SolartronStrategy();        
+            break;
         }
     }
 

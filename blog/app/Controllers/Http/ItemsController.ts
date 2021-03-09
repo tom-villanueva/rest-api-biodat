@@ -56,6 +56,6 @@ export default class ItemsController {
 
     await item.delete()
 
-    return true
+    return {status: 204}
   }
 }

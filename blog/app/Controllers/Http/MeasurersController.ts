@@ -48,6 +48,6 @@ export default class MeasurersController {
 
     await measurer.delete()
 
-    return true
+    return {status: 204}
   }
 }
