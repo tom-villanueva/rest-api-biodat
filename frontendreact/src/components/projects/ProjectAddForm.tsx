@@ -1,53 +1,78 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
+import ProjectInterface from '../../interfaces/ProjectInterface';
+import ProjectService from '../../services/ProjectService'
+import ErrorPage from '../error/ErrorPage';
 
 interface Props {
-    handleProjectForm: (data) => void;
+	id: number,
+	handleProjectForm: (data) => void;
 }
 
-export default class ProjectAddForm extends Component<Props>{
+const ProjectAddForm = (props:Props) => {
 
-    state={
-        title:"",
-        description:"",
-    }
+    const initialProjectState: ProjectInterface = {
+			id: props.id,
+			title: "",
+			description: "",
+			created_at: "",
+			updated_at: "",
+    };
 
-    handleFormSubmit(event){
-        event.preventDefault();
-        const {title, description} = this.state;
-        this.props.handleProjectForm({title, description});
-    }
+    const [project, setProject] = useState(initialProjectState);
 
-    render() {
-        const {title, description} = this.state;
-        const {handleProjectForm} = this.props;
-        return(
-            <form onSubmit={(event) => this.handleFormSubmit(event) }>
-                <div className="form-group">
-                    <label htmlFor="title"> Título </label>
-                    <input
-                        className="form-control" 
-                        type="text"
-                        value={title}
-                        placeholder="Escriba el título"
-                        onChange={(event) => {
-                            this.setState({ title: event.target.value })
-                        }}
-                    >
-                    </input>
-                    <label htmlFor="description"> Descripción </label>
-                    <input
-                        className="form-control" 
-                        type="text"
-                        value={description}
-                        placeholder="Escriba la descripción"
-                        onChange={(event) => {
-                            this.setState({ description: event.target.value })
-                        }}
-                    >
-                    </input>
-                    <button className="btn btn-primary">Agregar Proyecto</button>
-                </div>
-            </form>    
-        )
-    }
-}
+    const handleInputChange = (event) => {
+			const { name, value } = event.target;
+			setProject({ ...project, [name]: value });
+    };
+
+    const handleFormSubmit = (event) => {
+			event.preventDefault();
+			let data: ProjectInterface = {
+					id: project.id,
+					title: project.title,
+					description: project.description,
+					created_at: "",
+					updated_at: "",
+			} 
+
+			ProjectService.create(data)
+				.then(response => {
+						const newProject = response.data;
+						props.handleProjectForm(newProject);
+				})
+				.catch(e => {
+						return <ErrorPage errorStatusCode={ e.response.status }/>
+				})
+    };
+
+    return(
+			<form onSubmit={(event) => handleFormSubmit(event) }>
+				<div className="form-group">
+					<label htmlFor="title"> Título </label>
+					<input
+							className="form-control" 
+							type="text"
+							value={project.title}
+							placeholder="Escriba el título"
+							onChange={
+									handleInputChange
+							}
+					>
+					</input>
+					<label htmlFor="description"> Descripción </label>
+					<input
+							className="form-control" 
+							type="text"
+							value={project.description}
+							placeholder="Escriba la descripción"
+							onChange={
+									handleInputChange
+							}
+					>
+					</input>
+					<button className="btn btn-primary">Agregar Proyecto</button>
+				</div>
+			</form>    
+    );
+};
+export default ProjectAddForm;

@@ -1,42 +1,66 @@
-import React, { Component } from 'react';
+import React, { Component, useState } from 'react';
+import ItemInterface from '../../interfaces/ItemInterface';
+import ItemService from '../../services/ItemService';
+import ErrorPage from '../error/ErrorPage';
 
 interface Props {
-    id: number,
+    projectId: number,
+    itemId: number,
     handleItemEditForm: (data) => void;
 }
 
-export default class ItemEditForm extends Component<Props>{
+const ItemEditForm = (props: Props) => {
 
-    state={
-        title:"",
-    }
+    const initialItemState: ItemInterface = {
+			title: "",
+			project_id: props.projectId,
+			created_at: "",
+			updated_at: "",
+			id: props.itemId,
+    };
 
-    handleFormSubmit(event){
-        event.preventDefault();
-        const { title } = this.state;
-        const { id, handleItemEditForm } = this.props;
-        handleItemEditForm({id, title});
-    }
+    const [item, setItem] = useState(initialItemState);
 
-    render() {
-        const {title} = this.state;
-        return(
-            <form onSubmit={(event) => this.handleFormSubmit(event) }>
-                <div className="form-group">
-                    <label htmlFor="title"> Título </label>
-                    <input
-                        className="form-control" 
-                        type="text"
-                        value={title}
-                        placeholder="Escriba el título"
-                        onChange={(event) => {
-                            this.setState({ title: event.target.value })
-                        }}
-                    >
-                    </input>
-                    <button className="btn btn-primary">Editar Proyecto</button>
-                </div>
-            </form>    
-        )
-    }
+    const handleInputChange = (event) => {
+			const { name, value } = event.target;
+			setItem({ ...item, [name]: value });
+    };
+
+    const handleFormSubmit = (event) => {
+			event.preventDefault();
+			let data: ItemInterface = {
+				title: item.title,
+				project_id: props.projectId,
+				created_at: "",
+				updated_at: "",
+				id: props.itemId,
+			};
+
+			ItemService.update(data)
+				.then(response => {
+					const newItem = response.data;
+					props.handleItemEditForm(newItem);
+				})
+				.catch(e => {
+					<ErrorPage errorStatusCode={ e.response.status }/>
+				})
+    };
+
+		return(
+			<form onSubmit={(event) => handleFormSubmit(event) }>
+				<div className="form-group">
+						<label htmlFor="title"> Título </label>
+						<input
+								className="form-control" 
+								type="text"
+								value={item.title}
+								placeholder="Escriba el título"
+								onChange={ handleInputChange }
+						>
+						</input>
+						<button className="btn btn-primary">Editar Proyecto</button>
+				</div>
+			</form>    
+		);
 }
+export default ItemEditForm;

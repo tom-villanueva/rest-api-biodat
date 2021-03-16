@@ -1,77 +1,91 @@
-import { useHttpService } from "./HttpService";
+import FileInterface from "../interfaces/FileInterface";
+import http from "./HttpService";
 
-const API_URL = 'http://localhost:3333';
+const getAll = (project_id: number, files: FileInterface[]) => {
+  return http.get(`/projects/${project_id}/items/${files[0].item_id}/measurements`);
+};
 
-class FileService {
+const get = (project_id: number, files: FileInterface[]) => {
+  return http.get(`/projects/${project_id}/items/${files[0].item_id}/measurements/${files[0].id}`);
+};
 
-  async getItemFiles(project_id: number, item_id: number){
-    // const url = `${API_URL}/api/projects/${project_id}/items/${item_id}/measurements`;
+const create = (project_id: number, files: FileInterface[]) => {
+  return http.post(`/projects/${project_id}/items/${files[0].item_id}/measurements`, files);
+};
 
-    // try{
-    //   const response = await HttpService.get(url);
-    //   return response;
-    // }catch(error){
-    //   console.error('Not able to fetch the item files');
-    // }
-    const options = {
-      url : `${API_URL}/api/projects/${project_id}/items/${item_id}/measurements`,
-      method : "GET" as const,
-      data : {},
-    }
-    const response = useHttpService(options);
-    return response;
-  }
+const remove = (project_id: number, files: FileInterface[]) => {
+  return http.delete(`/projects/${project_id}/items/${files[0].item_id}/measurements/`);
+};
 
-  async getFile(project_id: number, item_id: number, measurement_id: number){
-    // const url = `${API_URL}/api/projects/${project_id}/items/${item_id}/measurements/${measurement_id}`;
-    // try{
-    //   const response = await HttpService.get(url);
-    //   return response;
-    // }catch(error){
-    //   console.error('Not able to fetch the file data');
-    // }
-    const options = {
-      url : `${API_URL}/api/projects/${project_id}/items/${item_id}/measurements/${measurement_id}`,
-      method : "GET" as const,
-      data : {},
-    }
-    const response = useHttpService(options);
-    return response;
-  }
+export default {
+  getAll,
+  get,
+  create,
+  remove,
+};
 
-  async createFiles(project_id: number, item_id: number, filesData){
-    // const url = `${API_URL}/api/projects/${project_id}/items/${item_id}/measurements`;
-    // try {
-    //   const response = await HttpService.post(url, filesData);
-    //   return response;
-    // } catch (error) {
-    //     console.error("Not able to create the files");
-    // }
-    const options = {
-      url : `${API_URL}/api/projects/${project_id}/items/${item_id}/measurements/`,
-      method : "POST" as const,
-      data : {},
-    }
-    const response = useHttpService(options);
-    return response;
-  }
+// const getItemFiles = async (project_id: number, file: FileInterface[]) => {
+  //   // const url = `/api/projects/${project_id}/items/${item_id}/measurements`;
 
-  async deleteFiles(project_id: number, item_id: number, measurement_id: number){
-    // const url = `${API_URL}/api/projects/${project_id}/items/${item_id}/measurements/${measurement_id}`;
-    // try {
-    //   const response = await HttpService.delete(url);
-    //   return response;
-    // } catch (error) {
-    //     console.error("Not able to delete the item");
-    // }
-    const options = {
-      url : `${API_URL}/api/projects/${project_id}/items/${item_id}/measurements/`,
-      method : "DELETE" as const,
-      data : {},
-    }
-    const response = useHttpService(options);
-    return response;
-  }
-}
+  //   // try{
+  //   //   const response = await HttpService.get(url);
+  //   //   return response;
+  //   // }catch(error){
+  //   //   console.error('Not able to fetch the item files');
+  //   // }
+  //   const options = {
+  //     url : `${API_URL}/api/projects/${project_id}/items/${file[0].item_id}/measurements`,
+  //     method : "GET" as const,
+  //     data : {},
+  //   }
+  //   const response: AxiosResponse<any> = await useHttpService(options);
+  //   return response;
+  // }
 
-export default new FileService();
+  // const getFile = async (project_id: number, file: FileInterface[]) => {
+  //   // const url = `${API_URL}/api/projects/${project_id}/items/${item_id}/measurements/${measurement_id}`;
+  //   // try{
+  //   //   const response = await HttpService.get(url);
+  //   //   return response;
+  //   // }catch(error){
+  //   //   console.error('Not able to fetch the file data');
+  //   // }
+  //   const options = {
+  //     url : `${API_URL}/api/projects/${project_id}/items/${file[0].item_id}/measurements/${file[0].id}`,
+  //     method : "GET" as const,
+  //     data : {},
+  //   }
+  //   const response: AxiosResponse<any> = await useHttpService(options);
+  //   return response;
+  // }
+
+  // const createFiles = async (project_id: number, filesData: FileInterface[]) => {
+  //   // const url = `${API_URL}/api/projects/${project_id}/items/${item_id}/measurements`;
+  //   // try {
+  //   //   const response = await HttpService.post(url, filesData);
+  //   //   return response;
+  //   // } catch (error) {
+  //   //     console.error("Not able to create the files");
+  //   // }
+  //   const options = {
+  //     url : `${API_URL}/api/projects/${project_id}/items/${filesData[0].item_id}/measurements/`,
+  //     method : "POST" as const,
+  //     data : filesData,
+  //   }
+  //   const response: AxiosResponse<any> = await useHttpService(options);
+  //   return response;
+  // }
+
+  // const deleteFiles = async (project_id: number, file: FileInterface[]) => {
+  //   // const url = `${API_URL}/api/projects/${project_id}/items/${item_id}/measurements/${measurement_id}`;
+  //   // try {
+  //   //   const response = await HttpService.delete(url);
+  //   //   return response;
+  //   // } catch (error) {
+  //   //     console.error("Not able to delete the item");
+  //   // }
+  //   const options = {
+  //     url : `${API_URL}/api/projects/${project_id}/items/${file[0].item_id}/measurements/`,
+  //     method : "DELETE" as const,
+  //     data : {},
+  //   }

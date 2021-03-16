@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { 
   BrowserRouter as Router, 
   Route,  
@@ -9,71 +9,62 @@ import Home from './components/Home';
 import RegistrationForm from './components/auth/RegistrationForm';
 import Dashboard from './components/dashboard/Dashboard';
 import { ProtectedRoute } from './components/auth/ProtectedRoute';
-import ProjectList from './components/projects/ProjectList';
+import {ProjectList} from './components/projects/ProjectList';
 import StartPage from './components/StartPage';
-import { ErrorHandler } from './components/error/ErrorHandler'
 
-class App extends Component {
+const App = () => {
 
-  state = {
-    loggedInStatus: false,
-    user: {},
-  }
+  return (
+    <Router>
+      <div className="App"> 
+        <Switch> 
+          <ProtectedRoute
+            exact={true}
+            path='/proyectos' 
+            component={ProjectList}
+          /> 
 
-  render() {
-    return (
-      <Router>
-        <div className="App"> 
-        <ErrorHandler >
-          <Switch> 
-            <ProtectedRoute
-              exact={true}
-              path='/proyectos' 
-              component={ProjectList}
-            /> 
+          <Route 
+            exact 
+            path='/login' 
+            render={props =>(
+              <Home title="Iniciar Sesión" >
+                <LoginForm {...props} />
+              </Home>
+            )}
+          />
 
-            <Route 
-              exact 
-              path='/login' 
-              render={props =>(
-                <Home title="Iniciar Sesión" >
-                  <LoginForm {...props} />
-                </Home>
-              )}
-            />
+          <Route 
+            exact 
+            path='/register' 
+            render={props =>(
+              <Home title="Registro" > 
+                <RegistrationForm {...props} />
+              </Home>
+            )} 
+          />
 
-            <Route 
-              exact 
-              path='/register' 
-              render={props =>(
-                <Home title="Registro" > 
-                  <RegistrationForm {...props} />
-                </Home>
-              )} 
-            />
+          <Route 
+            exact 
+            path='/home' 
+            render={props =>(
+              <Home title="Home" >
+                <StartPage {...props} />
+              </Home>
+            )}
+          />
 
-            <Route 
-              exact 
-              path='/home' 
-              render={props =>(
-                <Home title="Home" >
-                  <StartPage {...props} />
-                </Home>
-              )}
-            />
+          <ProtectedRoute 
+            exact 
+            path='/dashboard/:id' 
+            component={Dashboard} 
+          />
 
-            <ProtectedRoute 
-              exact 
-              path='/dashboard/:id' 
-              component={Dashboard} 
-            />
+        </Switch> 
+      </div> 
+    </Router> 
+  );
 
-          </Switch>
-          </ErrorHandler> 
-        </div> 
-      </Router> 
-    );
-  }
 }
 
 export default App;
