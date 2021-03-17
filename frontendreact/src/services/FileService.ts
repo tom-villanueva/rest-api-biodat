@@ -1,8 +1,8 @@
 import FileInterface from "../interfaces/FileInterface";
 import http from "./HttpService";
 
-const getAll = (project_id: number, files: FileInterface[]) => {
-  return http.get(`/projects/${project_id}/items/${files[0].item_id}/measurements`);
+const getAll = (project_id: number, item_id: number) => {
+  return http.get(`/projects/${project_id}/items/${item_id}/measurements`);
 };
 
 const get = (project_id: number, files: FileInterface[]) => {

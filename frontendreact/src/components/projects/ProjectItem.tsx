@@ -8,7 +8,7 @@ interface Props {
   onDelete: (id) => void;
 }
 
-export const ProjectItem = (props: Props) => {
+const ProjectItem = (props: Props) => {
   return (
     <tr>
       <td>{props.id + 1}</td>
@@ -42,3 +42,4 @@ export const ProjectItem = (props: Props) => {
     </tr>
   );
 };
+export default ProjectItem;

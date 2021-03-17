@@ -9,12 +9,11 @@ import ItemDeleteForm from "./ItemDeleteForm";
 import ErrorPage from "../error/ErrorPage";
 
 interface Props {
-  items: ItemInterface[],
   project_id: number,
-  handleSelectedItem: (id, items) => void,
+  handleSelectedItem: (id) => void,
 }
 
-export const ItemList = (props: Props) => {
+const ItemList = (props: Props) => {
 
   const [items, setItems] = useState([] as ItemInterface[]);
   const [targetItem, setTargetItem] = useState(-1);
@@ -30,7 +29,7 @@ export const ItemList = (props: Props) => {
       .catch(e => {
         return <ErrorPage errorStatusCode={ e.response.status }/>
       })
-  }, [items]); 
+  }, [ items ]); 
   
   const onEdit = (id: number) => {
     setShowEditModal(!showEditModal);
@@ -43,7 +42,7 @@ export const ItemList = (props: Props) => {
   }
 
   const onSelect = (id: number) => {
-    props.handleSelectedItem(id, items);
+    props.handleSelectedItem(id);
     setSelectedItem(id);
   }
 
@@ -62,7 +61,7 @@ export const ItemList = (props: Props) => {
     });
   }
 
-  const handleAddItem = async (data) =>{
+  const handleAddItem = (data) =>{
     const item = data;
     let newItems: ItemInterface[];
     newItems = items;
@@ -70,26 +69,31 @@ export const ItemList = (props: Props) => {
     setItems(newItems);
   }
 
-  const handleItemEditForm = async (data) => {
-    const newItem: AxiosResponse<any> = useItemService("UPDATE", data as ItemInterface);
-    
+  const handleItemEditForm = (data) => {
+    const newItem = data;
     let newItems: ItemInterface[];
     newItems = items;
 
-    let index: number;
-    for (let item of newItems){
-      index = newItems.indexOf(item);
-      if (item.id === targetItem){
-        newItems[index] = newItem.data;
-      }
-    }
+    const isEditedItem = (item: ItemInterface) => {
+      item.id === targetItem;
+    };
+
+    let index: number = newItems.findIndex(isEditedItem);
+    newItems[index] = newItem;
+
+    // for (let item of newItems){
+    //   index = newItems.indexOf(item);
+    //   if (item.id === targetItem){
+    //     newItems[index] = newItem;
+    //   }
+    // }
     setItems(newItems);
     setShowEditModal(!showEditModal);
     setTargetItem(-1);
   }
 
-  const handleItemDeleteForm = async (data) => {
-    const response: AxiosResponse<any> = useItemService("DELETE", data as ItemInterface);
+  const handleItemDeleteForm = (data) => {
+    const response = data;
     
     let newItems: ItemInterface[];
     newItems = items.filter((item : ItemInterface) => {
@@ -116,7 +120,11 @@ export const ItemList = (props: Props) => {
         </div>
       </div>
       <div className="card-body">
-        <ItemAddForm handleAddItem={ (data) => handleAddItem(data) } />
+        <ItemAddForm 
+          projectId={props.project_id}
+          itemId={targetItem}
+          handleAddItem={ (data) => handleAddItem(data) } 
+        />
         <table className="table table-striped projects">
           <thead>
             <tr>
@@ -137,7 +145,8 @@ export const ItemList = (props: Props) => {
           }}
         >
           <ItemEditForm 
-            id={ targetItem } 
+            projectId={props.project_id}
+            itemId={targetItem} 
             handleItemEditForm={(data) => 
               handleItemEditForm(data)
             } 
@@ -152,7 +161,8 @@ export const ItemList = (props: Props) => {
           }}
         >
           <ItemDeleteForm 
-            id={ targetItem } 
+            projectId={props.project_id}
+            itemId={targetItem}
             handleItemDeleteForm={ (data) => 
               handleItemDeleteForm(data) 
             }
@@ -162,3 +172,4 @@ export const ItemList = (props: Props) => {
     </div>
   );
 }
+export default ItemList;

@@ -9,7 +9,7 @@ import Home from './components/Home';
 import RegistrationForm from './components/auth/RegistrationForm';
 import Dashboard from './components/dashboard/Dashboard';
 import { ProtectedRoute } from './components/auth/ProtectedRoute';
-import {ProjectList} from './components/projects/ProjectList';
+import ProjectList from './components/projects/ProjectList';
 import StartPage from './components/StartPage';
 
 const App = () => {
@@ -64,7 +64,5 @@ const App = () => {
       </div> 
     </Router> 
   );
-
 }
-
 export default App;

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { ProjectItem } from "./ProjectItem";
+import ProjectItem from "./ProjectItem";
 import ModalForm from "../modals/ModalForm";
 import ProjectAddForm from "./ProjectAddForm";
 import ProjectInterface from "../../interfaces/ProjectInterface";
@@ -8,7 +8,7 @@ import ProjectDeleteForm from "./ProjectDeleteForm";
 import ProjectService from "../../services/ProjectService";
 import ErrorPage from "../error/ErrorPage";
 
-export const ProjectList = async () => {
+const ProjectList = () => {
   const [showAddModal, setShowAddModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);

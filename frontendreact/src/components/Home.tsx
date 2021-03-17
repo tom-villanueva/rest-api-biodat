@@ -1,27 +1,24 @@
-import React, { Component } from 'react';
+import React from 'react';
 import Header from './Header';
 import SideBar from './SideBar';
 import Footer from './Footer';
 import Content from './Content';
 
 interface Props {
-    title: string
+    title: string;
+		children: React.ReactNode,
 }
 
-export default class Home extends Component<Props> {
-
-    render() {
-        return(
-            <div className="wrapper">
-                <Header />
-                <SideBar />
-                <Content title={this.props.title}> 
-                    {this.props.children}
-                </Content>
-                <Footer />
-            </div>
-        )
-    }
-
-}
-
+const Home = (props: Props) => {
+	return(
+		<div className="wrapper">
+				<Header />
+				<SideBar />
+				<Content title={props.title}> 
+						{props.children}
+				</Content>
+				<Footer />
+		</div>
+	);
+};
+export default Home;

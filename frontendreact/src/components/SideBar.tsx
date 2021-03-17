@@ -1,11 +1,10 @@
 import React, { Component } from "react";
 
-export default class Header extends Component {
-  render() {
+const SideBar = () => {
     return (
       <aside className="main-sidebar sidebar-light-primary elevation-4">
         {/* Brand Logo */}
-        <a href="index3.html" className="brand-link">
+        <a href="/home" className="brand-link">
           <img
             src="dist/img/AdminLTELogo.png"
             alt="bioDAT Logo"
@@ -47,13 +46,13 @@ export default class Header extends Component {
               </li>
               <li className="nav-header">Utilidades</li>
               <li className="nav-item">
-                <a href="pages/calendar.html" className="nav-link">
+                <a href="" className="nav-link">
                   <i className="nav-icon fas fa-bookmark"></i>
                   <p>Tutoriales</p>
                 </a>
               </li>
               <li className="nav-item">
-                <a href="pages/calendar.html" className="nav-link">
+                <a href="" className="nav-link">
                   <i className="nav-icon fas fa-comment-alt" />
                   <p>Contacto</p>
                 </a>
@@ -65,5 +64,5 @@ export default class Header extends Component {
         {/* /.sidebar */}
       </aside>
     );
-  }
-}
+};
+export default SideBar;
