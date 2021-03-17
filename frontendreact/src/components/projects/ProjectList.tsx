@@ -13,7 +13,7 @@ const ProjectList = () => {
   const [showEditModal, setShowEditModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [projects, setProjects] = useState([] as ProjectInterface[]);
-  const [targetProject, setTargetProject] = useState(0);
+  const [targetProject, setTargetProject] = useState(-1);
 
   useEffect(() => {
     ProjectService.getAll()
@@ -23,7 +23,7 @@ const ProjectList = () => {
       .catch(e => {
         return <ErrorPage errorStatusCode={ e.response.status }/>
       })
-  }, [ projects ]);
+  }, []);
 
   const onEdit = (id: number) => {
     setShowEditModal(!showEditModal);
@@ -31,6 +31,7 @@ const ProjectList = () => {
   };
 
   const onDelete = (id: number) => {
+    console.log("id", id);
     setShowDeleteModal(!showDeleteModal);
     setTargetProject(id);
   };
@@ -64,10 +65,8 @@ const ProjectList = () => {
     let newProjects: ProjectInterface[];
     newProjects = projects;
 
-    const isEditedProject = (project: ProjectInterface) => {
-      project.id === targetProject;
-    };
-
+    const isEditedProject = (project: ProjectInterface) => project.id === targetProject;
+  
     let index: number = newProjects.findIndex(isEditedProject);
     newProjects[index] = newProject;
     // for (let project of newProjects) {
@@ -156,7 +155,7 @@ const ProjectList = () => {
         title="Editar Proyecto"
         visibility={showEditModal}
         onClose={() => {
-          setShowEditModal(showEditModal);
+          setShowEditModal(!showEditModal);
           setTargetProject(-1);
         }}
       >

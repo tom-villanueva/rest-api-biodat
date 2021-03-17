@@ -51,23 +51,27 @@ const ProjectAddForm = (props:Props) => {
 					<label htmlFor="title"> Título </label>
 					<input
 							className="form-control" 
+							id="title"
 							type="text"
 							value={project.title}
 							placeholder="Escriba el título"
 							onChange={
 									handleInputChange
 							}
+							name="title"
 					>
 					</input>
 					<label htmlFor="description"> Descripción </label>
 					<input
 							className="form-control" 
+							id="description"
 							type="text"
 							value={project.description}
 							placeholder="Escriba la descripción"
 							onChange={
 									handleInputChange
 							}
+							name="description"
 					>
 					</input>
 					<button className="btn btn-primary">Agregar Proyecto</button>

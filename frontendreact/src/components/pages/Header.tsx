@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
-import auth from "./auth/auth"
-import AuthService from "../services/AuthService"
+import auth from "../auth/auth"
+import AuthService from "../../services/AuthService"
 
 const Header = () => {
     const handleClick = (event) => {

@@ -5,8 +5,8 @@ const getAll = () => {
     return http.get(`/projects/`);
 };
 
-const get = (project: ProjectInterface) => {
-    return http.get(`/projects/${project.id}`);
+const get = (project_id: number) => {
+    return http.get(`/projects/${project_id}`);
 };
 
 const create = (project: ProjectInterface) => {
@@ -14,7 +14,7 @@ const create = (project: ProjectInterface) => {
 };
 
 const update = (project: ProjectInterface) => {
-    return http.put(`/projects/${project.id}`);
+    return http.put(`/projects/${project.id}`, project);
 };
 
 const remove = (project: ProjectInterface) => {

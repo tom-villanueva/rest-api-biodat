@@ -54,7 +54,7 @@ export default class ProjectsController {
     project.description = data.description
 
     await project.save()
-
+    
     return project
   }
 

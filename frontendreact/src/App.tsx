@@ -5,12 +5,12 @@ import {
   Switch,
 } from 'react-router-dom';
 import LoginForm from './components/auth/LoginForm';
-import Home from './components/Home';
+import Home from './components/pages/Home';
 import RegistrationForm from './components/auth/RegistrationForm';
 import Dashboard from './components/dashboard/Dashboard';
 import { ProtectedRoute } from './components/auth/ProtectedRoute';
 import ProjectList from './components/projects/ProjectList';
-import StartPage from './components/StartPage';
+import StartPage from './components/pages/StartPage';
 
 const App = () => {
 

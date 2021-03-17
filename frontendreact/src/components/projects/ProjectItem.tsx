@@ -29,12 +29,12 @@ const ProjectItem = (props: Props) => {
           <i className="fas fa-tachometer-alt"></i>
           Dashboard
         </a>
-        <a className="btn btn-info btn-sm" onClick={(id) => props.onEdit(props.project.id)}>
+        <a className="btn btn-info btn-sm" onClick={() => props.onEdit(props.project.id)}>
           <i className="fas fa-pencil-alt"></i>
         </a>
         <a
           className="btn btn-danger btn-sm"
-          onClick={(id) => props.onDelete(props.project.id)}
+          onClick={() => props.onDelete(props.project.id)}
         >
           <i className="fas fa-trash"></i>
         </a>

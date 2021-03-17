@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ProjectInterface from '../../interfaces/ProjectInterface';
 import ProjectService from '../../services/ProjectService';
 import ErrorPage from '../error/ErrorPage';
@@ -19,13 +19,15 @@ const ProjectDeleteForm = (props: Props) => {
     }; 
 
     const [project, setProject] = useState(initialProjectState);
+		const [message, setMessage] = useState("")
 
     const handleFormSubmit = (event) => {
 			event.preventDefault();
-
+			console.log("project", project)
 			ProjectService.remove(project)
 				.then(response => {
 					console.log(response.data);
+					setMessage("BORRADO EXITOSAMENTE")
 					props.handleProjectDeleteForm(project);
 				})
 				.catch(e => {
@@ -35,6 +37,7 @@ const ProjectDeleteForm = (props: Props) => {
 
 		return(
 			<form onSubmit={(event) => handleFormSubmit(event) }>
+					<p>{message}</p>
 					<div className="form-group">
 							<button className="btn btn-danger">Eliminar Proyecto</button>
 					</div>

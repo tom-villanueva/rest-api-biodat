@@ -74,9 +74,7 @@ const ItemList = (props: Props) => {
     let newItems: ItemInterface[];
     newItems = items;
 
-    const isEditedItem = (item: ItemInterface) => {
-      item.id === targetItem;
-    };
+    const isEditedItem = (item: ItemInterface) => item.id === targetItem;
 
     let index: number = newItems.findIndex(isEditedItem);
     newItems[index] = newItem;
