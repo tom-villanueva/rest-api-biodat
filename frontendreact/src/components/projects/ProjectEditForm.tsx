@@ -19,22 +19,25 @@ const ProjectEditForm = (props:Props) => {
 	};
 
 	const [project, setProject] = useState(initialProjectState);
-	const [message, setMessage] = useState("")
+	const [error, setError] = useState(0);
 
 	useEffect(() => {
-		console.log("entreee")
 		if (props.id > 0) {
 			ProjectService.get(props.id)
 			.then(response => {
-				setProject(response.data)
+				setProject(response.data);
 			})
 			.catch(e => {
-				return <ErrorPage errorStatusCode = { e.response.status } />
+				setError(e.response.status);
 			})
 		}	
+		return () => {
+			setError(0);
+		}
 	}, [ props.id ])
 	
 	const handleInputChange = (event) => {
+		setError(0);
 		const { name, value } = event.target;
 		setProject({ ...project, [name]: value });
 	};
@@ -52,47 +55,53 @@ const ProjectEditForm = (props:Props) => {
 		ProjectService.update(data)
 			.then(response => {
 				const newProject = response.data;
-				setMessage("ACTUALIZADO EXITOSAMENTE")
 				props.handleProjectEditForm(newProject);
 			})
 			.catch(e => {
-				return <ErrorPage errorStatusCode = { e.response.status } />
+				setError(e.response.status);
 			})
 	};
 
 	return(
-		<form onSubmit={(event) => handleFormSubmit(event) }>
+		<div>
+			{error !== 0 ?(
+			<ErrorPage errorStatusCode = { error } />
+			):
+			(
+				<p></p>
+			)}
+			<form onSubmit={(event) => handleFormSubmit(event) }>
 				<div className="form-group">
-						<label htmlFor="title"> Título </label>
-						<input
-								className="form-control" 
-								type="text"
-								id="title"
-								value={project.title}
-								placeholder="Escriba el título"
-								onChange={ 
-										handleInputChange 
-								}
-								name="title"
-						>
-						</input>
-						<label htmlFor="description"> Descripción </label>
-						<input
-								className="form-control" 
-								type="text"
-								id="description"
-								value={project.description}
-								placeholder="Escriba la descripción"
-								onChange={
-										handleInputChange
-								}
-								name="description"
-						>
-						</input>
-						<p>{message}</p>
-						<button className="btn btn-primary">Editar Proyecto</button>
+					<label htmlFor="title"> Título </label>
+					<input
+							className="form-control" 
+							type="text"
+							id="title"
+							value={project.title}
+							placeholder="Escriba el título"
+							onChange={ 
+									handleInputChange 
+							}
+							name="title"
+					>
+					</input>
+					<label htmlFor="description"> Descripción </label>
+					<input
+							className="form-control" 
+							type="text"
+							id="description"
+							value={project.description}
+							placeholder="Escriba la descripción"
+							onChange={
+									handleInputChange
+							}
+							name="description"
+					>
+					</input>
+					<button className="btn btn-primary">Editar Proyecto</button>
 				</div>
-		</form>    
-	)
+			</form> 
+			</div>
+		);
 };
 export default ProjectEditForm;

@@ -19,29 +19,49 @@ const ProjectDeleteForm = (props: Props) => {
     }; 
 
     const [project, setProject] = useState(initialProjectState);
-		const [message, setMessage] = useState("")
+		const [error, setError] = useState(0);
+
+		useEffect(() => {
+			if (props.id > 0) {
+				ProjectService.get(props.id)
+				.then(response => {
+					setProject(response.data)
+				})
+				.catch(e => {
+					setError(e.response.status);
+				})
+			}	
+			return () => {
+				setError(0);
+			}
+		}, [ props.id ])
 
     const handleFormSubmit = (event) => {
 			event.preventDefault();
-			console.log("project", project)
 			ProjectService.remove(project)
 				.then(response => {
 					console.log(response.data);
-					setMessage("BORRADO EXITOSAMENTE")
 					props.handleProjectDeleteForm(project);
 				})
 				.catch(e => {
-					return <ErrorPage errorStatusCode={ e.response.status } /> 
+					setError(e.response.status) 
 				});  	
     };
 
 		return(
+			<div>
+			{error !== 0 ? (
+				<ErrorPage errorStatusCode={ error } />
+			)
+			: (
+				<p></p>
+			)}
 			<form onSubmit={(event) => handleFormSubmit(event) }>
-					<p>{message}</p>
-					<div className="form-group">
-							<button className="btn btn-danger">Eliminar Proyecto</button>
-					</div>
-			</form>    
+				<div className="form-group">
+					<button className="btn btn-danger">Eliminar Proyecto</button>
+				</div>
+			</form> 
+			</div>  
 		);
 }
 export default ProjectDeleteForm;

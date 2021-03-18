@@ -4,7 +4,7 @@ import AuthService from "../../services/AuthService"
 
 const Header = () => {
     const handleClick = (event) => {
-        event.preventDefault();
+        // event.preventDefault();
         AuthService.handleLogout();
     }
 

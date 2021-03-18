@@ -54,6 +54,8 @@ const ItemAddForm = (props: Props) => {
               <input
                 className="form-control"
                 type="text"
+                id="title"
+                name="title"
                 value={item.title}
                 placeholder="Escriba el nombre del nuevo item..."
                 onChange={ handleInputChange }

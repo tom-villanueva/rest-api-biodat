@@ -145,8 +145,8 @@ const ProjectList = () => {
           setShowAddModal(!showAddModal);
         }}
       >
-        <ProjectAddForm 
-          id={targetProject} 
+        <ProjectAddForm  
+          newProject={showAddModal}
           handleProjectForm={(data) => handleProjectForm(data)} 
         />
       </ModalForm>

@@ -29,7 +29,7 @@ const ItemItem = (props: Props) => {
 		<tr>
 			<td>
 					<a className= {`btn btn-sm ${selected ? "btn-success" : "btn-danger"}`} 
-							onClick={(id) => onSelect(props.item.id) }
+							onClick={() => onSelect(props.item.id) }
 					>
 					<i className="fas fa-check"></i>
 					</a>
@@ -41,11 +41,11 @@ const ItemItem = (props: Props) => {
 					<br />
 			</td>
 			<td className="project-actions text-center">
-					<a className="btn btn-info btn-sm" onClick={(id) => props.onEdit(props.item.id) }>
+					<a className="btn btn-info btn-sm" onClick={() => props.onEdit(props.item.id) }>
 					<i className="fas fa-pencil-alt">
 					</i>                   
 					</a>
-					<a className="btn btn-danger btn-sm" onClick={(id) => props.onDelete(props.item.id)}>
+					<a className="btn btn-danger btn-sm" onClick={() => props.onDelete(props.item.id)}>
 					<i className="fas fa-trash">
 					</i>                   
 					</a>

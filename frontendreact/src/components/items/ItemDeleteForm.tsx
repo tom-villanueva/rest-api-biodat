@@ -1,4 +1,4 @@
-import React, { Component, useState } from 'react'
+import React, { Component, useEffect, useState } from 'react'
 import ItemInterface from '../../interfaces/ItemInterface';
 import ItemService from '../../services/ItemService';
 import ErrorPage from '../error/ErrorPage';
@@ -20,6 +20,21 @@ const ItemDeleteForm = (props: Props) => {
     };
 
     const [item, setItem] = useState(initialItemState);
+
+		useEffect(() => {
+			if (props.itemId > 0) {
+				ItemService.get(props.projectId, props.itemId)
+				.then(response => {
+					setItem(response.data)
+				})
+				.catch(e => {
+					console.log("error");
+				})
+			}	
+			return () => {
+				console.log("cleanup");
+			}
+		}, [ props.itemId, props.projectId ])
 
     const handleFormSubmit = (event) => {
 			event.preventDefault();

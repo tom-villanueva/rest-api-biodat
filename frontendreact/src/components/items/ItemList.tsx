@@ -29,7 +29,7 @@ const ItemList = (props: Props) => {
       .catch(e => {
         return <ErrorPage errorStatusCode={ e.response.status }/>
       })
-  }, [ items ]); 
+  }, [ props.project_id ]); 
   
   const onEdit = (id: number) => {
     setShowEditModal(!showEditModal);
@@ -37,6 +37,7 @@ const ItemList = (props: Props) => {
   }
 
   const onDelete = (id: number) => {
+    console.log("ID", id);
     setShowDeleteModal(!showDeleteModal);
     setTargetItem(id);
   }

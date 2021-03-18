@@ -54,8 +54,7 @@ const App = () => {
             )}
           />
 
-          <ProtectedRoute 
-            exact 
+          <ProtectedRoute  
             path='/dashboard/:id' 
             component={Dashboard} 
           />

@@ -5,8 +5,8 @@ const getAll = (projectID: number) => {
     return http.get(`/projects/${projectID}/items`);
 };
 
-const get = (item: ItemInterface) => {
-    return http.get(`/projects/${item.project_id}/items/${item.id}`);
+const get = (projectID: number, itemID: number) => {
+    return http.get(`/projects/${projectID}/items/${itemID}`);
 };
 
 const create = (item: ItemInterface) => {
