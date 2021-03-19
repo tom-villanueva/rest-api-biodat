@@ -1,4 +1,4 @@
-import React, { Component, useState } from 'react';
+import React, { Component, useEffect, useState } from 'react';
 import ItemInterface from '../../interfaces/ItemInterface';
 import ItemService from '../../services/ItemService';
 import ErrorPage from '../error/ErrorPage';
@@ -21,6 +21,21 @@ const ItemEditForm = (props: Props) => {
 
     const [item, setItem] = useState(initialItemState);
 
+		useEffect(() => {
+			if (props.itemId > 0) {
+				ItemService.get(props.projectId, props.itemId)
+				.then(response => {
+					setItem(response.data)
+				})
+				.catch(e => {
+					console.log("error");
+				})
+			}	
+			return () => {
+				console.log("cleanup");
+			}
+		}, [ props.itemId, props.projectId ])
+
     const handleInputChange = (event) => {
 			const { name, value } = event.target;
 			setItem({ ...item, [name]: value });
@@ -30,12 +45,12 @@ const ItemEditForm = (props: Props) => {
 			event.preventDefault();
 			let data: ItemInterface = {
 				title: item.title,
-				project_id: props.projectId,
+				project_id: item.project_id,
 				created_at: "",
 				updated_at: "",
-				id: props.itemId,
+				id: item.id,
 			};
-
+			
 			ItemService.update(data)
 				.then(response => {
 					const newItem = response.data;
@@ -54,13 +69,13 @@ const ItemEditForm = (props: Props) => {
 								className="form-control" 
 								type="text"
 								id="title"
-                name="title"
 								value={item.title}
-								placeholder="Escriba el título"
+								placeholder="Escriba el NUEVO título"
 								onChange={ handleInputChange }
+							  name="title"
 						>
 						</input>
-						<button className="btn btn-primary">Editar Proyecto</button>
+						<button className="btn btn-primary">Editar Item</button>
 				</div>
 			</form>    
 		);

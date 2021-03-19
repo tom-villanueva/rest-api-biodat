@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
-import DataInterface from '../../interfaces/DataInterface'
 import FileInterface from '../../interfaces/FileInterface'
 import FileItem from './FileItem'
+import TableScrollBar from 'react-table-scrollbar'
 
 interface Props {
   files: FileInterface[],
@@ -40,16 +40,20 @@ const FileList = (props:Props) => {
         </div>
       </div>
       <div className="card-body">
-      <table className="table table-striped projects">
-        <thead>
-          <tr>
-            <th>Seleccionado</th>
-            <th>nombre del archivo</th>
-          </tr>
-        </thead>
-        <tbody>
-          {files.length > 0 && renderItems()}</tbody>
-        </table>
+      {/* <TableScrollBar rows={2}> */}
+      <div className="card-body table-responsive p-0">
+        <table className="table table-head-fixed text-nowrap">
+          <thead>
+            <tr>
+              <th>Seleccionado</th>
+              <th>nombre del archivo</th>
+            </tr>
+          </thead>
+          <tbody>
+            {files.length > 0 && renderItems()}</tbody>
+          </table>
+          </div>
+        {/* </TableScrollBar> */}
       </div>
     </div>
   );

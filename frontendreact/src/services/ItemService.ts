@@ -14,7 +14,7 @@ const create = (item: ItemInterface) => {
 };
 
 const update = (item: ItemInterface) => {
-    return http.put(`/projects/${item.project_id}/items/${item.id}`);
+    return http.put(`/projects/${item.project_id}/items/${item.id}`, item);
 };
 
 const remove = (item: ItemInterface) => {

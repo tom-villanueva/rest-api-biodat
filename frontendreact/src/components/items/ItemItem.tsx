@@ -13,16 +13,21 @@ const ItemItem = (props: Props) => {
 
   const [selected, setSelected] = useState(false);
 
-	useEffect(() => {
-		if(props.selectedItem === props.item.id) {
-			setSelected(!selected);
-		}
-	}, [props.selectedItem])
-
+	// useEffect(() => {
+	// 	if(props.selectedItem === props.item.id) {
+	// 		setSelected(!selected);
+	// 	}
+	// }, [props.selectedItem])
 
 	const onSelect = (id) => {
+		console.log("seleccionado ", id)
 		setSelected(!selected);
-		props.onSelect(id);     
+		if(!selected) {
+			props.onSelect(id);
+		} 
+		else { //ON UNSELECT
+			props.onSelect(-1);
+		}
 	};
 
 	return (

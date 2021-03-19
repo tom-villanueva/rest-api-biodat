@@ -7,6 +7,7 @@ import ModalForm from "../modals/ModalForm"
 import ItemEditForm from "./ItemEditForm";
 import ItemDeleteForm from "./ItemDeleteForm";
 import ErrorPage from "../error/ErrorPage";
+import TableScrollBar from 'react-table-scrollbar'
 
 interface Props {
   project_id: number,
@@ -70,7 +71,7 @@ const ItemList = (props: Props) => {
     setItems(newItems);
   }
 
-  const handleItemEditForm = (data) => {
+  const handleItemEditForm = async (data) => {
     const newItem = data;
     let newItems: ItemInterface[];
     newItems = items;
@@ -124,17 +125,19 @@ const ItemList = (props: Props) => {
           itemId={targetItem}
           handleAddItem={ (data) => handleAddItem(data) } 
         />
-        <table className="table table-striped projects">
-          <thead>
-            <tr>
-              <th>Seleccionado</th>
-              <th>nombre del item</th>
-              <th className="text-center">Acciones</th>
-            </tr>
-          </thead>
-          <tbody>
-            {items.length > 0 && renderItems()}</tbody>
-        </table>
+        <TableScrollBar>
+          <table className="table table-striped projects">
+            <thead>
+              <tr>
+                <th>Seleccionado</th>
+                <th>nombre del item</th>
+                <th className="text-center">Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              {items.length > 0 && renderItems()}</tbody>
+          </table>
+        </TableScrollBar>
         <ModalForm 
           title="Editar Item"
           visibility={ showEditModal }

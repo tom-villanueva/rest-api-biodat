@@ -47,7 +47,7 @@ export default class ItemsController {
     item.title = data.title
 
     await item.save()
-
+    
     return item
   }
 

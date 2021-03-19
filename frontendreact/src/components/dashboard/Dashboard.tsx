@@ -7,21 +7,24 @@ import FileInterface from '../../interfaces/FileInterface';
 import ErrorPage from '../error/ErrorPage';
 
 const Dashboard = () => {
-    const { id } = useParams();
-    const [files, setFiles] = useState([] as FileInterface[]);
-    const [selectedItem, setSelectedItem] = useState(-1);
+	const { id } = useParams();
+	const [files, setFiles] = useState([] as FileInterface[]);
+	const [selectedItem, setSelectedItem] = useState(-1);
 
-		useEffect(() => {
-			if(selectedItem !== -1){
-				FileService.getAll(id, selectedItem)
-				.then(response => {
-					setFiles(response.data);
-				})
-				.catch(e => {
-					<ErrorPage errorStatusCode={ e.response.status } />
-				})
-			}
-		}, [ id, selectedItem ]);
+	useEffect(() => {
+		if(selectedItem !== -1){
+			FileService.getAll(id, selectedItem)
+			.then(response => {
+				setFiles(response.data);
+			})
+			.catch(e => {
+				<ErrorPage errorStatusCode={ e.response.status } />
+			})
+		}
+		else {
+			setFiles([] as FileInterface[]);
+		}
+	}, [ id, selectedItem ]);
 
 	const handleSelectedItem = (id: number) => {
 		console.log("id", id);
