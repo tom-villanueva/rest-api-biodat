@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ItemInterface from "../../interfaces/ItemInterface";
 import ItemService from "../../services/ItemService";
 import ErrorPage from "../error/ErrorPage";
@@ -19,6 +19,12 @@ const ItemAddForm = (props: Props) => {
   }
 
   const [item, setItem] = useState(initialItemState);
+  
+  // useEffect(() => {
+  //   return () => {
+  //     setItem(initialItemState)
+  //   }
+  // })
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -29,10 +35,10 @@ const ItemAddForm = (props: Props) => {
     event.preventDefault();
     let data: ItemInterface = {
       title: item.title,
-      project_id: props.projectId,
+      project_id: item.project_id,
       created_at: "",
       updated_at: "",
-      id: props.itemId,
+      id: item.id,
     }
 
     ItemService.create(data)
@@ -43,6 +49,7 @@ const ItemAddForm = (props: Props) => {
       .catch(e => {
         <ErrorPage errorStatusCode={ e.response.status } />
       })
+    setItem(initialItemState)
   }
 
   return (

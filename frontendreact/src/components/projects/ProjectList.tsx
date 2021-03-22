@@ -69,12 +69,7 @@ const ProjectList = () => {
   
     let index: number = newProjects.findIndex(isEditedProject);
     newProjects[index] = newProject;
-    // for (let project of newProjects) {
-    //   index = newProjects.indexOf(project);
-    //   if (project.id === targetProject) {
-    //     newProjects[index] = newProject;
-    //   }
-    // }
+
     setProjects(newProjects);
     setShowEditModal(!showEditModal);
     setTargetProject(-1);

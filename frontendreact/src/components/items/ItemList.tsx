@@ -30,8 +30,8 @@ const ItemList = (props: Props) => {
       .catch(e => {
         return <ErrorPage errorStatusCode={ e.response.status }/>
       })
-  }, [ props.project_id ]); 
-  
+  }, [ props.project_id, items ]); 
+
   const onEdit = (id: number) => {
     setShowEditModal(!showEditModal);
     setTargetItem(id); 
@@ -63,7 +63,7 @@ const ItemList = (props: Props) => {
     });
   }
 
-  const handleAddItem = (data) =>{
+  const handleAddItem = async (data) =>{
     const item = data;
     let newItems: ItemInterface[];
     newItems = items;
@@ -81,12 +81,6 @@ const ItemList = (props: Props) => {
     let index: number = newItems.findIndex(isEditedItem);
     newItems[index] = newItem;
 
-    // for (let item of newItems){
-    //   index = newItems.indexOf(item);
-    //   if (item.id === targetItem){
-    //     newItems[index] = newItem;
-    //   }
-    // }
     setItems(newItems);
     setShowEditModal(!showEditModal);
     setTargetItem(-1);
@@ -119,25 +113,25 @@ const ItemList = (props: Props) => {
           </button>
         </div>
       </div>
-      <div className="card-body">
+      <div className="card-body table-responsive p-0" style={{ height : 300 } }>
         <ItemAddForm 
           projectId={props.project_id}
           itemId={targetItem}
           handleAddItem={ (data) => handleAddItem(data) } 
         />
-        <TableScrollBar>
-          <table className="table table-striped projects">
-            <thead>
-              <tr>
-                <th>Seleccionado</th>
-                <th>nombre del item</th>
-                <th className="text-center">Acciones</th>
-              </tr>
-            </thead>
-            <tbody>
-              {items.length > 0 && renderItems()}</tbody>
-          </table>
-        </TableScrollBar>
+        <table className="table table-head-fixed text-nowrap">
+          <thead>
+            <tr>
+              <th>Seleccionado</th>
+              <th>nombre del item</th>
+              <th className="text-center">Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            {items.length > 0 && renderItems()}
+          </tbody>
+        </table>
+      </div>
         <ModalForm 
           title="Editar Item"
           visibility={ showEditModal }
@@ -169,8 +163,7 @@ const ItemList = (props: Props) => {
               handleItemDeleteForm(data) 
             }
           />
-        </ModalForm>
-      </div>
+        </ModalForm>     
     </div>
   );
 }

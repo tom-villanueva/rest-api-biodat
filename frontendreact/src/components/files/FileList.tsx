@@ -39,9 +39,8 @@ const FileList = (props:Props) => {
           </button>
         </div>
       </div>
-      <div className="card-body">
+      <div className="card-body table-responsive p-0"  style={{ height : 300 } }>
       {/* <TableScrollBar rows={2}> */}
-      <div className="card-body table-responsive p-0">
         <table className="table table-head-fixed text-nowrap">
           <thead>
             <tr>
@@ -50,11 +49,11 @@ const FileList = (props:Props) => {
             </tr>
           </thead>
           <tbody>
-            {files.length > 0 && renderItems()}</tbody>
-          </table>
-          </div>
-        {/* </TableScrollBar> */}
+            {files.length > 0 && renderItems()}
+          </tbody>
+        </table>
       </div>
+      {/* </TableScrollBar> */}
     </div>
   );
 }
