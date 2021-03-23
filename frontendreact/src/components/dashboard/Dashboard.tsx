@@ -2,29 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from "react-router-dom";
 import ItemList from '../items/ItemList';
 import FileList from '../files/FileList';
-import FileService from '../../services/FileService';
-import FileInterface from '../../interfaces/FileInterface';
 import ErrorPage from '../error/ErrorPage';
 
 const Dashboard = () => {
-	const { id } = useParams();
-	const [files, setFiles] = useState([] as FileInterface[]);
+	const { id } = useParams();//id del proyecto
 	const [selectedItem, setSelectedItem] = useState(-1);
-
-	useEffect(() => {
-		if(selectedItem !== -1){
-			FileService.getAll(id, selectedItem)
-			.then(response => {
-				setFiles(response.data);
-			})
-			.catch(e => {
-				<ErrorPage errorStatusCode={ e.response.status } />
-			})
-		}
-		else {
-			setFiles([] as FileInterface[]);
-		}
-	}, [ id, selectedItem ]);
 
 	const handleSelectedItem = (id: number) => {
 		console.log("id", id);
@@ -41,8 +23,9 @@ const Dashboard = () => {
 				/>
 				</div>
 				<div className="col-6">
-				<FileList 
-						files = { files }
+				<FileList
+						project_id={id}
+						item_id={selectedItem}
 				/>
 				</div>
 			</div>

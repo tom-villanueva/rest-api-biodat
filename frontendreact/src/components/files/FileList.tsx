@@ -1,26 +1,46 @@
 import React, { useState, useEffect } from 'react'
 import FileInterface from '../../interfaces/FileInterface'
+import FileService from '../../services/FileService';
+import ErrorPage from '../error/ErrorPage';
 import FileItem from './FileItem'
-import TableScrollBar from 'react-table-scrollbar'
+import FilesAddForm from './FilesAddForm';
+
 
 interface Props {
-  files: FileInterface[],
+  project_id: number,
+  item_id: number,
 }
 
-const FileList = (props:Props) => {
+const FileList = (props: Props) => {
   const [files, setFiles] = useState([] as FileInterface[]);
 
-  useEffect(() => {
-    setFiles(props.files);
-  }, [ props.files ])
+  const retrieveFiles = () => {
+    FileService.getAll(props.project_id, props.item_id)
+    .then(response => {
+      setFiles(response.data);
+    })
+    .catch(e => {
+      <ErrorPage errorStatusCode={ e.response.status } />
+    })
+  }
 
-  const renderItems = () => {
-    return files.map((item, index) => {
+  useEffect(() => {
+		if(props.item_id !== -1){
+			retrieveFiles();
+		}
+    return () => {
+      setFiles([] as FileInterface[]);
+    }
+	}, [ props.item_id ]);
+
+  const handleAddFiles = (data) => {
+    retrieveFiles();
+  }
+
+  const renderFiles = () => {
+    return files.map((file, index) => {
       return (
-        <FileItem
-          key={index}
-          file={item}
-        />
+        <option key={index} value={file.id}>{file.file_name}</option> 
       );
     });
   }
@@ -39,21 +59,23 @@ const FileList = (props:Props) => {
           </button>
         </div>
       </div>
-      <div className="card-body table-responsive p-0"  style={{ height : 300 } }>
-      {/* <TableScrollBar rows={2}> */}
-        <table className="table table-head-fixed text-nowrap">
-          <thead>
-            <tr>
-              <th>Seleccionado</th>
-              <th>nombre del archivo</th>
-            </tr>
-          </thead>
-          <tbody>
-            {files.length > 0 && renderItems()}
-          </tbody>
-        </table>
+      <div className="card-body table-responsive p-1"  style={{ height : 300 } }>
+        <FilesAddForm 
+          projectId={props.project_id}
+          itemId={props.item_id}
+          handleAddFiles={handleAddFiles}
+        />
+        <div className="form-group">
+          <div className="container-fluid">
+            <div className="row">       
+            <label htmlFor="files">Archivos Seleccionados</label>
+            <select multiple className="custom-select" name="files" id="files" >
+              {files.length > 0 && renderFiles()}
+            </select>
+            </div>
+          </div>
+        </div>    
       </div>
-      {/* </TableScrollBar> */}
     </div>
   );
 }

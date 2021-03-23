@@ -1,8 +1,5 @@
 import axios, { AxiosResponse } from "axios";
 import CookieService from "./CookieService";
-import { useHistory } from 'react-router-dom';
-import AxiosOptionsInterface from '../interfaces/AxiosOptionsInterface';
-import { useState, useEffect } from "react";
 
 export default axios.create({
   baseURL: 'http://localhost:3333/api',

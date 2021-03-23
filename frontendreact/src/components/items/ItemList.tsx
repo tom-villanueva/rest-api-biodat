@@ -7,7 +7,6 @@ import ModalForm from "../modals/ModalForm"
 import ItemEditForm from "./ItemEditForm";
 import ItemDeleteForm from "./ItemDeleteForm";
 import ErrorPage from "../error/ErrorPage";
-import TableScrollBar from 'react-table-scrollbar'
 
 interface Props {
   project_id: number,
@@ -22,15 +21,19 @@ const ItemList = (props: Props) => {
   const [showEditModal, setShowEditModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
 
-  useEffect(() => {
+  const retrieveItems = () => {
     ItemService.getAll(props.project_id)
-      .then(response => {
-        setItems(response.data);
-      })
-      .catch(e => {
-        return <ErrorPage errorStatusCode={ e.response.status }/>
-      })
-  }, [ props.project_id, items ]); 
+    .then(response => {
+      setItems(response.data);
+    })
+    .catch(e => {
+      console.log(e.response.data);
+    })
+  }
+
+  useEffect(() => {
+    retrieveItems();
+  }, [ props.project_id ]); 
 
   const onEdit = (id: number) => {
     setShowEditModal(!showEditModal);
@@ -64,11 +67,7 @@ const ItemList = (props: Props) => {
   }
 
   const handleAddItem = async (data) =>{
-    const item = data;
-    let newItems: ItemInterface[];
-    newItems = items;
-    newItems.push(item);
-    setItems(newItems);
+    retrieveItems();
   }
 
   const handleItemEditForm = async (data) => {
