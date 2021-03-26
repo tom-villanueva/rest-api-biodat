@@ -24,12 +24,11 @@ export default class MeasurementsController {
                                    .select('id')
                                    .from('measurers')
                                    .where('name', `${measurer_name.measurer}`).first()                                
-    //const measurer = await Measurer.findOrFail(measurer_id.id)
+    
     const item = await Item.findOrFail(params.item_id)
     const newMeasurements : Array<Measurement> = []
 
     for (let measurement of measurements) {
-      //const file_name = `${new Date().getTime()}.${measurement.extname}`
       await measurement.move(Application.publicPath('measurements'))
       const newMeasurement = new Measurement()
       newMeasurement.file_name = `${measurement.clientName}`
@@ -42,15 +41,39 @@ export default class MeasurementsController {
   }
 
   public async show ({ params }: HttpContextContract) {
-    const measurement = await Measurement.findOrFail(params.measurement_id)
-    const measurer = await Measurer.findOrFail(measurement.measurerId)
+    // var para la ubicacion de los archivos
     const filesPath = Application.publicPath('measurements')
-    const filePath = filesPath.concat('\\', measurement.file_name)
-    const parser = new Parser(measurer.name)
-    //console.log("filepath ", filePath)
-    let measurementData = await parser.parse(filePath)
-    //console.log("data " ,measurementData)
-    return measurementData
+    let filePath = "";
+
+    // var para parsear los datos con diferentes estrategias
+    const parser = new Parser("");
+    let measurer;
+
+    // var para las mediciones
+    const measurements: any = []; 
+    let measurement;
+    let measurement_ids = params.measurement_ids.split(",");
+
+    // var para los datos parseados
+    let measurementData;
+    let measurementDataArray:any = [];
+
+    for(let id of measurement_ids) {
+      id = parseInt(id);
+      measurement = await Measurement.findOrFail(id);
+      measurements.push(measurement);
+    }
+    
+    for(let measurement of measurements){
+      measurer = await Measurer.findOrFail(measurement.measurerId);
+      parser.setStrategy(measurer.name);
+      filePath = filesPath.concat('\\', measurement.file_name);
+      measurementData = await parser.parse(filePath);
+      console.log("data", measurementData);
+      measurementDataArray.push(measurementData);
+    }
+
+    return measurementDataArray;
   }
 
   public async update ({ params }: HttpContextContract) {

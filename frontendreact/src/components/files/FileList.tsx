@@ -2,17 +2,18 @@ import React, { useState, useEffect } from 'react'
 import FileInterface from '../../interfaces/FileInterface'
 import FileService from '../../services/FileService';
 import ErrorPage from '../error/ErrorPage';
-import FileItem from './FileItem'
 import FilesAddForm from './FilesAddForm';
 
 
 interface Props {
   project_id: number,
   item_id: number,
+  handleSelectedFiles: (ids) => void,
 }
 
 const FileList = (props: Props) => {
   const [files, setFiles] = useState([] as FileInterface[]);
+  const [selectedFiles, setSelectedFiles] = useState([] as number[]);
 
   const retrieveFiles = () => {
     FileService.getAll(props.project_id, props.item_id)
@@ -31,10 +32,17 @@ const FileList = (props: Props) => {
     return () => {
       setFiles([] as FileInterface[]);
     }
-	}, [ props.item_id ]);
+	}, [ props.item_id ]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleAddFiles = (data) => {
     retrieveFiles();
+  }
+
+  const handleSelectChange = (event) => {
+    event.preventDefault();
+    const filesIds = Array.from(event.target.selectedOptions, (option: HTMLSelectElement) => parseInt(option.value));
+    console.log("en la lista de archivos>", filesIds);
+    props.handleSelectedFiles(filesIds);
   }
 
   const renderFiles = () => {
@@ -69,7 +77,7 @@ const FileList = (props: Props) => {
           <div className="container-fluid">
             <div className="row">       
             <label htmlFor="files">Archivos Seleccionados</label>
-            <select multiple className="custom-select" name="files" id="files" >
+            <select multiple className="custom-select" name="files" id="files" onChange={handleSelectChange}>
               {files.length > 0 && renderFiles()}
             </select>
             </div>

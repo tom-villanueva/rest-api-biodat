@@ -1,6 +1,6 @@
 export default class SolartronStrategy implements Strategy {
 
-    async doParse(filePath: string) : Promise<any[]> {
+    async doParse (filePath: string) : Promise<any[]> {
         const parse = require('csv-parse');
         const fs = require('fs');
 
@@ -23,8 +23,8 @@ export default class SolartronStrategy implements Strategy {
             .on('data', (datos) => //resultado.push(datos))
                     resultado.push({
                         fr: Number(datos[fr]),
-                        real: Number(datos[real]),
-                        imaginario: Number(datos[imaginario]),                             
+                        x: Number(datos[real]),
+                        y: Number(datos[imaginario]*-1),                             
                     }))
             .on('end', () => resolve(resultado))
             .on('error', (error) => console.log(error.toString()))

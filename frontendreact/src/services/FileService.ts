@@ -6,7 +6,9 @@ const getAll = (project_id: number, item_id: number) => {
 };
 
 const get = (project_id: number, item_id: number, files) => {
-  return http.get(`/projects/${project_id}/items/${item_id}/measurements/${files[0].id}`);
+  console.log("files: ", files);
+  console.log("url> ", `/projects/${project_id}/items/${item_id}/measurements/${files}`);
+  return http.get(`/projects/${project_id}/items/${item_id}/measurements/${files}`);
 };
 
 const create = (project_id: number, item_id: number, files) => {

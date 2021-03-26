@@ -4,15 +4,24 @@ export default class Parser {
     private strategy: Strategy;
     
     constructor(measurer: string) {
-        switch(measurer) {
-            case 'Solartron':
-                this.strategy = new SolartronStrategy();        
-            break;
-        }
+        this.strategy = this.defineStrategy(measurer);
     }
 
-    public setStrategy(strategy: Strategy) {
-        this.strategy = strategy;
+    private defineStrategy(measurer: string) {
+        let strategy: Strategy;
+        switch(measurer) {
+            case 'Solartron':
+                strategy = new SolartronStrategy();        
+            break;
+            default:
+                strategy = new SolartronStrategy();
+            break;
+        }
+        return strategy;
+    }
+
+    public setStrategy(strategy: string) {
+        this.strategy = this.defineStrategy(strategy);
     }
 
     public async parse(filePath: string) {
