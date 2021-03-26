@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import ItemList from '../items/ItemList';
 import FileList from '../files/FileList';
 import ErrorPage from '../error/ErrorPage';
-import FrequencyChart from './FrequencyChart';
+import ColeChart from './ColeChart';
 import FileService from '../../services/FileService';
 
 const Dashboard = () => {
@@ -54,7 +54,7 @@ const Dashboard = () => {
 			</div>
 			<div className="row">
 				<div className="col-12">
-					<FrequencyChart 
+					<ColeChart 
 						data={selectedFilesData}
 					/>
 				</div>

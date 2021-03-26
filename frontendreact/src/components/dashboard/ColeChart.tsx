@@ -5,7 +5,7 @@ interface Props {
   data: any[],
 }
 
-const FrequencyChart = (props: Props) => {
+const ColeChart = (props: Props) => {
 
   const [filesData, setFilesData] = useState([] as any[]);
 
@@ -27,7 +27,7 @@ const FrequencyChart = (props: Props) => {
   return (
     <div className="card card-info">
       <div className="card-header">
-        <h3 className="card-title">Frequency Chart</h3>
+        <h3 className="card-title">Cole Chart</h3>
         <div className="card-tools">
           <button
             type="button"
@@ -55,14 +55,15 @@ const FrequencyChart = (props: Props) => {
                 data: filesData,
               }]
             }}
-            // options={{
-            //   scales: {
-            //       xAxes: [{
-            //           type: 'linear',
-            //           position: 'bottom'
-            //       }]
-            //   }
-            // }}
+            options={{
+              scales: {
+                  xAxes: [{
+                      type: 'linear',
+                      position: 'bottom'
+                  }]
+              },
+              fill: false,
+            }}
         />}
         </div>
       </div>
@@ -70,4 +71,4 @@ const FrequencyChart = (props: Props) => {
     </div>
   );
 };
-export default FrequencyChart;
+export default ColeChart;
