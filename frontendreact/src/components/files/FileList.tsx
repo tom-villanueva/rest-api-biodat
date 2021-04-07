@@ -41,8 +41,13 @@ const FileList = (props: Props) => {
   const handleSelectChange = (event) => {
     event.preventDefault();
     const filesIds = Array.from(event.target.selectedOptions, (option: HTMLSelectElement) => parseInt(option.value));
-    console.log("en la lista de archivos>", filesIds);
-    props.handleSelectedFiles(filesIds);
+    setSelectedFiles(filesIds);
+    console.log("en la lista de archivos>", filesIds);  
+  }
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    props.handleSelectedFiles(selectedFiles);
   }
 
   const renderFiles = () => {
@@ -73,16 +78,21 @@ const FileList = (props: Props) => {
           itemId={props.item_id}
           handleAddFiles={handleAddFiles}
         />
-        <div className="form-group">
-          <div className="container-fluid">
-            <div className="row">       
-            <label htmlFor="files">Archivos Seleccionados</label>
-            <select multiple className="custom-select" name="files" id="files" onChange={handleSelectChange}>
-              {files.length > 0 && renderFiles()}
-            </select>
+        <form onSubmit={(event) => handleSubmit(event)}>
+          <div className="form-group">
+            <div className="container-fluid">
+              <div className="row">       
+              <label htmlFor="files">Archivos Seleccionados</label>
+              <select multiple className="custom-select" name="files" id="files" onChange={handleSelectChange}>
+                {files.length > 0 && renderFiles()}
+              </select>
+              </div>
             </div>
-          </div>
-        </div>    
+            <button className="btn btn-primary btn-block">
+              GRAFICAR
+            </button>
+          </div> 
+        </form>        
       </div>
     </div>
   );

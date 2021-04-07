@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from "react-router-dom";
 import ItemList from '../items/ItemList';
 import FileList from '../files/FileList';
-import ErrorPage from '../error/ErrorPage';
 import ColeChart from './ColeChart';
 import FileService from '../../services/FileService';
+import FrequencyChart from './FrequencyChart';
 
 const Dashboard = () => {
 	const { id } = useParams();//id del proyecto
@@ -24,6 +24,7 @@ const Dashboard = () => {
 	};
 
 	useEffect(() => {
+
 		FileService.get(id, selectedItem, selectedFiles)
 			.then(response => {
 				const data = (response.data);
@@ -52,13 +53,21 @@ const Dashboard = () => {
 				/>
 				</div>
 			</div>
-			<div className="row">
-				<div className="col-12">
+			<div className="row-12">
+				{/* <div className="col-6"> */}
 					<ColeChart 
 						data={selectedFilesData}
 					/>
-				</div>
+				{/* </div> */}
 			</div>
+			<div className="row-12">
+				{/* <div className="col-6"> */}
+					<FrequencyChart 
+						data={selectedFilesData}
+					/>
+				</div>
+				{/* </div> */}
+			{/* </div> */}
 		</div>
 	);
 }
