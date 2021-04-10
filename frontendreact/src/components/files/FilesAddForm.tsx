@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from "react";
-import FileInterface from "../../interfaces/FileInterface";
 import MeasurerInterface from "../../interfaces/MeasurerInterface";
 import FileService from "../../services/FileService";
 import http from "../../services/HttpService";
-import ErrorPage from "../error/ErrorPage";
 
 interface Props {
   projectId: number;
@@ -36,7 +34,7 @@ const FilesAddForm = (props: Props) => {
 
   const handleSelectChange = (event) => {
     const measurer = event.target.value;
-    console.log(event.target.value);
+    // console.log(event.target.value);
     setMeasurer(measurer);
   };
 
@@ -47,7 +45,7 @@ const FilesAddForm = (props: Props) => {
     for (var i = 0; i < files.length; i++) {
       data.append("measurement", files[i]);
     }
-    console.log("measurer", measurer);
+    // console.log("measurer", measurer);
     data.append("measurer", measurer);
 
     FileService.create(props.projectId, props.itemId, data)
@@ -76,8 +74,24 @@ const FilesAddForm = (props: Props) => {
     <form onSubmit={(event) => handleSubmit(event)}>
       <div className="form-group">
         <div className="container-fluid">
-          <div className="row">
-            <div className="col-6">    
+          <div className="row form-group">
+            <div className="col-12">
+              <label>Elegir aparato</label>
+              <select
+                className="custom-select"
+                id="measurer"
+                value={measurer}
+                onChange={handleSelectChange}
+              >
+                <option value="" disabled>
+                  Aparato
+                </option>
+                {measurers.length > 0 && renderMeasurers()}
+              </select>
+            </div>
+          </div>
+          <div className="row form-group">
+            <div className="col-6">
               <input
                 className="custom-file-input"
                 type="file"
@@ -96,23 +110,7 @@ const FilesAddForm = (props: Props) => {
                 {` Cargar Archivos`}
               </button>
             </div>
-            </div>
-            <div className="row">
-              <div className="col-12">
-                <label>Elegir aparato</label>
-                <select
-                  className="custom-select"
-                  id="measurer"
-                  value={measurer}
-                  onChange={handleSelectChange}
-                >
-                  <option value="" disabled>
-                    Aparato
-                  </option>
-                  {measurers.length > 0 && renderMeasurers()}
-                </select>
-              </div>
-            </div>
+          </div>
         </div>
       </div>
     </form>

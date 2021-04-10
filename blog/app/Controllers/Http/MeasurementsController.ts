@@ -76,6 +76,80 @@ export default class MeasurementsController {
     return measurementDataArray;
   }
 
+  public async showModulus ({ params }: HttpContextContract) {
+    const math = require('mathjs');
+    const filesPath = Application.publicPath('measurements');
+    let filePath = "";
+
+    // var para parsear los datos con diferentes estrategias
+    const parser = new Parser("");
+    let measurer;
+
+    // var para las mediciones
+    const measurements: any = []; 
+    let measurement;
+    let measurement_ids = params.measurement_ids.split(",");
+
+    // var para los datos parseados
+    let measurementData;
+    let measurementDataArray:any = [];
+
+    for(let id of measurement_ids) {
+      id = parseInt(id);
+      measurement = await Measurement.findOrFail(id);
+      measurements.push(measurement);
+    }
+    
+    for(let measurement of measurements){
+      measurer = await Measurer.findOrFail(measurement.measurerId);
+      parser.setStrategy(measurer.name);
+      filePath = filesPath.concat('\\', measurement.file_name);
+      measurementData = await parser.parse(filePath);
+      measurementData = measurementData.map(({fr, x, y}) => ({ x: fr, y: math.norm(math.complex(x, y)) }));
+      console.log("data", measurementData);
+      measurementDataArray.push(measurementData);
+    }
+
+    return measurementDataArray;
+  }  
+
+  public async showPhase ({ params }: HttpContextContract) {
+    const math = require('mathjs');
+    const filesPath = Application.publicPath('measurements');
+    let filePath = "";
+
+    // var para parsear los datos con diferentes estrategias
+    const parser = new Parser("");
+    let measurer;
+
+    // var para las mediciones
+    const measurements: any = []; 
+    let measurement;
+    let measurement_ids = params.measurement_ids.split(",");
+
+    // var para los datos parseados
+    let measurementData;
+    let measurementDataArray:any = [];
+
+    for(let id of measurement_ids) {
+      id = parseInt(id);
+      measurement = await Measurement.findOrFail(id);
+      measurements.push(measurement);
+    }
+    
+    for(let measurement of measurements){
+      measurer = await Measurer.findOrFail(measurement.measurerId);
+      parser.setStrategy(measurer.name);
+      filePath = filesPath.concat('\\', measurement.file_name);
+      measurementData = await parser.parse(filePath);
+      measurementData = measurementData.map(({fr, x, y}) => ({ x: fr, y: math.atan(y/x) }));
+      console.log("data", measurementData);
+      measurementDataArray.push(measurementData);
+    }
+
+    return measurementDataArray;
+  } 
+
   public async update ({ params }: HttpContextContract) {
   }
 

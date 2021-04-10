@@ -11,6 +11,8 @@ const Dashboard = () => {
 	const [selectedItem, setSelectedItem] = useState(-1);
 	const [selectedFiles, setSelectedFiles] = useState([] as number[]);
 	const [selectedFilesData, setSelectedFilesData] = useState([]);
+	const [selectedFilesDataModulus, setSelectedFilesDataModulus] = useState([]);
+	const [selectedFilesDataPhase, setSelectedFilesDataPhase] = useState([]);
 
 	const handleSelectedItem = (id: number) => {
 		console.log("id", id);
@@ -29,6 +31,24 @@ const Dashboard = () => {
 			.then(response => {
 				const data = (response.data);
 				setSelectedFilesData(data);
+			})
+			.catch(e => {
+				console.log(e.response.data);
+			})
+
+			FileService.getModulus(id, selectedItem, selectedFiles)
+			.then(response => {
+				const data = (response.data);
+				setSelectedFilesDataModulus(data);
+			})
+			.catch(e => {
+				console.log(e.response.data);
+			})
+
+			FileService.getPhase(id, selectedItem, selectedFiles)
+			.then(response => {
+				const data = (response.data);
+				setSelectedFilesDataPhase(data);
 			})
 			.catch(e => {
 				console.log(e.response.data);
@@ -63,9 +83,15 @@ const Dashboard = () => {
 			<div className="row-12">
 				{/* <div className="col-6"> */}
 					<FrequencyChart 
-						data={selectedFilesData}
+						data={selectedFilesDataModulus}
 					/>
 				</div>
+			<div className="row-12">
+			{/* <div className="col-6"> */}
+				<FrequencyChart 
+					data={selectedFilesDataPhase}
+				/>
+			</div>
 				{/* </div> */}
 			{/* </div> */}
 		</div>

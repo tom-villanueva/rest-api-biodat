@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Line } from 'react-chartjs-2';
+import { colors } from "./utils";
 
 interface Props {
   data: any[],
@@ -8,22 +9,38 @@ interface Props {
 const FrequencyChart = (props: Props) => {
 
   const [filesData, setFilesData] = useState([] as any[]);
+  const [chartData, setChartData] = useState([] as any[]);
 
   useEffect(() => {
-    let newData;
-    let data: any[] = [];
-    for(let i=0; i<props.data.length; i++) {
-      // elimina los atributos que no van a ser utilizados,
-      // en este caso no se utiliza la parte real
-      newData = props.data[i].map(({fr, ...atributos}) => ({...atributos, y: fr}));
-      console.log(newData);
-      data.push(newData);
-    }
+    // let newData;
+    // let data: any[] = [];
+    // for(let i=0; i<props.data.length; i++) {
+    //   // elimina los atributos que no van a ser utilizados,
+    //   // en este caso no se utiliza la parte real
+    //   newData = props.data[i].map(({fr, ...atributos}) => ({...atributos, y: fr}));
+    //   console.log(newData);
+    //   data.push(newData);
+    // }
     
-    setFilesData(data);
-    console.log("data: ", filesData);
+    setFilesData(props.data);
+    
   }, [ props.data ])
 
+  useEffect(() => {
+    let chartData: any[] = [];
+    for (let i = 0; i < filesData.length; i++) {
+      var chartObject = {
+        label: i.toString(),
+        data: filesData[i],
+        fill: false,
+        backgroundColor: colors[i],
+        borderColor: colors[i],
+      };
+      chartData.push(chartObject);
+    }
+    setChartData(chartData);
+    console.log("chartdata ", chartData);
+  }, [ filesData ]);
 
   return (
     <div className="card card-info">
@@ -48,14 +65,10 @@ const FrequencyChart = (props: Props) => {
       </div>
       <div className="card-body">
         <div className="chart">
-        {filesData.length>0 && 
+        {chartData.length>0 && 
         <Line
           data={{            
-              datasets: [{
-                label: "frequency",
-                data: filesData[0],
-                fill: false,
-              }]
+              datasets: chartData
             }}
             options={{
               scales: {

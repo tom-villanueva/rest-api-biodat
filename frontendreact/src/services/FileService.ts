@@ -6,9 +6,17 @@ const getAll = (project_id: number, item_id: number) => {
 };
 
 const get = (project_id: number, item_id: number, files) => {
-  console.log("files: ", files);
-  console.log("url> ", `/projects/${project_id}/items/${item_id}/measurements/${files}`);
+  // console.log("files: ", files);
+  // console.log("url> ", `/projects/${project_id}/items/${item_id}/measurements/${files}`);
   return http.get(`/projects/${project_id}/items/${item_id}/measurements/${files}`);
+};
+
+const getModulus = (project_id: number, item_id: number, files) => {
+  return http.get(`/projects/${project_id}/items/${item_id}/measurements/${files}/modulus`);
+};
+
+const getPhase = (project_id: number, item_id: number, files) => {
+  return http.get(`/projects/${project_id}/items/${item_id}/measurements/${files}/phase`);
 };
 
 const create = (project_id: number, item_id: number, files) => {
@@ -22,6 +30,8 @@ const remove = (project_id: number, item_id: number, files) => {
 export default {
   getAll,
   get,
+  getModulus,
+  getPhase,
   create,
   remove,
 };
