@@ -29,6 +29,7 @@ class AuthService {
 
     handleLoginSuccess(response: any, remember: boolean) {
         if (!remember) {
+          console.log("ENTRE");
           const options = { path: "/" };
           CookieService.set("access_token", response.token, options);
           return true;
@@ -36,6 +37,7 @@ class AuthService {
     
         let date = new Date();
         date.setTime(date.getTime() + expiresAt * 60 * 1000);
+        console.log(date);
         const options = { path: "/", expires: date };
         CookieService.set("access_token", response.token, options);
         return true;

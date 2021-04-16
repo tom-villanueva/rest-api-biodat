@@ -15,7 +15,6 @@ const Dashboard = () => {
 	const [selectedFilesDataPhase, setSelectedFilesDataPhase] = useState([]);
 
 	const handleSelectedItem = (id: number) => {
-		console.log("id", id);
 		setSelectedItem(id);
 	};
 
@@ -26,17 +25,17 @@ const Dashboard = () => {
 	};
 
 	useEffect(() => {
-
-		FileService.get(id, selectedItem, selectedFiles)
+		if (selectedItem !== -1 && selectedFiles.length > 0) {
+			FileService.get(id, selectedItem, selectedFiles)
 			.then(response => {
 				const data = (response.data);
-				setSelectedFilesData(data);
+				setSelectedFilesData(data); 
 			})
 			.catch(e => {
 				console.log(e.response.data);
 			})
 
-			FileService.getModulus(id, selectedItem, selectedFiles)
+		FileService.getModulus(id, selectedItem, selectedFiles)
 			.then(response => {
 				const data = (response.data);
 				setSelectedFilesDataModulus(data);
@@ -45,7 +44,7 @@ const Dashboard = () => {
 				console.log(e.response.data);
 			})
 
-			FileService.getPhase(id, selectedItem, selectedFiles)
+		FileService.getPhase(id, selectedItem, selectedFiles)
 			.then(response => {
 				const data = (response.data);
 				setSelectedFilesDataPhase(data);
@@ -53,8 +52,8 @@ const Dashboard = () => {
 			.catch(e => {
 				console.log(e.response.data);
 			})
-
-	}, [ selectedFiles ]);
+		}
+	}, [ selectedFiles, id, selectedItem ]);
 
 	return (
 		<div>

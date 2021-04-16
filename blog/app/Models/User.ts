@@ -6,8 +6,11 @@ import {
   BaseModel,
   manyToMany,
   ManyToMany,
+  hasMany,
+  HasMany,
 } from '@ioc:Adonis/Lucid/Orm'
 import Project from 'App/Models/Project'
+import Measurer from './Measurer'
 
 export default class User extends BaseModel {
   @column({ isPrimary: true })
@@ -42,4 +45,6 @@ export default class User extends BaseModel {
   })
   public projects: ManyToMany<typeof Project>
 
+  @hasMany(() => Measurer)
+  public measurer: HasMany<typeof Measurer>
 }

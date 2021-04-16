@@ -47,6 +47,7 @@ const FilesAddForm = (props: Props) => {
     }
     // console.log("measurer", measurer);
     data.append("measurer", measurer);
+    data.append("project", String(props.projectId));
 
     FileService.create(props.projectId, props.itemId, data)
       .then((response) => {
