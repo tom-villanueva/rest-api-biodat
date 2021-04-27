@@ -1,6 +1,6 @@
 export default class SolartronStrategy implements Strategy {
 
-    async doParse (filePath: string) : Promise<any[]> {
+    async doParse (filePath: string, measurer: any) : Promise<any[]> {
         const parse = require('csv-parse');
         const fs = require('fs');
 

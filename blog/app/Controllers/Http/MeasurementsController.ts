@@ -4,7 +4,7 @@ import Measurement from 'App/Models/Measurement'
 import Measurer    from 'App/Models/Measurer'
 import Application from '@ioc:Adonis/Core/Application'
 import Database    from '@ioc:Adonis/Lucid/Database'
-import Parser      from 'App/Services/Parser'
+import Parser      from 'App/Services/Strategies/Parser'
 
 export default class MeasurementsController {
   public async index ({ params }: HttpContextContract) {
@@ -16,17 +16,18 @@ export default class MeasurementsController {
 
   public async store ({ request, params }: HttpContextContract) {
     const measurements = request.files('measurement', {
-      extnames: ['csv', 'z'],
+      extnames: ['csv', 'z', 'spec'],
     })
     const measurer_name = request.only(['measurer'])
     const project_id = request.only(['project'])
+    const item_id = request.only(['item'])
 
-    const project_name = await Database.query()
-                                   .select('name')
-                                   .from('projects')
-                                   .where('id', parseInt(project_id.project)).first();
+    // const project_name = await Database.query()
+    //                                .select('name')
+    //                                .from('projects')
+    //                                .where('id', parseInt(project_id.project)).first();
     
-    const measurer_id = await Database.query()
+    const measurer = await Database.query()
                                    .select('id')
                                    .from('measurers')
                                    .where('name', `${measurer_name.measurer}`).first()                                
@@ -35,10 +36,10 @@ export default class MeasurementsController {
     const newMeasurements : Array<Measurement> = []
 
     for (let measurement of measurements) {
-      await measurement.move(Application.publicPath(`measurements/${project_name.name}`))
+      await measurement.move(Application.publicPath(`measurements/${project_id.project}/${item_id.item}`))
       const newMeasurement = new Measurement()
       newMeasurement.file_name = `${measurement.clientName}`
-      newMeasurement.measurerId = measurer_id.id
+      newMeasurement.measurerId = measurer.id
       newMeasurements.push(newMeasurement)
       await item.related('measurements').save(newMeasurement)
     }
@@ -47,7 +48,6 @@ export default class MeasurementsController {
   }
 
   public async commonShow(params) {
-    console.log(params);
     const filesPath = Application.publicPath('measurements')
     let filePath = "";
 
@@ -65,17 +65,27 @@ export default class MeasurementsController {
     let measurementDataArray:any = [];
 
     for(let id of measurement_ids) {
-      id = parseInt(id);
-      measurement = await Measurement.findOrFail(id);
-      measurements.push(measurement);
+      try {
+        id = parseInt(id);
+        measurement = await Measurement.findOrFail(id);
+        measurements.push(measurement);
+      } catch (err) {
+        console.log("Algo anduvo mal con las medidas ", err);
+      }
     }
 
     for(let measurement of measurements){
-      measurer = await Measurer.findOrFail(measurement.measurerId);
-      parser.setStrategy(measurer.name);
-      filePath = filesPath.concat('\\', measurement.file_name);
-      measurementData = await parser.parse(filePath);
-      measurementDataArray.push(measurementData);
+      try {
+        measurer = await Measurer.findOrFail(measurement.measurerId);
+        parser.setStrategy(measurer.name);
+        filePath = filesPath.concat('\\', params.project_id)
+                            .concat('\\', params.item_id)
+                            .concat('\\', measurement.file_name);      
+        measurementData = await parser.parse(filePath, measurer);
+        measurementDataArray.push(measurementData);
+      } catch (err) {
+        console.log("Iba todo bien en el parseo, hasta que ya no", err);
+      } 
     }
     
     return measurementDataArray;

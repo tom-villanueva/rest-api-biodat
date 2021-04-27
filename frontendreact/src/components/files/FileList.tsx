@@ -21,7 +21,8 @@ const FileList = (props: Props) => {
       setFiles(response.data);
     })
     .catch(e => {
-      <ErrorPage errorStatusCode={ e.response.status } />
+      console.log(e);
+      // <ErrorPage errorStatusCode={ e.response.status } />
     })
   }
 
@@ -31,6 +32,7 @@ const FileList = (props: Props) => {
 		}
     return () => {
       setFiles([] as FileInterface[]);
+      setSelectedFiles([] as number[]);
     }
 	}, [ props.item_id ]); // eslint-disable-line react-hooks/exhaustive-deps
 

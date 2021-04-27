@@ -46,5 +46,5 @@ export default class User extends BaseModel {
   public projects: ManyToMany<typeof Project>
 
   @hasMany(() => Measurer)
-  public measurer: HasMany<typeof Measurer>
+  public measurers: HasMany<typeof Measurer>
 }

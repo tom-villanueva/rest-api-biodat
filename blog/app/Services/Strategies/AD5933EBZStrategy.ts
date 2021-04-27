@@ -1,6 +1,6 @@
 export default class AD5933EBZStrategy implements Strategy {
 
-  async doParse (filePath: string) : Promise<any[]> {
+  async doParse (filePath: string, measurer: any) : Promise<any[]> {
       const parse = require('csv-parse');
       const fs = require('fs');
 
@@ -20,12 +20,13 @@ export default class AD5933EBZStrategy implements Strategy {
       return new Promise(resolve => {
           fs.createReadStream(filePath)
           .pipe(parser)
-          .on('data', (datos) => //resultado.push(datos))
-                  resultado.push({
+          .on('data', (datos) => {//resultado.push(datos))
+          console.log(datos);
+                    resultado.push({
                       fr: Number(datos[fr]),
                       x: Number(datos[real]),
                       y: Number(datos[imaginario]*-1),                             
-                  }))
+                  })})
           .on('end', () => resolve(resultado))
           .on('error', (error) => console.log(error.toString()))
       })

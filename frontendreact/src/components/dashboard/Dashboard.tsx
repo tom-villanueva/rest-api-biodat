@@ -5,6 +5,7 @@ import FileList from '../files/FileList';
 import ColeChart from './ColeChart';
 import FileService from '../../services/FileService';
 import FrequencyChart from './FrequencyChart';
+import usePrevious from '../../services/usePrevious';
 
 const Dashboard = () => {
 	const { id } = useParams();//id del proyecto
@@ -13,6 +14,7 @@ const Dashboard = () => {
 	const [selectedFilesData, setSelectedFilesData] = useState([]);
 	const [selectedFilesDataModulus, setSelectedFilesDataModulus] = useState([]);
 	const [selectedFilesDataPhase, setSelectedFilesDataPhase] = useState([]);
+	const prevSelectedFiles = usePrevious(selectedFiles);
 
 	const handleSelectedItem = (id: number) => {
 		setSelectedItem(id);
@@ -25,7 +27,7 @@ const Dashboard = () => {
 	};
 
 	useEffect(() => {
-		if (selectedItem !== -1 && selectedFiles.length > 0) {
+		if (selectedItem !== -1 && prevSelectedFiles !== selectedFiles) {
 			FileService.get(id, selectedItem, selectedFiles)
 			.then(response => {
 				const data = (response.data);
@@ -52,6 +54,12 @@ const Dashboard = () => {
 			.catch(e => {
 				console.log(e.response.data);
 			})
+		}
+		return () => {
+			console.log("CLEANUP DASHBOARD");
+			setSelectedFilesData([]);
+			setSelectedFilesDataModulus([]);
+			setSelectedFilesDataPhase([]);
 		}
 	}, [ selectedFiles, id, selectedItem ]);
 

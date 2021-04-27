@@ -17,13 +17,22 @@ export default class Measurer extends BaseModel {
   public real: string
 
   @column()
-  public imaginario: string
+  public imaginary: string
+  
+  @column()
+  public modulus: string
 
   @column()
-  public delimitador: string
+  public phase: string
 
   @column()
-  public from_line: number
+  public delimiter: string
+
+  @column()
+  public fromLine: number
+
+  @column()
+  public isPersonal: boolean
 
   @column()
   public userId: number
