@@ -1,7 +1,9 @@
+import Application from '@ioc:Adonis/Core/Application'
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import { schema, rules, validator } from '@ioc:Adonis/Core/Validator'
 import Item from 'App/Models/Item'
 import Project from 'App/Models/Project'
+import deleteDirectories from 'App/Services/FilesMethods/DeleteDirectories'
 
 export default class ItemsController {
   public async index ({ params }: HttpContextContract) {
@@ -53,6 +55,12 @@ export default class ItemsController {
 
   public async destroy ({ params }: HttpContextContract) {
     const item = await Item.findOrFail(params.item_id)
+
+    const filesPath = Application.publicPath('measurements')
+    let dirPath = filesPath.concat('\\', params.project_id)
+                            .concat('\\', params.item_id);
+    
+    deleteDirectories(dirPath)
 
     await item.delete()
 

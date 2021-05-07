@@ -24,7 +24,7 @@ const create = (project_id: number, item_id: number, files) => {
 };
 
 const remove = (project_id: number, item_id: number, files) => {
-  return http.delete(`/projects/${project_id}/items/${item_id}/measurements/`);
+  return http.delete(`/projects/${project_id}/items/${item_id}/measurements/${files}`);
 };
 
 export default {

@@ -26,12 +26,17 @@ export default class ZurichStrategy implements Strategy {
           .pipe(parser)
           .on('data', (datos) => { //resultado.push(datos))
                 console.log(datos);
-                complex = math.Complex.fromPolar(datos[modulus], datos[phase]);
-                resultado.push({
-                    fr: Number(datos[fr]),
-                    x: complex.re,
-                    y: complex.im*-1,                             
-                  })})
+                try {
+                    complex = math.Complex.fromPolar(datos[modulus], datos[phase]);
+                    resultado.push({
+                        fr: Number(datos[fr]),
+                        x: complex.re,
+                        y: complex.im*-1,                             
+                    })
+                } catch (error) {
+                    console.log("ERROR EN UN NUMERO ", error)
+                }             
+                })
           .on('end', () => resolve(resultado))
           .on('error', (error) => console.log(error.toString()))
       })

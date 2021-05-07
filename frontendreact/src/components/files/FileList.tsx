@@ -3,7 +3,7 @@ import FileInterface from '../../interfaces/FileInterface'
 import FileService from '../../services/FileService';
 import ErrorPage from '../error/ErrorPage';
 import FilesAddForm from './FilesAddForm';
-
+import ModalForm from '../modals/ModalForm'
 
 interface Props {
   project_id: number,
@@ -14,6 +14,7 @@ interface Props {
 const FileList = (props: Props) => {
   const [files, setFiles] = useState([] as FileInterface[]);
   const [selectedFiles, setSelectedFiles] = useState([] as number[]);
+  const [showLoadFilesModal, setShowLoadFilesModal] = useState(false);
 
   const retrieveFiles = () => {
     FileService.getAll(props.project_id, props.item_id)
@@ -74,12 +75,27 @@ const FileList = (props: Props) => {
           </button>
         </div>
       </div>
+      <ModalForm 
+          title="Carga de Archivos"
+          visibility={ showLoadFilesModal }
+          onClose={() => {
+              setShowLoadFilesModal(!showLoadFilesModal);
+          }}
+        >
+          <FilesAddForm 
+            projectId={props.project_id}
+            itemId={props.item_id}
+            handleAddFiles={handleAddFiles}
+            modal={showLoadFilesModal}
+          />
+      </ModalForm>
       <div className="card-body table-responsive p-1"  style={{ height : 300 } }>
-        <FilesAddForm 
-          projectId={props.project_id}
-          itemId={props.item_id}
-          handleAddFiles={handleAddFiles}
-        />
+        <button 
+          className="btn btn-success btn-block"
+          onClick={() => {setShowLoadFilesModal(!showLoadFilesModal)}}
+        >
+          CARGAR ARCHIVOS
+        </button>
         <form onSubmit={(event) => handleSubmit(event)}>
           <div className="form-group">
             <div className="container-fluid">

@@ -33,7 +33,7 @@ const ModalForm = (props: Props) => {
             <div className="modal-footer justify-content-between">
               <button
                 type="button"
-                className="btn btn-default"
+                className="btn btn-default btn-block"
                 data-dismiss="modal"
                 onClick={() => props.onClose()}
               >

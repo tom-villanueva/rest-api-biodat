@@ -47,7 +47,8 @@ const ItemAddForm = (props: Props) => {
         props.handleAddItem(newItem);
       })
       .catch(e => {
-        <ErrorPage errorStatusCode={ e.response.status } />
+        console.error(e);
+        // <ErrorPage errorStatusCode={ e.response.status } />
       })
     setItem(initialItemState)
   }

@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
-import ProjectItem from "./ProjectItem";
-import ModalForm from "../modals/ModalForm";
-import ProjectAddForm from "./ProjectAddForm";
-import ProjectInterface from "../../interfaces/ProjectInterface";
-import ProjectEditForm from "./ProjectEditForm";
-import ProjectDeleteForm from "./ProjectDeleteForm";
-import ProjectService from "../../services/ProjectService";
-import ErrorPage from "../error/ErrorPage";
+import ProjectItem from "../components/projects/ProjectItem";
+import ModalForm from "../components/modals/ModalForm";
+import ProjectAddForm from "../components/projects/ProjectAddForm";
+import ProjectInterface from "../interfaces/ProjectInterface";
+import ProjectEditForm from "../components/projects/ProjectEditForm";
+import ProjectDeleteForm from "../components/projects/ProjectDeleteForm";
+import ProjectService from "../services/ProjectService";
+import ErrorPage from "../components/error/ErrorPage";
 
 const ProjectList = () => {
   const [showAddModal, setShowAddModal] = useState(false);

@@ -3,6 +3,7 @@ import AD5933EBZStrategy from './AD5933EBZStrategy';
 import CommonStrategy from './CommonStrategy';
 import ScioSpecStrategy from './ScioSpecStrategy';
 import ZurichStrategy from './ZurichStrategy';
+import XitronStrategy from './XitronStrategy';
 
 export default class Parser {
     private strategy: Strategy;
@@ -25,6 +26,9 @@ export default class Parser {
             break;
             case 'Zurich':
                 strategy = new ZurichStrategy();        
+            break;
+            case 'Xitron':
+                strategy = new XitronStrategy();        
             break;
             default:
                 strategy = new CommonStrategy();

@@ -5,6 +5,7 @@ import Measurer    from 'App/Models/Measurer'
 import Application from '@ioc:Adonis/Core/Application'
 import Database    from '@ioc:Adonis/Lucid/Database'
 import Parser      from 'App/Services/Strategies/Parser'
+import deleteFiles from 'App/Services/FilesMethods/DeleteFiles'
 
 export default class MeasurementsController {
   public async index ({ params }: HttpContextContract) {
@@ -36,12 +37,18 @@ export default class MeasurementsController {
     const newMeasurements : Array<Measurement> = []
 
     for (let measurement of measurements) {
-      await measurement.move(Application.publicPath(`measurements/${project_id.project}/${item_id.item}`))
-      const newMeasurement = new Measurement()
-      newMeasurement.file_name = `${measurement.clientName}`
-      newMeasurement.measurerId = measurer.id
-      newMeasurements.push(newMeasurement)
-      await item.related('measurements').save(newMeasurement)
+      try {
+        await measurement.move(Application.publicPath(`measurements/${project_id.project}/${item_id.item}`))
+        //Asignamos los campos del archivos
+        const newMeasurement = new Measurement()
+        newMeasurement.file_name = `${measurement.clientName}`
+        newMeasurement.measurerId = measurer.id
+        newMeasurements.push(newMeasurement)
+        //Lo guardamos en la base de datos      
+        await item.related('measurements').save(newMeasurement)
+      } catch (err) {
+        console.log("Algo anduvo mal guardano el archivo ", err);
+      } 
     }
 
     return newMeasurements
@@ -132,9 +139,23 @@ export default class MeasurementsController {
   }
 
   public async destroy ({ params }: HttpContextContract) {
-    const measurement = await Measurement.findOrFail(params.measurement_id)
+    let measurement
 
-    await measurement.delete()
+    const filesPath = Application.publicPath('measurements')
+    let filePath = ''
+    const paths: any = [];
+                         
+    let measurement_ids = params.measurement_ids.split(",");         
+    
+    for(let id in measurement_ids) {
+      measurement = await Measurement.findOrFail(id)
+      filePath = filesPath.concat('\\', params.project_id)
+                          .concat('\\', params.item_id)
+                          .concat('\\', measurement.file_name);
+      paths.push(filePath);
+      await measurement.delete()
+    }
+    deleteFiles(paths);
 
     return {status: 204}
   }

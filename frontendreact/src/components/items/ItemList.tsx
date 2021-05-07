@@ -42,6 +42,7 @@ const ItemList = (props: Props) => {
 
   const onDelete = (id: number) => {
     console.log("ID", id);
+    props.handleSelectedItem(-1);
     setShowDeleteModal(!showDeleteModal);
     setTargetItem(id);
   }

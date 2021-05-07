@@ -20,11 +20,13 @@ const ItemItem = (props: Props) => {
 	}, [props.selectedItem])
 
 	const onSelect = (id) => {
-		console.log("seleccionado ", id)
+		
 		if(!selected) {
+			console.log("seleccionado ", id)
 			props.onSelect(id);
 		} 
 		else { //ON UNSELECT
+			console.log("deseleccionado ", id)
 			props.onSelect(-1);
 		}
 		setSelected(!selected);
@@ -50,7 +52,9 @@ const ItemItem = (props: Props) => {
 					<i className="fas fa-pencil-alt">
 					</i>                   
 					</a>
-					<a className="btn btn-danger btn-sm" onClick={() => props.onDelete(props.item.id)}>
+					<a className="btn btn-danger btn-sm" onClick={() => {props.onDelete(props.item.id)
+																															 setSelected(!selected);
+																															}}>
 					<i className="fas fa-trash">
 					</i>                   
 					</a>

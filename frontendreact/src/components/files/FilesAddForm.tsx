@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { ChangeEventHandler, useEffect, useState } from "react";
 import MeasurerInterface from "../../interfaces/MeasurerInterface";
 import FileService from "../../services/FileService";
 import http from "../../services/HttpService";
@@ -7,10 +7,11 @@ interface Props {
   projectId: number;
   itemId: number;
   handleAddFiles: (data) => void;
+  modal: boolean;
 }
 
 const FilesAddForm = (props: Props) => {
-  const [files, setFiles] = useState([]);
+  const [files, setFiles] = useState([] as File[]);
   const [measurers, setMeasurers] = useState([] as MeasurerInterface[]);
   const [measurer, setMeasurer] = useState("");
 
@@ -25,11 +26,24 @@ const FilesAddForm = (props: Props) => {
       .catch((e) => {
         console.log(e);
       });
-  }, []);
+
+    return () => {
+      console.log("CLEANUP ADDFORM")
+      setMeasurer("");
+      setMeasurers([]);
+      setFiles([]);
+    }
+  }, [ props.modal ]);
 
   const handleInputChange = (event) => {
+    console.log("evento", event);
     const files = event.target.files;
-    setFiles(files);
+    let newFiles: File[] = [];
+    for (var i = 0; i < files.length; i++) {
+      newFiles.push(files[i]);
+    }
+    console.log(files);
+    setFiles(newFiles);
   };
 
   const handleSelectChange = (event) => {
@@ -72,12 +86,23 @@ const FilesAddForm = (props: Props) => {
     });
   };
 
+  const renderFiles = () => {
+    return files.map((file, index) => {
+      return (
+        <tr key={index}>
+          <td><i>{index}</i></td>
+          <td>{file.name}</td>
+        </tr>
+      );
+    });
+  }
+
   return (
     <form onSubmit={(event) => handleSubmit(event)}>
       <div className="form-group">
         <div className="container-fluid">
-          <div className="row form-group">
-            <div className="col-12">
+          <div className="input-group mb-3">
+            <div className="col-12 mb-3">
               <label>Elegir aparato</label>
               <select
                 className="custom-select"
@@ -91,9 +116,7 @@ const FilesAddForm = (props: Props) => {
                 {measurers.length > 0 && renderMeasurers()}
               </select>
             </div>
-          </div>
-          <div className="row form-group">
-            <div className="col-6">
+            <div className="col-12">
               <input
                 className="custom-file-input"
                 type="file"
@@ -106,12 +129,25 @@ const FilesAddForm = (props: Props) => {
                 Cargar Archivos...
               </label>
             </div>
-            <div className="col-6">
-              <button className="btn btn-success btn-block">
-                <i className="fas fa-plus"></i>
-                {` Cargar Archivos`}
-              </button>
-            </div>
+          </div>
+          <div className="table-responsive p-0" style={{ height : 200 } }>
+            <table className="table table-head-fixed text-nowrap" >
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Archivo</th>
+                </tr>
+              </thead>
+              <tbody>
+                {files.length > 0 && renderFiles()}
+              </tbody>
+            </table>
+          </div>
+          <div className="col-12">
+            <button className="btn btn-success btn-block">
+              <i className="fas fa-plus"></i>
+              {` Cargar Archivos`}
+            </button>
           </div>
         </div>
       </div>

@@ -5,12 +5,13 @@ import {
   Switch,
 } from 'react-router-dom';
 import LoginForm from './components/auth/LoginForm';
-import Home from './components/pages/Home';
+import Home from './components/layout/Home';
 import RegistrationForm from './components/auth/RegistrationForm';
-import Dashboard from './components/dashboard/Dashboard';
+import Dashboard from './pages/Dashboard';
 import { ProtectedRoute } from './components/auth/ProtectedRoute';
-import ProjectList from './components/projects/ProjectList';
-import StartPage from './components/pages/StartPage';
+import ProjectList from './pages/ProjectList';
+import StartPage from './pages/StartPage';
+import MeasurerPage from './pages/MeasurerPage';
 
 const App = () => {
 
@@ -57,6 +58,11 @@ const App = () => {
           <ProtectedRoute  
             path='/dashboard/:id' 
             component={Dashboard} 
+          />
+
+          <ProtectedRoute  
+            path='/measurer' 
+            component={MeasurerPage} 
           />
 
         </Switch> 

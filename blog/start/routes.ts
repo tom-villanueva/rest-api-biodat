@@ -31,7 +31,7 @@ Route.group(() => {
   Route.get(':project_id/items/:item_id/measurements/:measurement_ids/modulus', 'measurementsController.showModulus');
   Route.get(':project_id/items/:item_id/measurements/:measurement_ids/phase', 'measurementsController.showPhase');
   //Route.put(   ':project_id/items/:item_id/measurements/:measurement_id', 'measurementsController.update');
-  Route.delete(':project_id/items/:item_id/measurements/:measurement_id', 'measurementsController.destroy');
+  Route.delete(':project_id/items/:item_id/measurements/:measurement_ids', 'measurementsController.destroy');
 }).prefix('api/projects/')
   .middleware(['auth', 'ProjectAuth:lider,colaborador'])
 

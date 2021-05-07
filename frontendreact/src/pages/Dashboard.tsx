@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from "react-router-dom";
-import ItemList from '../items/ItemList';
-import FileList from '../files/FileList';
-import ColeChart from './ColeChart';
-import FileService from '../../services/FileService';
-import FrequencyChart from './FrequencyChart';
-import usePrevious from '../../services/usePrevious';
+import ItemList from '../components/items/ItemList';
+import FileList from '../components/files/FileList';
+import ColeChart from '../components/dashboard/ColeChart';
+import FileService from '../services/FileService';
+import FrequencyChart from '../components/dashboard/FrequencyChart';
+import usePrevious from '../services/usePrevious';
 
 const Dashboard = () => {
 	const { id } = useParams();//id del proyecto
