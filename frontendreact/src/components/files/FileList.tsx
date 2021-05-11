@@ -90,12 +90,15 @@ const FileList = (props: Props) => {
           />
       </ModalForm>
       <div className="card-body table-responsive p-1"  style={{ height : 300 } }>
+
         <button 
+          disabled={(props.item_id === -1 ? true : false)}
           className="btn btn-success btn-block"
           onClick={() => {setShowLoadFilesModal(!showLoadFilesModal)}}
         >
           CARGAR ARCHIVOS
         </button>
+
         <form onSubmit={(event) => handleSubmit(event)}>
           <div className="form-group">
             <div className="container-fluid">
@@ -106,7 +109,10 @@ const FileList = (props: Props) => {
               </select>
               </div>
             </div>
-            <button className="btn btn-primary btn-block">
+            <button
+              disabled={(selectedFiles.length === 0 ? true : false)}
+              className="btn btn-primary btn-block"
+            >
               GRAFICAR
             </button>
           </div> 

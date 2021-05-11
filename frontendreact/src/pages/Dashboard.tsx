@@ -18,6 +18,7 @@ const Dashboard = () => {
 
 	const handleSelectedItem = (id: number) => {
 		setSelectedItem(id);
+		console.log("NUEVO ID", id);
 	};
 
 	const handleSelectedFiles = (ids: number[]) => {

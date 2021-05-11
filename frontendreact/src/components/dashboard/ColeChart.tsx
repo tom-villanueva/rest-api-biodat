@@ -9,6 +9,7 @@ interface Props {
 const ColeChart = (props: Props) => {
   const [filesData, setFilesData] = useState([] as any[]);
   const [chartData, setChartData] = useState([] as any[]);
+  const [axesType, setAxesType]   = useState("linear");
 
   useEffect(() => {
     let newData;
@@ -48,6 +49,20 @@ const ColeChart = (props: Props) => {
       <div className="card-header">
         <h3 className="card-title">Cole Chart</h3>
         <div className="card-tools">
+        <button
+            type="button"
+            className="btn btn-tool"
+            onClick={() => {
+              if(axesType === "linear"){
+                setAxesType('logarithmic');
+              }
+              else{
+                setAxesType("linear");
+              }             
+            }}
+          >
+            <i className="fas fa-chart-area" />
+          </button>
           <button
             type="button"
             className="btn btn-tool"
@@ -61,7 +76,7 @@ const ColeChart = (props: Props) => {
             data-card-widget="remove"
           >
             <i className="fas fa-times" />
-          </button>
+          </button>        
         </div>
       </div>
       <div className="card-body">
@@ -76,13 +91,13 @@ const ColeChart = (props: Props) => {
                 scales: {
                   xAxes: [
                     {
-                      type: "linear",
+                      type: axesType,
                       position: "bottom",
                     },
                   ],
                   yAxes: [
                     {
-                      type: "linear",
+                      type: axesType,
                       position: "left",
                     },
                   ],

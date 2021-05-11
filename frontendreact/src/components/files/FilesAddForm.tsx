@@ -118,6 +118,7 @@ const FilesAddForm = (props: Props) => {
             </div>
             <div className="col-12">
               <input
+                disabled={measurer === "" ? true: false}
                 className="custom-file-input"
                 type="file"
                 id="measurement"
@@ -144,7 +145,10 @@ const FilesAddForm = (props: Props) => {
             </table>
           </div>
           <div className="col-12">
-            <button className="btn btn-success btn-block">
+            <button 
+              disabled={(files.length === 0 ? true: false)}
+              className="btn btn-success btn-block"
+            >
               <i className="fas fa-plus"></i>
               {` Cargar Archivos`}
             </button>

@@ -10,6 +10,7 @@ const FrequencyChart = (props: Props) => {
 
   const [filesData, setFilesData] = useState([] as any[]);
   const [chartData, setChartData] = useState([] as any[]);
+  const [axesType, setAxesType]   = useState("linear");
 
   useEffect(() => {
     // let newData;
@@ -47,6 +48,20 @@ const FrequencyChart = (props: Props) => {
       <div className="card-header">
         <h3 className="card-title">Frequency Chart</h3>
         <div className="card-tools">
+        <button
+            type="button"
+            className="btn btn-tool"
+            onClick={() => {
+              if(axesType === "linear"){
+                setAxesType('logarithmic');
+              }
+              else{
+                setAxesType("linear");
+              }             
+            }}
+          >
+            <i className="fas fa-chart-area" />
+          </button>
           <button
             type="button"
             className="btn btn-tool"
@@ -73,11 +88,11 @@ const FrequencyChart = (props: Props) => {
             options={{
               scales: {
                 xAxes: [{
-                  type: 'logarithmic',
+                  type: axesType,
                   position: 'bottom'
                 }],
                 yAxes: [{
-                  type: 'logarithmic',
+                  type: axesType,
                   position: 'left'
                 }]
               },
