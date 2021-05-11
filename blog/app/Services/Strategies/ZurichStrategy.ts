@@ -9,8 +9,8 @@ export default class ZurichStrategy implements Strategy {
       //columnas a utilizar
       let complex;
       const fr = String(0);
-      const modulus = String(8) 
-      const phase = String(9)
+      const modulus = String(7) 
+      const phase = String(8)
 
       //opciones del parseador de csv
       const parser = parse({ 
@@ -27,6 +27,7 @@ export default class ZurichStrategy implements Strategy {
           .on('data', (datos) => { //resultado.push(datos))
                 console.log(datos);
                 try {
+                    // console.log(datos[modulus], " ", datos[phase])
                     complex = math.Complex.fromPolar(datos[modulus], datos[phase]);
                     resultado.push({
                         fr: Number(datos[fr]),

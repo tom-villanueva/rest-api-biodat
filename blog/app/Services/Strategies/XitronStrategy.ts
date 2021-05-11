@@ -15,8 +15,7 @@ export default class AD5933EBZStrategy implements Strategy {
           trim: true,
           cast: function(value, context){
             if (typeof value === 'string' || value instanceof String){
-              console.log("VLAOR:", Number(value))
-              return Number(value);
+              return Number(value.replace(',','.'));
             }
             else{
               return context;

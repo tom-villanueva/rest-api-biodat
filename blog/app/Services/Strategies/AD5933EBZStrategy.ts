@@ -7,8 +7,8 @@ export default class AD5933EBZStrategy implements Strategy {
       const resultado : any[] = []
       //columnas a utilizar
       const fr = String(0);
-      const real = String(3);
-      const imaginario = String(4);
+      const real = String(5);
+      const imaginario = String(6);
       //opciones del parseador de csv
       const parser = parse({ 
           delimiter: ',',
