@@ -47,6 +47,7 @@ class AuthService {
         const response = await axios.post(ApiService.logoutUrl());
         if (response) {
             CookieService.remove("access_token");
+            return(response);
         } else {
             alert("No se pudo desloguear");
         }

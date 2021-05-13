@@ -12,7 +12,8 @@ class CookieService {
     }
 
     remove (key: string) {
-        cookie.remove(key);
+        console.log("ENTRE");
+        cookie.remove(key, {path: "/"});
     }
 }
 

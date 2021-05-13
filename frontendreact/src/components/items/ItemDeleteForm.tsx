@@ -1,4 +1,4 @@
-import React, { Component, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import ItemInterface from '../../interfaces/ItemInterface';
 import ItemService from '../../services/ItemService';
 import ErrorPage from '../error/ErrorPage';

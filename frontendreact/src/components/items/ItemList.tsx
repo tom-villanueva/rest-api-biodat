@@ -114,11 +114,13 @@ const ItemList = (props: Props) => {
         </div>
       </div>
       <div className="card-body table-responsive p-0" style={{ height : 300 } }>
-        <ItemAddForm 
-          projectId={props.project_id}
-          itemId={targetItem}
-          handleAddItem={ (data) => handleAddItem(data) } 
-        />
+        <div className="p-1">
+          <ItemAddForm 
+            projectId={props.project_id}
+            itemId={targetItem}
+            handleAddItem={ (data) => handleAddItem(data) } 
+          />
+        </div>
         <table className="table table-head-fixed text-nowrap">
           <thead>
             <tr>

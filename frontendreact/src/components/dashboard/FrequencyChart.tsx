@@ -47,6 +47,7 @@ const FrequencyChart = (props: Props) => {
     <div className="card card-info">
       <div className="card-header">
         <h3 className="card-title">Frequency Chart</h3>
+        <h2 className="card-title">{`(${axesType})`}</h2>
         <div className="card-tools">
         <button
             type="button"

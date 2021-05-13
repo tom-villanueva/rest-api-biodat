@@ -46,7 +46,7 @@ const MeasurerForm = () => {
                   <label htmlFor="frequency">Frecuencia:</label>
                   <input
                     className="form-control"
-                    type="text"
+                    type="number"
                     id="frequency"
                     name="frequency"
                     value={formData.frequency}
@@ -59,7 +59,7 @@ const MeasurerForm = () => {
                   <label htmlFor="real">Parte real:</label>
                   <input
                     className="form-control"
-                    type="text"
+                    type="number"
                     id="real"
                     name="real"
                     value={formData.real}
@@ -72,7 +72,7 @@ const MeasurerForm = () => {
                   <label htmlFor="imaginary">Parte imaginaria:</label>
                   <input
                     className="form-control"
-                    type="text"
+                    type="number"
                     id="imaginary"
                     name="imaginary"
                     value={formData.imaginary}
@@ -85,7 +85,7 @@ const MeasurerForm = () => {
                   <label htmlFor="real">Modulo:</label>
                   <input
                     className="form-control"
-                    type="text"
+                    type="number"
                     id="module"
                     name="module"
                     value={formData.module}
@@ -98,7 +98,7 @@ const MeasurerForm = () => {
                   <label htmlFor="real">Fase:</label>
                   <input
                     className="form-control"
-                    type="text"
+                    type="number"
                     id="phase"
                     name="phase"
                     value={formData.phase}
@@ -111,7 +111,7 @@ const MeasurerForm = () => {
                   <label htmlFor="real">Desde linea:</label>
                   <input
                     className="form-control"
-                    type="text"
+                    type="number"
                     id="from_line"
                     name="from_line"
                     value={formData.from_line}

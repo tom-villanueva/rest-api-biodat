@@ -111,7 +111,7 @@ const FileList = (props: Props) => {
             </div>
             <button
               disabled={(selectedFiles.length === 0 ? true : false)}
-              className="btn btn-primary btn-block"
+              className="btn btn-outline-primary btn-block"
             >
               GRAFICAR
             </button>

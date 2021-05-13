@@ -1,11 +1,17 @@
-import React, {Component} from 'react';
+import React from 'react';
 import auth from "../auth/auth"
+import { useHistory } from "react-router-dom";
 import AuthService from "../../services/AuthService"
 
 const Header = () => {
-    const handleClick = (event) => {
-        // event.preventDefault();
-        AuthService.handleLogout();
+		const history = useHistory();
+
+    const handleClick = async (event) => {
+			event.preventDefault();
+			const response = await AuthService.handleLogout();
+			if(response){
+				history.push("/login");
+			}
     }
 
 		return (

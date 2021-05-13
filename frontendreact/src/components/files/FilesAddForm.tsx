@@ -1,4 +1,4 @@
-import React, { ChangeEventHandler, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import MeasurerInterface from "../../interfaces/MeasurerInterface";
 import FileService from "../../services/FileService";
 import http from "../../services/HttpService";

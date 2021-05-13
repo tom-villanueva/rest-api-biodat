@@ -58,7 +58,7 @@ const ItemAddForm = (props: Props) => {
       <div className="form-group">
         <div className="container-fluid">
           <div className="row">
-            <div className="col">
+            <div className="col-10">
               <input
                 className="form-control"
                 type="text"
@@ -69,8 +69,8 @@ const ItemAddForm = (props: Props) => {
                 onChange={ handleInputChange }
               ></input>
             </div>
-            <div className="col">
-              <button className="btn btn-primary">
+            <div className="col-2">
+              <button className="btn btn-outline-primary">
                 <i className="fas fa-plus"></i>
               </button>
             </div>

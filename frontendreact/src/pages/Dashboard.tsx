@@ -67,41 +67,35 @@ const Dashboard = () => {
 	return (
 		<div>
 			<div className="row">
-				<div className="col-6">
+				<div className="col-lg-6">
 				<ItemList 
 						project_id = { id }
 						handleSelectedItem = { (id) => handleSelectedItem(id) }
 				/>
+				<div className="">
+					<FrequencyChart 
+						data={selectedFilesDataModulus}
+					/>
 				</div>
-				<div className="col-6">
+				</div>
+				<div className="col-lg-6">
 				<FileList
 						project_id={id}
 						item_id={selectedItem}
 						handleSelectedFiles={handleSelectedFiles}
 				/>
-				</div>
-			</div>
-			<div className="row-12">
-				{/* <div className="col-6"> */}
+				<div className="">
 					<ColeChart 
 						data={selectedFilesData}
 					/>
-				{/* </div> */}
+				</div>
+				</div>
 			</div>
 			<div className="row-12">
-				{/* <div className="col-6"> */}
-					<FrequencyChart 
-						data={selectedFilesDataModulus}
-					/>
-				</div>
-			<div className="row-12">
-			{/* <div className="col-6"> */}
 				<FrequencyChart 
 					data={selectedFilesDataPhase}
 				/>
 			</div>
-				{/* </div> */}
-			{/* </div> */}
 		</div>
 	);
 }

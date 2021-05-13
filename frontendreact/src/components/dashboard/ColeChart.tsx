@@ -48,7 +48,8 @@ const ColeChart = (props: Props) => {
     <div className="card card-info">
       <div className="card-header">
         <h3 className="card-title">Cole Chart</h3>
-        <div className="card-tools">
+        <h2 className="card-title">{`(${axesType})`}</h2>
+        <div className="card-tools">      
         <button
             type="button"
             className="btn btn-tool"
