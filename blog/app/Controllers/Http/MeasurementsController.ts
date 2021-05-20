@@ -100,18 +100,25 @@ export default class MeasurementsController {
 
   public async show ({ params }: HttpContextContract) {
     let measurementDataArray = await this.commonShow(params);
+    let i: number = 0;
 
+    for(let measurementData of measurementDataArray){
+      measurementData = measurementData.map(({x,y}) => ({ x: x, y: y}));
+      measurementDataArray[i] = measurementData; 
+      i++;
+    }
+    
     return measurementDataArray;
   }
 
   public async showModulus ({ params }: HttpContextContract) {
-    const math = require('mathjs');
   
     let measurementDataArray = await this.commonShow(params);
     let i: number = 0;
 
     for(let measurementData of measurementDataArray){
-      measurementData = measurementData.map(({fr, x, y}) => ({ x: fr, y: math.norm(math.complex(x, y)) }));
+      console.log(measurementData);
+      measurementData = measurementData.map(({fr, m}) => ({ x: fr, y: m}));
       measurementDataArray[i] = measurementData; 
       i++;
     }
@@ -120,14 +127,12 @@ export default class MeasurementsController {
   }  
 
   public async showPhase ({ params }: HttpContextContract) {
-    const math = require('mathjs');
-    console.log(params);
 
     let measurementDataArray = await this.commonShow(params);
     let i: number = 0;
 
     for(let measurementData of measurementDataArray){
-      measurementData = measurementData.map(({fr, x, y}) => ({ x: fr, y: math.atan2(y,x) }));
+      measurementData = measurementData.map(({fr, f}) => ({ x: fr, y: f}));
       measurementDataArray[i] = measurementData; 
       i++;
     }

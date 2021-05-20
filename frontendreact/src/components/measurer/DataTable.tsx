@@ -28,7 +28,7 @@ const DataTableComponent = (props: Props) => {
       setColumns(newColumns);
 
       for(let i = 0; i < props.data.length; i++){
-        console.log(props.data[i].data)
+        //console.log(props.data[i].data)
         dataArray = Object.assign({}, props.data[i].data);
         newData.push(dataArray);
       }

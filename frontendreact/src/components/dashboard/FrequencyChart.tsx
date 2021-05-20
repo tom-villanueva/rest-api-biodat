@@ -3,7 +3,8 @@ import { Line } from 'react-chartjs-2';
 import { colors } from "./utils";
 
 interface Props {
-  data: any[],
+  title: string;
+  data: any[];
 }
 
 const FrequencyChart = (props: Props) => {
@@ -24,7 +25,7 @@ const FrequencyChart = (props: Props) => {
     // }
     
     setFilesData(props.data);
-    
+   
   }, [ props.data ])
 
   useEffect(() => {
@@ -46,7 +47,7 @@ const FrequencyChart = (props: Props) => {
   return (
     <div className="card card-info">
       <div className="card-header">
-        <h3 className="card-title">Frequency Chart</h3>
+        <h3 className="card-title">{props.title}</h3>
         <h2 className="card-title">{`(${axesType})`}</h2>
         <div className="card-tools">
         <button
@@ -93,7 +94,7 @@ const FrequencyChart = (props: Props) => {
                   position: 'bottom'
                 }],
                 yAxes: [{
-                  type: axesType,
+                  type: 'linear',
                   position: 'left'
                 }]
               },

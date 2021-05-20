@@ -22,6 +22,7 @@ export default class MeasurerPage extends Component {
     this.setState({
       data: data
     });
+    console.log("DELIMITADOR ", data[0].meta.delimiter);
   };
 
   handleOnError = (err, file, inputElem, reason) => {
@@ -30,6 +31,7 @@ export default class MeasurerPage extends Component {
 
   handleOnRemoveFile = (data) => {
     console.log(data);
+    
   };
 
   handleRemoveFile = (e) => {

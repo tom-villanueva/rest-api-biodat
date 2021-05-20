@@ -3,6 +3,7 @@ export default class SolartronStrategy implements Strategy {
     async doParse (filePath: string, measurer: any) : Promise<any[]> {
         const parse = require('csv-parse');
         const fs = require('fs');
+        const math = require('mathjs');
 
         const resultado : any[] = []
         //columnas a utilizar
@@ -24,7 +25,9 @@ export default class SolartronStrategy implements Strategy {
                     resultado.push({
                         fr: Number(datos[fr]),
                         x: Number(datos[real]),
-                        y: Number(datos[imaginario]*-1),                             
+                        y: Number(datos[imaginario]*-1), 
+                        m: math.norm(math.complex(datos[real], datos[imaginario])),
+                        f: math.atan2(datos[real], datos[imaginario])                           
                     }))
             .on('end', () => resolve(resultado))
             .on('error', (error) => console.log(error.toString()))

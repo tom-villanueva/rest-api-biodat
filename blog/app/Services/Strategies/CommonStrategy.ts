@@ -35,7 +35,9 @@ export default class CommonStrategy implements Strategy {
                   resultado.push({
                       fr: Number(datos[fr]),
                       x: complex.re,
-                      y: complex.im*-1,                             
+                      y: complex.im, 
+                      m: datos[measurer.modulus],
+                      f: datos[measurer.phase]                          
                   })})
           .on('end', () => resolve(resultado))
           .on('error', (error) => console.log(error.toString()))
@@ -49,7 +51,9 @@ export default class CommonStrategy implements Strategy {
                   resultado.push({
                       fr: Number(datos[fr]),
                       x: Number(datos[real]),
-                      y: Number(datos[imaginary]*-1),                             
+                      y: Number(datos[imaginary]),
+                      m: math.norm(math.complex(datos[real], datos[imaginary])),
+                        f: math.atan2(datos[real], datos[imaginary])                              
                   })})
           .on('end', () => resolve(resultado))
           .on('error', (error) => console.log(error.toString()))

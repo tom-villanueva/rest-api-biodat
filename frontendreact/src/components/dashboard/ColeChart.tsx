@@ -3,6 +3,7 @@ import { Line } from "react-chartjs-2";
 import { colors } from "./utils";
 
 interface Props {
+  title: string;
   data: any[];
 }
 
@@ -47,7 +48,7 @@ const ColeChart = (props: Props) => {
   return (
     <div className="card card-info">
       <div className="card-header">
-        <h3 className="card-title">Cole Chart</h3>
+        <h3 className="card-title">{props.title}</h3>
         <h2 className="card-title">{`(${axesType})`}</h2>
         <div className="card-tools">      
         <button
@@ -98,7 +99,7 @@ const ColeChart = (props: Props) => {
                   ],
                   yAxes: [
                     {
-                      type: axesType,
+                      type: 'linear',
                       position: "left",
                     },
                   ],
