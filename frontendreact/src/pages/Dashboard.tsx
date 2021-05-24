@@ -6,6 +6,8 @@ import ColeChart from "../components/dashboard/ColeChart";
 import FileService from "../services/FileService";
 import FrequencyChart from "../components/dashboard/FrequencyChart";
 import usePrevious from "../services/usePrevious";
+import DataTableComponent from "../components/measurer/DataTable";
+import TabbedCard from "../components/layout/TabbedCard";
 
 const Dashboard = () => {
   const { id } = useParams(); //id del proyecto
@@ -14,6 +16,7 @@ const Dashboard = () => {
   const [selectedFilesData, setSelectedFilesData] = useState([]);
   const [selectedFilesDataModulus, setSelectedFilesDataModulus] = useState([]);
   const [selectedFilesDataPhase, setSelectedFilesDataPhase] = useState([]);
+  const [selectedData, setSelectedData] = useState([]);
   const prevSelectedFiles = usePrevious(selectedFiles);
 
   const handleSelectedItem = (id: number) => {
@@ -26,6 +29,10 @@ const Dashboard = () => {
     setSelectedFiles(ids);
     console.log("en el dashbaoprd", selectedFiles);
   };
+
+  const handleSelectedData = (selectedData: []) => {
+    setSelectedData(selectedData);
+  }
 
   useEffect(() => {
     if (selectedItem !== -1 && prevSelectedFiles !== selectedFiles) {
@@ -67,37 +74,52 @@ const Dashboard = () => {
   return (
     <div>
       <div className="row">
+        {/* COLUMNA IZQUIERDA */}
         <div className="col-lg-6">
           <ItemList
             project_id={id}
             handleSelectedItem={(id) => handleSelectedItem(id)}
           />
-          <div className="">
+          <div>
+           <TabbedCard
+            data={selectedFilesData}
+            handleSelectedData={handleSelectedData}
+           />          
+          </div>
+          <div>
             <FrequencyChart
               title="Modulo vs Frecuencia"
               data={selectedFilesDataModulus}
+              selectedData={selectedData}
             />
           </div>
         </div>
+        {/* COLUMNA IZQUIERDA */}
+        {/* COLUMNA DERECHA   */}
         <div className="col-lg-6">
           <FileList
             project_id={id}
             item_id={selectedItem}
             handleSelectedFiles={handleSelectedFiles}
-          />
-          <div className="">
-            <div className="row-12">
+          />     
+          <div>
+            <ColeChart 
+              title="Cole" 
+              data={selectedFilesData}
+              selectedData={selectedData}
+            />  
+          </div>
+          <div>
             <FrequencyChart
                 title="Fase vs Frecuencia"
                 data={selectedFilesDataPhase}
+                selectedData={selectedData}
             />
-            </div>
-          </div>
+          </div>        
           
         </div>
+        {/* COLUMNA DERECHA   */}
       </div>
-      
-			<ColeChart title="Cole" data={selectedFilesData} />
     </div>
   );
 };

@@ -103,7 +103,7 @@ export default class MeasurementsController {
     let i: number = 0;
 
     for(let measurementData of measurementDataArray){
-      measurementData = measurementData.map(({x,y}) => ({ x: x, y: y}));
+      measurementData = measurementData.map(({fr,x,y}) => ({fr: fr, x: x, y: y}));
       measurementDataArray[i] = measurementData; 
       i++;
     }

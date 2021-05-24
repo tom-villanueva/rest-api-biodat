@@ -17,7 +17,7 @@ export default class ZurichStrategy implements Strategy {
           delimiter: ',',
           trim: true,
           cast: true,
-          from_line: 14,
+          from_line: 13,
           skip_lines_with_error: true,
       })
       
@@ -27,11 +27,12 @@ export default class ZurichStrategy implements Strategy {
           .on('data', (datos) => { //resultado.push(datos))
                 //console.log(datos);
 						try {
-							complex = math.Complex.fromPolar(datos[modulus], datos[phase]);
+							complex = math.Complex.fromPolar(datos[modulus], (datos[phase]/180*math.pi));
+
 							resultado.push({
 								fr: Number(datos[fr]),
 								x: complex.re,
-								y: complex.im,  
+								y: complex.im*-1,  
 								m: datos[modulus],
 								f: datos[phase]                          
 							})

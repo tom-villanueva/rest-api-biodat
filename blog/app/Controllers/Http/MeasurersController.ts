@@ -29,19 +29,19 @@ export default class MeasurersController {
         rules.maxLength(2)
       ]),
       real: schema.string.optional( {trim: true }, [
-        rules.requiredIfExists('isPersonal'),
+        //rules.requiredIfExists('isPersonal'),
         rules.maxLength(2)
       ]),
       imaginary: schema.string.optional( {trim: true }, [
-        rules.requiredIfExists('isPersonal'),
+        //rules.requiredIfExists('isPersonal'),
         rules.maxLength(2)
       ]),
       modulus: schema.string.optional( {trim: true }, [
-        rules.requiredIfExists('isPersonal'),
+        //rules.requiredIfExists('isPersonal'),
         rules.maxLength(2)
       ]),
       phase: schema.string.optional( {trim: true }, [
-        rules.requiredIfExists('isPersonal'),
+        //rules.requiredIfExists('isPersonal'),
         rules.maxLength(2)
       ]),
       delimiter: schema.string.optional( {trim: true }, [
@@ -53,11 +53,12 @@ export default class MeasurersController {
         rules.unsigned()
       ]),
     })
-
+    console.log(request);
     const measurerDetails = await request.validate({
       schema: validationSchema,
       reporter: validator.reporters.api,
     })
+    console.log(measurerDetails);
 
     const measurer = new Measurer() 
     measurer.name = measurerDetails.name
@@ -92,7 +93,7 @@ export default class MeasurersController {
       measurer.isPersonal = false
       await measurer.save()
     }
-    
+    console.log(measurer);
     return measurer
   }
 

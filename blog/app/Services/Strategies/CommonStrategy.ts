@@ -6,7 +6,7 @@ export default class CommonStrategy implements Strategy {
       const math = require('mathjs');
 
       const resultado : any[] = []
-
+     console.log(measurer.from_line);
       //columnas a utilizar
       const fr = measurer.fr;
       let real = '';

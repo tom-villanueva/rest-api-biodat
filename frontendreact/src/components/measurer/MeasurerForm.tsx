@@ -1,19 +1,24 @@
 import React, { useState } from 'react'
+import MeasurerInterface from '../../interfaces/MeasurerInterface';
+import MeasurerService from '../../services/MeasurerService';
 
 const MeasurerForm = () => {
 
-  const initialItemState = {
+  const initialMeasurerState = {
     name:"",
-    frequency:"",
-    delimitador:"",
+    fr:"",
+    delimiter:",",
     real: "",
     imaginary: "",
-    module: "",
+    modulus: "",
     phase: "",
-    from_line: 0
+    fromLine: 0,
+    created_at: "",
+    updated_at: "",
+    isPersonal: true,
   };
 
-  const [formData, setFormData] = useState(initialItemState);
+  const [formData, setFormData] = useState(initialMeasurerState);
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -21,7 +26,29 @@ const MeasurerForm = () => {
   };
 
   const handleFormSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
-    throw new Error('Function not implemented.');
+    event.preventDefault();
+    let data: MeasurerInterface = {
+      id: 0,
+      name: formData.name,
+      fr: formData.fr,
+      delimiter: ",",
+      real: formData.real,
+      imaginary: formData.imaginary,
+      modulus: formData.modulus,
+      phase: formData.phase,
+      fromLine: formData.fromLine,
+      created_at: "",
+      updated_at: "",
+      isPersonal: formData.isPersonal,
+    }
+
+    MeasurerService.create(data)
+      .then(response => {
+        console.log("measurer creado ", response.data);
+      })
+      .catch(e => {
+        console.error(e);
+      })
   };
   
   return (
@@ -48,8 +75,8 @@ const MeasurerForm = () => {
                     className="form-control"
                     type="number"
                     id="frequency"
-                    name="frequency"
-                    value={formData.frequency}
+                    name="fr"
+                    value={formData.fr}
                     placeholder="Ingrese num de col"
                     onChange={ handleInputChange }
                   >                 
@@ -87,8 +114,8 @@ const MeasurerForm = () => {
                     className="form-control"
                     type="number"
                     id="module"
-                    name="module"
-                    value={formData.module}
+                    name="modulus"
+                    value={formData.modulus}
                     placeholder="Ingrese num de col"
                     onChange={ handleInputChange }
                   >                  
@@ -113,8 +140,8 @@ const MeasurerForm = () => {
                     className="form-control"
                     type="number"
                     id="from_line"
-                    name="from_line"
-                    value={formData.from_line}
+                    name="fromLine"
+                    value={formData.fromLine}
                     placeholder="Desde linea..."
                     onChange={ handleInputChange }
                   >                  
@@ -122,6 +149,12 @@ const MeasurerForm = () => {
                 </div>
               </div>
             </div>
+          </div>
+          <div>
+            <button className="btn btn-outline-primary">
+                {`ACEPTAR `}
+                <i className="fas fa-plus"></i>
+            </button>
           </div>
         </form>
   )

@@ -5,6 +5,7 @@ import { colors } from "./utils";
 interface Props {
   title: string;
   data: any[];
+  selectedData: any[];
 }
 
 const ColeChart = (props: Props) => {

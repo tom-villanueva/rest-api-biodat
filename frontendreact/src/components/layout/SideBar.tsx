@@ -44,6 +44,12 @@ const SideBar = () => {
                   <p>Proyectos</p>
                 </a>
               </li>
+              <li className="nav-item">
+                <a href="/measurer" className="nav-link">
+                  <i className="nav-icon fas fa-box" />
+                  <p>Medidor</p>
+                </a>
+              </li>
               <li className="nav-header">Utilidades</li>
               <li className="nav-item">
                 <a href="" className="nav-link">

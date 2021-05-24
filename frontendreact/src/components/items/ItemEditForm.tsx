@@ -68,7 +68,7 @@ const ItemEditForm = (props: Props) => {
 						<input
 								className="form-control" 
 								type="text"
-								id="title"
+								id="title_form"
 								value={item.title}
 								placeholder="Escriba el NUEVO título"
 								onChange={ handleInputChange }

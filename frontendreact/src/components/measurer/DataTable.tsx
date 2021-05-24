@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import DataTable from 'react-data-table-component'
+import Card from '../layout/Card';
 
 interface Props {
-  data: any[]
+  title: string;
+  data: any[];
+  handleSelectedData: (selectedData) => void;
 }
 
 const DataTableComponent = (props: Props) => {
@@ -17,11 +20,14 @@ const DataTableComponent = (props: Props) => {
     let newData:any[] = [];
 
     if(props.data !== undefined && props.data.length > 0){
-
-      for(let i = 0; i < props.data[0].data.length; i++){
+      // console.log("data cero ",props.data)
+      const keys = Object.keys(props.data[0]);
+      // console.log(keys);
+      for(let i = 0; i < keys.length; i++){
         column = {
-          name: String(i),
-          selector: String(i)
+          name: keys[i],
+          selector: keys[i],
+          sortable: true
         }
         newColumns.push(column);
       }
@@ -29,13 +35,21 @@ const DataTableComponent = (props: Props) => {
 
       for(let i = 0; i < props.data.length; i++){
         //console.log(props.data[i].data)
-        dataArray = Object.assign({}, props.data[i].data);
+        dataArray = Object.assign({}, props.data[i]);
+        // console.log(dataArray)
         newData.push(dataArray);
       }
       setActualData(newData);
     }
 
   }, [ props.data ])
+
+
+  const handleChange = (state) => {
+    console.log(state);
+
+    props.handleSelectedData(state.selectedRows)
+  }
 
   const paginacionOpciones = {
     rowsPerPageText: "Filas por pagina",
@@ -46,16 +60,19 @@ const DataTableComponent = (props: Props) => {
 
   return (
     <div>
-      <DataTable 
-        columns={columns}
-        data={actualData}
-        title="Nuevo aparato"
-        pagination
-        fixedHeader
-        paginationComponentOptions={paginacionOpciones}
-        fixedHeaderScrollHeight="600px"
-        className="dataTables_wrapper dt-bootstrap4"
-      />
+        <DataTable 
+          columns={columns}
+          data={actualData}
+          title={props.title}
+          pagination
+          fixedHeader
+          selectableRows
+          onSelectedRowsChange={handleChange}
+          //noContextMenu
+          paginationComponentOptions={paginacionOpciones}
+          fixedHeaderScrollHeight="600px"
+          className="dataTables_wrapper dt-bootstrap4"
+        />
     </div>
   )
 }

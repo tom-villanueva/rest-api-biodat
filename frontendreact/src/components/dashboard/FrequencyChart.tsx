@@ -5,25 +5,16 @@ import { colors } from "./utils";
 interface Props {
   title: string;
   data: any[];
+  selectedData: any[];
 }
 
 const FrequencyChart = (props: Props) => {
 
   const [filesData, setFilesData] = useState([] as any[]);
   const [chartData, setChartData] = useState([] as any[]);
-  const [axesType, setAxesType]   = useState("linear");
+  const [axesType, setAxesType]   = useState("logarithmic");
 
   useEffect(() => {
-    // let newData;
-    // let data: any[] = [];
-    // for(let i=0; i<props.data.length; i++) {
-    //   // elimina los atributos que no van a ser utilizados,
-    //   // en este caso no se utiliza la parte real
-    //   newData = props.data[i].map(({fr, ...atributos}) => ({...atributos, y: fr}));
-    //   console.log(newData);
-    //   data.push(newData);
-    // }
-    
     setFilesData(props.data);
    
   }, [ props.data ])

@@ -18,7 +18,7 @@ export default class AD5933EBZStrategy implements Strategy {
           delimiter: ',',
           trim: true,
           cast: true,
-          from_line: 2,
+          from_line: 3,
           skip_lines_with_error: true,
       })
       return new Promise(resolve => {
@@ -28,7 +28,7 @@ export default class AD5933EBZStrategy implements Strategy {
           //console.log(datos);
           valorModulo = datos[1]+'.'+datos[2];
           valorFase   = datos[3]+'.'+datos[4];
-          complex = math.Complex.fromPolar(Number(valorModulo), Number(valorFase));
+          complex = math.Complex.fromPolar(Number(valorModulo), (Number(valorFase)/180*math.pi));
 					resultado.push({
 							fr: Number(datos[fr]),
 							x: complex.re,

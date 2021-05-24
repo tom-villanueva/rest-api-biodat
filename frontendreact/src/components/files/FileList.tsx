@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import FileInterface from '../../interfaces/FileInterface'
 import FileService from '../../services/FileService';
-import ErrorPage from '../error/ErrorPage';
 import FilesAddForm from './FilesAddForm';
 import ModalForm from '../modals/ModalForm'
 
