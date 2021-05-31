@@ -89,12 +89,12 @@ export default class MeasurementsController {
                             .concat('\\', params.item_id)
                             .concat('\\', measurement.file_name);      
         measurementData = await parser.parse(filePath, measurer);
-        measurementDataArray.push(measurementData);
+        measurementDataArray.push({data: measurementData, name: measurement.file_name});
       } catch (err) {
         console.log("Iba todo bien en el parseo, hasta que ya no", err);
       } 
     }
-    
+
     return measurementDataArray;
   }
 
@@ -102,9 +102,9 @@ export default class MeasurementsController {
     let measurementDataArray = await this.commonShow(params);
     let i: number = 0;
 
-    for(let measurementData of measurementDataArray){
-      measurementData = measurementData.map(({fr,x,y}) => ({fr: fr, x: x, y: y}));
-      measurementDataArray[i] = measurementData; 
+    for(let measurement of measurementDataArray){
+      let measurementData = measurement.data.map(({fr,x,y}) => ({fr: fr, x: x, y: y}));
+      measurementDataArray[i] = {data: measurementData, name: measurement.name}; 
       i++;
     }
     
@@ -116,10 +116,9 @@ export default class MeasurementsController {
     let measurementDataArray = await this.commonShow(params);
     let i: number = 0;
 
-    for(let measurementData of measurementDataArray){
-      console.log(measurementData);
-      measurementData = measurementData.map(({fr, m}) => ({ x: fr, y: m}));
-      measurementDataArray[i] = measurementData; 
+    for(let measurement of measurementDataArray){
+      let measurementData = measurement.data.map(({fr, m}) => ({ x: fr, y: m}));
+      measurementDataArray[i] = {data: measurementData, name: measurement.name};
       i++;
     }
 
@@ -131,9 +130,9 @@ export default class MeasurementsController {
     let measurementDataArray = await this.commonShow(params);
     let i: number = 0;
 
-    for(let measurementData of measurementDataArray){
-      measurementData = measurementData.map(({fr, f}) => ({ x: fr, y: f}));
-      measurementDataArray[i] = measurementData; 
+    for(let measurement of measurementDataArray){
+      let measurementData = measurement.data.map(({fr, f}) => ({ x: fr, y: f}));
+      measurementDataArray[i] = {data: measurementData, name: measurement.name}; 
       i++;
     }
 

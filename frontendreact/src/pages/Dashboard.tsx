@@ -8,6 +8,8 @@ import FrequencyChart from "../components/dashboard/FrequencyChart";
 import usePrevious from "../services/usePrevious";
 import DataTableComponent from "../components/measurer/DataTable";
 import TabbedCard from "../components/layout/TabbedCard";
+import FileInterface from "../interfaces/FileInterface";
+import SelectedDataInterface from "../interfaces/SelectedDataInterface";
 
 const Dashboard = () => {
   const { id } = useParams(); //id del proyecto
@@ -16,7 +18,7 @@ const Dashboard = () => {
   const [selectedFilesData, setSelectedFilesData] = useState([]);
   const [selectedFilesDataModulus, setSelectedFilesDataModulus] = useState([]);
   const [selectedFilesDataPhase, setSelectedFilesDataPhase] = useState([]);
-  const [selectedData, setSelectedData] = useState([]);
+  const [selectedData, setSelectedData] = useState({selectedData: [] as any[], name:""});
   const prevSelectedFiles = usePrevious(selectedFiles);
 
   const handleSelectedItem = (id: number) => {
@@ -25,12 +27,10 @@ const Dashboard = () => {
   };
 
   const handleSelectedFiles = (ids: number[]) => {
-    console.log("ids", ids);
     setSelectedFiles(ids);
-    console.log("en el dashbaoprd", selectedFiles);
   };
 
-  const handleSelectedData = (selectedData: []) => {
+  const handleSelectedData = (selectedData: SelectedDataInterface) => {
     setSelectedData(selectedData);
   }
 
@@ -39,6 +39,7 @@ const Dashboard = () => {
       FileService.get(id, selectedItem, selectedFiles)
         .then((response) => {
           const data = response.data;
+          console.log(response);
           setSelectedFilesData(data);
         })
         .catch((e) => {

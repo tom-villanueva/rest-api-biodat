@@ -13,8 +13,8 @@ const TabbedCard = (props: Props) => {
       return(
         <div className="tab-pane" id={`tab_${idx}`} key={idx}>
           <DataTableComponent
-            title={`${idx}`}
-            data={data}
+            title={data.name}
+            data={data.data}
             handleSelectedData={props.handleSelectedData}
           />
         </div>

@@ -1,39 +1,81 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Line } from 'react-chartjs-2';
+import SelectedDataInterface from '../../interfaces/SelectedDataInterface';
 import { colors } from "./utils";
 
 interface Props {
   title: string;
   data: any[];
-  selectedData: any[];
+  selectedData: SelectedDataInterface;
 }
 
 const FrequencyChart = (props: Props) => {
-
   const [filesData, setFilesData] = useState([] as any[]);
   const [chartData, setChartData] = useState([] as any[]);
+  const originalData = props.data;
   const [axesType, setAxesType]   = useState("logarithmic");
+  const chartRef = useRef<Line>(null);
 
   useEffect(() => {
     setFilesData(props.data);
-   
-  }, [ props.data ])
+  }, [ props.data ]);
+
+  useEffect(() => {
+    if(props.selectedData.selectedData !== null && props.selectedData.selectedData.length > 0){
+      let newData;
+      let fillData: any[] = [];
+      let frequencies = new Set(props.selectedData.selectedData.map(({fr}) => fr));
+
+      for(let i = 0; i < originalData.length; i++) {
+        newData = [...originalData[i].data.filter((obj) => {   
+          if(frequencies.has(obj.x)) {
+            return true;
+          }
+          else {
+            return false;
+          }
+        })];
+
+        if(chartRef.current !== null){
+          console.log("entre");
+          chartRef.current.chartInstance.data.datasets.forEach((dataset) => {   
+            if(dataset.label === props.selectedData.name){
+              dataset.data = (newData);
+            }
+          })
+          chartRef.current.chartInstance.update();
+        }
+        // fillData.push({data: newData, name: originalData[i].name});
+      }
+      // setFilesData([...fillData]);
+    // }else {
+      // setFilesData([...originalData]);
+    }
+  }, [ props.selectedData, originalData ]);
 
   useEffect(() => {
     let chartData: any[] = [];
     for (let i = 0; i < filesData.length; i++) {
       var chartObject = {
-        label: i.toString(),
-        data: filesData[i],
+        label: filesData[i].name,
+        data: filesData[i].data,
         fill: false,
         backgroundColor: colors[i],
         borderColor: colors[i],
+        key: i
       };
       chartData.push(chartObject);
     }
     setChartData(chartData);
     console.log("chartdata ", chartData);
   }, [ filesData ]);
+
+  useEffect(() =>{
+    if(chartRef.current !== null){
+      chartRef.current.chartInstance.config.options.scales.xAxes[0].type = axesType;
+      chartRef.current.chartInstance.update();
+    }
+  }, [axesType]);
 
   return (
     <div className="card card-info">
@@ -75,13 +117,15 @@ const FrequencyChart = (props: Props) => {
         <div className="chart">
         {chartData.length>0 && 
         <Line
+          // redraw
+          ref={chartRef}
           data={{            
               datasets: chartData
             }}
             options={{
               scales: {
                 xAxes: [{
-                  type: axesType,
+                  type: 'logarithmic',
                   position: 'bottom'
                 }],
                 yAxes: [{

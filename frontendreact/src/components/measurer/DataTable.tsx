@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import DataTable from 'react-data-table-component'
+import SelectedDataInterface from '../../interfaces/SelectedDataInterface';
 import Card from '../layout/Card';
 
 interface Props {
@@ -47,8 +48,12 @@ const DataTableComponent = (props: Props) => {
 
   const handleChange = (state) => {
     console.log(state);
+    const rowsToChange:SelectedDataInterface = {
+      selectedData: state.selectedRows,
+      name: props.title
+    };
 
-    props.handleSelectedData(state.selectedRows)
+    props.handleSelectedData(rowsToChange);
   }
 
   const paginacionOpciones = {

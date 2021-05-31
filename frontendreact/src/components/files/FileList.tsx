@@ -22,7 +22,6 @@ const FileList = (props: Props) => {
     })
     .catch(e => {
       console.log(e);
-      // <ErrorPage errorStatusCode={ e.response.status } />
     })
   }
 

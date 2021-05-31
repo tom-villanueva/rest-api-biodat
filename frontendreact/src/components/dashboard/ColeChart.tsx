@@ -1,16 +1,18 @@
 import { useEffect, useState } from "react";
 import { Line } from "react-chartjs-2";
+import SelectedDataInterface from "../../interfaces/SelectedDataInterface";
 import { colors } from "./utils";
 
 interface Props {
   title: string;
   data: any[];
-  selectedData: any[];
+  selectedData: SelectedDataInterface;
 }
 
 const ColeChart = (props: Props) => {
   const [filesData, setFilesData] = useState([] as any[]);
   const [chartData, setChartData] = useState([] as any[]);
+  const [selectedData, setSelectedData] = useState([] as any[]);
   const [axesType, setAxesType]   = useState("linear");
 
   useEffect(() => {
@@ -19,9 +21,8 @@ const ColeChart = (props: Props) => {
     for (let i = 0; i < props.data.length; i++) {
       // elimina los atributos que no van a ser utilizados,
       // en este caso no se utiliza la frecuencia
-      newData = props.data[i].map(({ fr, ...atributos }) => atributos);
-      console.log(newData);
-      filldata.push(newData);
+      newData = props.data[i].data.map(({ fr, ...atributos }) => atributos);
+      filldata.push({data: newData, name: props.data[i].name});
     }
     setFilesData(filldata);
 
@@ -34,11 +35,12 @@ const ColeChart = (props: Props) => {
     let chartData: any[] = [];
     for (let i = 0; i < filesData.length; i++) {
       var chartObject = {
-        label: i.toString(),
-        data: filesData[i],
+        label: filesData[i].name,
+        data: filesData[i].data,
         fill: false,
         backgroundColor: colors[i],
         borderColor: colors[i],
+        key: i
       };
       chartData.push(chartObject);
     }
