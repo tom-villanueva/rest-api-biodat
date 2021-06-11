@@ -37,7 +37,7 @@ const FrequencyChart = (props: Props) => {
         })];
 
         if(chartRef.current !== null){
-          console.log("entre");
+          // console.log("entre");
           chartRef.current.chartInstance.data.datasets.forEach((dataset) => {   
             if(dataset.label === props.selectedData.name){
               dataset.data = (newData);
@@ -67,7 +67,7 @@ const FrequencyChart = (props: Props) => {
       chartData.push(chartObject);
     }
     setChartData(chartData);
-    console.log("chartdata ", chartData);
+    // console.log("chartdata ", chartData);
   }, [ filesData ]);
 
   useEffect(() =>{
@@ -118,6 +118,7 @@ const FrequencyChart = (props: Props) => {
         {chartData.length>0 && 
         <Line
           // redraw
+          type={"scatter"}
           ref={chartRef}
           data={{            
               datasets: chartData

@@ -5,10 +5,9 @@ import FileList from "../components/files/FileList";
 import ColeChart from "../components/dashboard/ColeChart";
 import FileService from "../services/FileService";
 import FrequencyChart from "../components/dashboard/FrequencyChart";
+import LineChart from "../components/dashboard/LineChart";
 import usePrevious from "../services/usePrevious";
-import DataTableComponent from "../components/measurer/DataTable";
 import TabbedCard from "../components/layout/TabbedCard";
-import FileInterface from "../interfaces/FileInterface";
 import SelectedDataInterface from "../interfaces/SelectedDataInterface";
 
 const Dashboard = () => {
@@ -88,7 +87,7 @@ const Dashboard = () => {
            />          
           </div>
           <div>
-            <FrequencyChart
+            <LineChart
               title="Modulo vs Frecuencia"
               data={selectedFilesDataModulus}
               selectedData={selectedData}
@@ -104,14 +103,14 @@ const Dashboard = () => {
             handleSelectedFiles={handleSelectedFiles}
           />     
           <div>
-            <ColeChart 
+            <LineChart 
               title="Cole" 
               data={selectedFilesData}
               selectedData={selectedData}
             />  
           </div>
           <div>
-            <FrequencyChart
+            <LineChart
                 title="Fase vs Frecuencia"
                 data={selectedFilesDataPhase}
                 selectedData={selectedData}

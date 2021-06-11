@@ -11,7 +11,7 @@ const TabbedCard = (props: Props) => {
   const renderTabs = () => {
     return props.data.map((data, idx) => {
       return(
-        <div className="tab-pane" id={`tab_${idx}`} key={idx}>
+        <div className={`tab-pane ${(idx===0?`active`:``)}`} id={`tab_${idx}`} key={idx}>
           <DataTableComponent
             title={data.name}
             data={data.data}
@@ -26,7 +26,7 @@ const TabbedCard = (props: Props) => {
     return props.data.map((e, idx) => {
       return(
         <li className="nav-item" key={idx}>
-          <a className="nav-link" href={`#tab_${idx}`} data-toggle="tab">{`Tab ${idx}`}</a>
+          <a className={`nav-link ${(idx===0?`active`:``)}`} href={`#tab_${idx}`} data-toggle="tab">{e.name}</a>
         </li>
       );
     })

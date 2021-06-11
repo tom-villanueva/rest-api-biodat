@@ -26,7 +26,7 @@ export default class ScioSpecStrategy implements Strategy {
                   resultado.push({
                       fr: Number(datos[fr]),
                       x: Number(datos[real]),
-                      y: Number(datos[imaginario]),      
+                      y: Number(datos[imaginario])*-1,      
                       m: math.norm(math.complex(datos[real], datos[imaginario])),
                       f: math.atan2(datos[real], datos[imaginario])                         
                   })})

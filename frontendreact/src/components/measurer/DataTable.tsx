@@ -47,7 +47,7 @@ const DataTableComponent = (props: Props) => {
 
 
   const handleChange = (state) => {
-    console.log(state);
+    // console.log(state);
     const rowsToChange:SelectedDataInterface = {
       selectedData: state.selectedRows,
       name: props.title
