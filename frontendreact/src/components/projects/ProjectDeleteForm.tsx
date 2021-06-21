@@ -19,48 +19,59 @@ const ProjectDeleteForm = (props: Props) => {
     }; 
 
     const [project, setProject] = useState(initialProjectState);
-		const [error, setError] = useState(0);
+		const [error, setError] = useState(false);
+		const [loading, setLoading] = useState(false);
 
 		useEffect(() => {
-			if (props.id > 0) {
-				ProjectService.get(props.id)
-				.then(response => {
-					setProject(response.data)
-				})
-				.catch(e => {
-					setError(e.response.status);
-				})
-			}	
+			const fetchProject = async () => {
+				setLoading(true);
+				if (props.id > 0) {
+					ProjectService.get(props.id)
+					.then(response => {
+						setProject(response.data);
+						setLoading(false);
+					})
+					.catch(e => {
+						setLoading(false);
+						setError(true);	
+					})
+				}	
+			}
+			fetchProject();
+
 			return () => {
-				setError(0);
+				setError(false);
 			}
 		}, [ props.id ])
 
     const handleFormSubmit = (event) => {
 			event.preventDefault();
+			setError(false);
+			setLoading(true);
 			ProjectService.remove(project)
 				.then(response => {
 					console.log(response.data);
 					props.handleProjectDeleteForm(project);
+					setLoading(false);
 				})
 				.catch(e => {
-					setError(e.response.status) 
+					setError(!error);
+					setLoading(!loading); 
 				});  	
     };
 
 		return(
 			<div>
-			{error !== 0 ? (
-				<ErrorPage errorStatusCode={ error } />
-			)
-			: (
-				<p></p>
-			)}
+			{error && <p>Hubo un error</p>}
+			{loading && <p>Espere por favor</p>}
 			<form onSubmit={(event) => handleFormSubmit(event) }>
 				<div className="form-group">
-					<button className="btn btn-danger">Eliminar Proyecto</button>
+					<button className="btn btn-danger btn-block">Eliminar Proyecto</button>
 				</div>
-			</form> 
+			</form>
+			{loading && <div className="overlay">
+				<i className="fas fa-2x fa-sync-alt fa-spin"></i>
+				</div>} 
 			</div>  
 		);
 }

@@ -46,9 +46,23 @@ export default class ProjectsController {
   }
 
   public async update ({ request, params }: HttpContextContract) {
+    const validationSchema = schema.create({
+      title: schema.string( {trim: true }, [
+        rules.maxLength(255)
+      ]),
+      description: schema.string( {trim: true }, [
+        rules.maxLength(255)
+      ]),
+    })
+    
+    const data = await request.validate({
+      schema: validationSchema,
+      reporter: validator.reporters.api,
+    })
+
     const project = await Project.findOrFail(params.project_id)
 
-    const data = request.only(['title', 'description'])
+    // const data = request.only(['title', 'description'])
 
     project.title = data.title
     project.description = data.description

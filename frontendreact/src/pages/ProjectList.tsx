@@ -6,7 +6,6 @@ import ProjectInterface from "../interfaces/ProjectInterface";
 import ProjectEditForm from "../components/projects/ProjectEditForm";
 import ProjectDeleteForm from "../components/projects/ProjectDeleteForm";
 import ProjectService from "../services/ProjectService";
-import ErrorPage from "../components/error/ErrorPage";
 
 const ProjectList = () => {
   const [showAddModal, setShowAddModal] = useState(false);
@@ -15,13 +14,20 @@ const ProjectList = () => {
   const [projects, setProjects] = useState([] as ProjectInterface[]);
   const [targetProject, setTargetProject] = useState(-1);
 
+  // error y cargando 
+  const [error, setError] = useState(false);
+  const [loading, setLoading] = useState(false);
+
   useEffect(() => {
+    setLoading(true);
     ProjectService.getAll()
       .then(response => {
         setProjects(response.data);
+        setLoading(false);
       })
       .catch(e => {
-        return <ErrorPage errorStatusCode={ e.response.status }/>
+        setError(!error);
+        setLoading(false);
       })
   }, []);
 
@@ -87,6 +93,7 @@ const ProjectList = () => {
 
   return (
     <div className="card">
+      {error && <p>Hubo un error cargando los proyectos</p>}
       <div className="card-header">
         <h3 className="card-title">Proyectos</h3>
         <div className="card-tools">
@@ -133,6 +140,9 @@ const ProjectList = () => {
           Nuevo Proyecto
         </button>
       </div>
+      {loading && <div className="overlay">
+				<i className="fas fa-2x fa-sync-alt fa-spin"></i>
+				</div>}
       <ModalForm
         title="Nuevo Proyecto"
         visibility={showAddModal}
