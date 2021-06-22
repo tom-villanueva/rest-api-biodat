@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { Line } from 'react-chartjs-2';
 import SelectedDataInterface from '../../interfaces/SelectedDataInterface';
 import { colors } from "./utils";
@@ -7,17 +7,19 @@ interface Props {
   title: string;
   data: any[];
   selectedData: SelectedDataInterface;
+  loading: boolean;
+  error: boolean;
 }
 
 const LineChart = (props: Props) => {
   const [filesData, setFilesData] = useState([] as any[]);
   const [chartData, setChartData] = useState([] as any[]);
+  const [reversed, setreversed]   = useState(false);
   const originalData = props.data;
-  const [axesType, setAxesType]   = useState("logarithmic");
+  const [axesType, setAxesType]   = useState("linear");
   const chartRef = useRef<Line>(null);
 
   useEffect(() => {
-    console.log(props.data);
     setFilesData(props.data);
   }, [ props.data ]);
 
@@ -77,12 +79,18 @@ const LineChart = (props: Props) => {
     // console.log("chartdata ", chartData);
   }, [ filesData ]);
 
-  useEffect(() =>{
+  useLayoutEffect(() =>{
     if(chartRef.current !== null){
       chartRef.current.chartInstance.config.options.scales.xAxes[0].type = axesType;
       chartRef.current.chartInstance.update();
     }
-  }, [axesType]);
+  }, [ axesType ]);
+
+  useEffect(() => {
+    if (props.title === 'Cole') {
+      setreversed(true);
+    }
+  }, [props.title]);
 
   return (
     <div className="card card-info">
@@ -121,6 +129,9 @@ const LineChart = (props: Props) => {
         </div>
       </div>
       <div className="card-body">
+        <div>
+          {props.error && <p>Hubo un error consiguiendo los datos</p>}
+        </div>
         <div className="chart">
         {chartData.length>0 && 
         <Line
@@ -133,12 +144,15 @@ const LineChart = (props: Props) => {
             options={{
               scales: {
                 xAxes: [{
-                  type: 'logarithmic',
+                  type: axesType,
                   position: 'bottom'
                 }],
                 yAxes: [{
                   type: 'linear',
-                  position: 'left'
+                  position: 'left',
+                  ticks:{
+                    reverse: reversed
+                  }
                 }]
               },
               maintanAspectRatio: false,
@@ -146,6 +160,9 @@ const LineChart = (props: Props) => {
         />}
         </div>
       </div>
+      {props.loading && <div className="overlay">
+				<i className="fas fa-2x fa-sync-alt fa-spin"></i>
+			</div>}
       {/* /.card-body */}
     </div>
   );

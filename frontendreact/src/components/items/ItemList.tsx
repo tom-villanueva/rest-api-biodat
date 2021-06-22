@@ -6,7 +6,6 @@ import ItemItem from "./ItemItem";
 import ModalForm from "../modals/ModalForm"
 import ItemEditForm from "./ItemEditForm";
 import ItemDeleteForm from "./ItemDeleteForm";
-import ErrorPage from "../error/ErrorPage";
 
 interface Props {
   project_id: number,
@@ -21,12 +20,22 @@ const ItemList = (props: Props) => {
   const [showEditModal, setShowEditModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
 
+  //error y loading
+  const [error, setError] = useState(false);
+  const [loading, setLoading] = useState(false);
+
   const retrieveItems = () => {
+    setError(false);
+    setLoading(true);
+
     ItemService.getAll(props.project_id)
     .then(response => {
       setItems(response.data);
+      setLoading(false);
     })
     .catch(e => {
+      setError(true);
+      setLoading(false);
       console.log(e.response.data);
     })
   }
@@ -41,7 +50,6 @@ const ItemList = (props: Props) => {
   }
 
   const onDelete = (id: number) => {
-    console.log("ID", id);
     props.handleSelectedItem(-1);
     setShowDeleteModal(!showDeleteModal);
     setTargetItem(id);
@@ -102,7 +110,7 @@ const ItemList = (props: Props) => {
   return (
     <div className="card card-primary">
       <div className="card-header">
-        <h3 className="card-title">Items</h3>
+        <h3 className="card-title">Sets de datos</h3>
         <div className="card-tools">
           <button
             type="button"
@@ -121,11 +129,14 @@ const ItemList = (props: Props) => {
             handleAddItem={ (data) => handleAddItem(data) } 
           />
         </div>
+        <div>
+          {error && <p>Hubo un error trayendo los set de datos</p>}
+        </div>
         <table className="table table-head-fixed text-nowrap">
           <thead>
             <tr>
               <th>Seleccionado</th>
-              <th>nombre del item</th>
+              <th>Nombre del set</th>
               <th className="text-center">Acciones</th>
             </tr>
           </thead>
@@ -134,6 +145,9 @@ const ItemList = (props: Props) => {
           </tbody>
         </table>
       </div>
+      {loading && <div className="overlay">
+				<i className="fas fa-2x fa-sync-alt fa-spin"></i>
+			</div>} 
         <ModalForm 
           title="Editar Item"
           visibility={ showEditModal }

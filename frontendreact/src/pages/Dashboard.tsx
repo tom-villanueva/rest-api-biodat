@@ -20,6 +20,12 @@ const Dashboard = () => {
   const [selectedData, setSelectedData] = useState({selectedData: [] as any[], name:""});
   const prevSelectedFiles = usePrevious(selectedFiles);
 
+  //error y loading
+  const [error, setError] = useState(false);
+  const [loadingData, setLoadingData] = useState(false);
+  const [loadingDataPhase, setLoadingDataPhase] = useState(false);
+  const [loadingDataModulus, setLoadingDataModulus] = useState(false);
+  
   const handleSelectedItem = (id: number) => {
     setSelectedItem(id);
     console.log("NUEVO ID", id);
@@ -35,13 +41,19 @@ const Dashboard = () => {
 
   useEffect(() => {
     if (selectedItem !== -1 && prevSelectedFiles !== selectedFiles) {
+      setError(false);
+      setLoadingData(true);
+      setLoadingDataPhase(true);
+      setLoadingDataModulus(true);
+
       FileService.get(id, selectedItem, selectedFiles)
         .then((response) => {
           const data = response.data;
-          console.log(response);
           setSelectedFilesData(data);
+          setLoadingData(false);
         })
         .catch((e) => {
+          setError(true);
           console.log(e.response.data);
         });
 
@@ -49,8 +61,10 @@ const Dashboard = () => {
         .then((response) => {
           const data = response.data;
           setSelectedFilesDataModulus(data);
+          setLoadingDataPhase(false);
         })
         .catch((e) => {
+          setError(true);
           console.log(e.response.data);
         });
 
@@ -58,8 +72,10 @@ const Dashboard = () => {
         .then((response) => {
           const data = response.data;
           setSelectedFilesDataPhase(data);
+          setLoadingDataModulus(false);
         })
         .catch((e) => {
+          setError(true);
           console.log(e.response.data);
         });
     }
@@ -91,6 +107,8 @@ const Dashboard = () => {
               title="Modulo vs Frecuencia"
               data={selectedFilesDataModulus}
               selectedData={selectedData}
+              loading={loadingDataModulus}
+              error={error}
             />
           </div>
         </div>
@@ -107,16 +125,19 @@ const Dashboard = () => {
               title="Cole" 
               data={selectedFilesData}
               selectedData={selectedData}
+              loading={loadingData}
+              error={error}
             />  
           </div>
           <div>
             <LineChart
-                title="Fase vs Frecuencia"
-                data={selectedFilesDataPhase}
-                selectedData={selectedData}
+              title="Fase vs Frecuencia"
+              data={selectedFilesDataPhase}
+              selectedData={selectedData}
+              loading={loadingDataPhase}
+              error={error}
             />
-          </div>        
-          
+          </div>               
         </div>
         {/* COLUMNA DERECHA   */}
       </div>

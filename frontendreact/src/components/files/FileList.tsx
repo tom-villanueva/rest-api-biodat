@@ -15,12 +15,22 @@ const FileList = (props: Props) => {
   const [selectedFiles, setSelectedFiles] = useState([] as number[]);
   const [showLoadFilesModal, setShowLoadFilesModal] = useState(false);
 
+  //error y loading
+  const [error, setError] = useState(false);
+  const [loading, setLoading] = useState(false);
+
   const retrieveFiles = () => {
+    setError(false);
+    setLoading(true);
+
     FileService.getAll(props.project_id, props.item_id)
     .then(response => {
       setFiles(response.data);
+      setLoading(false);
     })
     .catch(e => {
+      setError(false);
+      setLoading(true);
       console.log(e);
     })
   }
@@ -87,6 +97,9 @@ const FileList = (props: Props) => {
             modal={showLoadFilesModal}
           />
       </ModalForm>
+      <div>
+          {error && <p>Hubo un error trayendo los set de datos</p>}
+      </div>
       <div className="card-body table-responsive p-1"  style={{ height : 300 } }>
 
         <button 
@@ -96,7 +109,6 @@ const FileList = (props: Props) => {
         >
           CARGAR ARCHIVOS
         </button>
-
         <form onSubmit={(event) => handleSubmit(event)}>
           <div className="form-group">
             <div className="container-fluid">
@@ -116,6 +128,9 @@ const FileList = (props: Props) => {
           </div> 
         </form>        
       </div>
+      {loading && <div className="overlay">
+				<i className="fas fa-2x fa-sync-alt fa-spin"></i>
+			</div>}
     </div>
   );
 }

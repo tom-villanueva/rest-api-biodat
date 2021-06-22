@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import ItemInterface from "../../interfaces/ItemInterface";
-import ItemService from "../../services/ItemService";
-import ErrorPage from "../error/ErrorPage";
+import ProjectInterface from "../../interfaces/ProjectInterface";
+import FormResource from "../form/FormResource";
+import InputField from "../form/InputField";
 
 interface Props {
   projectId: number,
@@ -19,65 +20,64 @@ const ItemAddForm = (props: Props) => {
   }
 
   const [item, setItem] = useState(initialItemState);
-  
-  // useEffect(() => {
-  //   return () => {
-  //     setItem(initialItemState)
-  //   }
-  // })
+  const [error, setError] = useState(false);
+  const [errors, setErrors] = useState([] as any[]);
+  const [loading, setLoading] = useState(false);
 
   const handleInputChange = (event) => {
+    setError(false);
+    setErrors([]);
     const { name, value } = event.target;
     setItem({ ...item, [name]: value });
   };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    let data: ItemInterface = {
-      title: item.title,
-      project_id: item.project_id,
-      created_at: "",
-      updated_at: "",
-      id: item.id,
+  const handleResource = (errors?, resource?: ItemInterface | ProjectInterface) => {	
+    if(errors !== undefined) {
+      setErrors(errors);
+    } else {
+      props.handleAddItem(resource);
     }
-
-    ItemService.create(data)
-      .then(response => {
-        const newItem = response.data; 
-        props.handleAddItem(newItem);
-      })
-      .catch(e => {
-        console.error(e);
-        // <ErrorPage errorStatusCode={ e.response.status } />
-      })
-    setItem(initialItemState)
-  }
-
+    setItem(initialItemState);
+  };
+  
   return (
-    <form onSubmit={(event) => handleSubmit(event)}>
-      <div className="form-group">
+    <div>
+    {error && <p>Hubo un error</p>}
+    {loading && <p>Espere por favor</p>}
+      <FormResource
+        resourceType={"ITEM"}
+        resourceData={item}
+        resourceAction={"CREATE"}
+        handleResource={handleResource}
+      >
+        <div className="form-group">
         <div className="container-fluid">
-          <div className="row">
-            <div className="col-10">
-              <input
-                className="form-control"
-                type="text"
-                id="title"
-                name="title"
+          <div className="row d-flex justify-content-center">
+            <div className="col-6">
+            <InputField
                 value={item.title}
-                placeholder="Escriba el nombre del nuevo item..."
-                onChange={ handleInputChange }
-              ></input>
+                errors={errors}
+                placeholder={"Escriba el titulo del set de datos"}
+                name={"title"}
+                onChange={handleInputChange}
+              >
+                Titulo:
+            </InputField>
             </div>
-            <div className="col-2">
-              <button className="btn btn-outline-primary">
+            <div className="col-6">
+            <label>
+              Agregar
+              <button className="btn btn-outline-primary btn-block">
                 <i className="fas fa-plus"></i>
               </button>
+            </label>
             </div>
           </div>
         </div>
-      </div>
-    </form>
+        
+        </div>
+      </FormResource>
+    </div>
   );
 }
 export default ItemAddForm;

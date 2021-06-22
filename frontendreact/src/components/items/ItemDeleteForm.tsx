@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import ItemInterface from '../../interfaces/ItemInterface';
+import ProjectInterface from '../../interfaces/ProjectInterface';
 import ItemService from '../../services/ItemService';
 import ErrorPage from '../error/ErrorPage';
+import FormResource from '../form/FormResource';
 
 interface Props {
     projectId: number,
@@ -20,14 +22,22 @@ const ItemDeleteForm = (props: Props) => {
     };
 
     const [item, setItem] = useState(initialItemState);
+		const [error, setError] = useState(false);
+		const [errors, setErrors] = useState([] as any[]);
+		const [loading, setLoading] = useState(false);
 
 		useEffect(() => {
+			setLoading(true);
+    	setError(false);
 			if (props.itemId > 0) {
 				ItemService.get(props.projectId, props.itemId)
 				.then(response => {
-					setItem(response.data)
+					setItem(response.data);
+					setLoading(false);
 				})
 				.catch(e => {
+					setError(true);
+        	setLoading(false);
 					console.log("error");
 				})
 			}	
@@ -36,25 +46,28 @@ const ItemDeleteForm = (props: Props) => {
 			}
 		}, [ props.itemId, props.projectId ])
 
-    const handleFormSubmit = (event) => {
-			event.preventDefault();
-			
-			ItemService.remove(item)
-				.then(response => {
-					console.log(response.data);
-					props.handleItemDeleteForm(response.data);
-				})
-				.catch(e => {
-					<ErrorPage errorStatusCode={ e.response.status } />
-				})
-    };
+					
+	const handleResource = (errors?, resource?: ItemInterface | ProjectInterface) => {	
+		if(errors !== undefined) {
+			setErrors(errors);
+		} else {
+			props.handleItemDeleteForm(resource);
+		}
+	};
 
-		return(
-			<form onSubmit={(event) => handleFormSubmit(event) }>
-					<div className="form-group">
-							<button className="btn btn-danger">Eliminar Item</button>
-					</div>
-			</form>    
-		);
+	return(
+		<div>
+      {error && <p>Hubo un error</p>}
+      {loading && <p>Espere por favor</p>}
+      <FormResource
+        resourceType={"ITEM"}
+        resourceData={item}
+        resourceAction={"REMOVE"}
+        handleResource={handleResource}
+      >
+        <button className="btn btn-danger btn-block">Aceptar</button>
+      </FormResource>
+    </div>
+	);
 }
 export default ItemDeleteForm;

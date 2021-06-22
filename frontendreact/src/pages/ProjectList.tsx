@@ -7,6 +7,7 @@ import ProjectEditForm from "../components/projects/ProjectEditForm";
 import ProjectDeleteForm from "../components/projects/ProjectDeleteForm";
 import ProjectService from "../services/ProjectService";
 
+
 const ProjectList = () => {
   const [showAddModal, setShowAddModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
@@ -20,13 +21,14 @@ const ProjectList = () => {
 
   useEffect(() => {
     setLoading(true);
+    setError(false);
     ProjectService.getAll()
       .then(response => {
         setProjects(response.data);
         setLoading(false);
       })
       .catch(e => {
-        setError(!error);
+        setError(true);
         setLoading(false);
       })
   }, []);
